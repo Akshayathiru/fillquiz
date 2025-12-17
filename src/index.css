@@ -24,9 +24,30 @@ body {
   margin: 0;
   padding: 0;
   min-height: 100vh;
-  overflow: hidden;
+  overflow-y: auto;
+  /* Allow vertical scroll */
+  overflow-x: hidden;
+  /* Prevent horizontal scroll */
   /* IMPORTANT: Transparent so the fixed .scene behind is visible if z-index is negative */
   background: transparent;
+}
+
+/* Custom Scrollbar for Chrome/Edge/Safari */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #020b14;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #00f3ff;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #ff0055;
 }
 
 /* 3D Scene Container - The main background */
