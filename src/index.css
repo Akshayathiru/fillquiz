@@ -1,68 +1,389 @@
+@import url('https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;600;700&family=Inter:wght@300;400;600&display=swap');
+
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  --bg-color: #020b14;
+  /* Deep Tech Blue/Black */
+  --text-primary: #ffffff;
+  --accent-color: #00f3ff;
+  /* Neon Cyan */
+  --accent-secondary: #ff0055;
+  /* Neon Magenta */
+  font-family: 'Inter', sans-serif;
   line-height: 1.5;
   font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
+  color-scheme: dark;
+  /* Ensure background allows layers behind it if needed, but we handle it in body */
+  color: var(--text-primary);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
-
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
+  padding: 0;
   min-height: 100vh;
+  overflow: hidden;
+  /* IMPORTANT: Transparent so the fixed .scene behind is visible if z-index is negative */
+  background: transparent;
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+/* 3D Scene Container - The main background */
+.scene {
+  position: fixed;
+  inset: 0;
+  perspective: 300px;
+  /* Stronger perspective for speed feeling */
+  z-index: -10;
+  overflow: hidden;
+  background: #000;
+  /* Pure black base */
 }
 
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
+/* 
+   Retro-Wave Sun / Glow at Horizon (Optional but adds depth)
+   Using a radial gradient to simulate a distant light source 
+*/
+.scene::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at 50% 50%, rgba(0, 243, 255, 0.15) 0%, transparent 60%);
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* The Infinite Floor of Boxes */
+.floor {
+  position: absolute;
+  top: 50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+
+  /* Thick, Bright Neon Grid Lines */
+  background-image:
+    linear-gradient(rgba(0, 243, 255, 0.7) 2px, transparent 2px),
+    linear-gradient(90deg, rgba(0, 243, 255, 0.7) 2px, transparent 2px);
+
+  background-size: 100px 100px;
+  /* Larger boxes */
+  background-position: center bottom;
+
+  transform: rotateX(75deg);
+  /* Flatter angle for depth */
+  transform-origin: center top;
+
+  animation: move-floor 0.5s linear infinite;
+  /* FASTER animation */
+
+  /* Neon Glow effect on the floor itself */
+  box-shadow: 0 -100px 150px rgba(0, 243, 255, 0.4);
+
+  /* Fade out into the distance */
+  mask-image: linear-gradient(to bottom, transparent 5%, black 40%, black 100%);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 5%, black 40%, black 100%);
+}
+
+@keyframes move-floor {
+  0% {
+    background-position: center 0;
+  }
+
+  100% {
+    background-position: center 100px;
+    /* Matches background-size */
+  }
+}
+
+/* Ceiling Reflection (Mirrored Grid) */
+.ceiling {
+  position: absolute;
+  top: -60%;
+  /* Lifted up */
+  left: -50%;
+  width: 200%;
+  height: 200%;
+
+  background-image:
+    linear-gradient(rgba(255, 0, 85, 0.5) 1px, transparent 1px),
+    /* Magenta for contrast */
+    linear-gradient(90deg, rgba(255, 0, 85, 0.5) 1px, transparent 1px);
+
+  background-size: 100px 100px;
+  transform: rotateX(-75deg);
+  transform-origin: center bottom;
+
+  animation: move-ceiling 0.5s linear infinite;
+
+  mask-image: linear-gradient(to top, transparent 5%, black 40%, black 100%);
+  -webkit-mask-image: linear-gradient(to top, transparent 5%, black 40%, black 100%);
+  opacity: 0.5;
+}
+
+@keyframes move-ceiling {
+  0% {
+    background-position: center 0;
+  }
+
+  100% {
+    background-position: center -100px;
+  }
+}
+
+/* Horizon Line */
+.horizon {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: #fff;
+  box-shadow:
+    0 0 20px var(--accent-color),
+    0 0 50px var(--accent-color),
+    0 0 100px white;
+  z-index: -5;
+  opacity: 1;
+}
+
+/* Lightning Effects */
+.lightning-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  /* Cover full screen */
+  z-index: 1;
+  /* Above floor, behind text */
+  pointer-events: none;
+  overflow: hidden;
+}
+
+/* Ambient Storm Flash */
+.lightning-flash {
+  position: absolute;
+  inset: 0;
+  background-color: white;
+  opacity: 0;
+  mix-blend-mode: overlay;
+  animation: storm-flash 5s infinite;
+}
+
+@keyframes storm-flash {
+
+  0%,
+  88%,
+  100% {
+    opacity: 0;
+  }
+
+  90% {
+    opacity: 0.15;
+  }
+
+  91% {
+    opacity: 0;
+  }
+
+  92% {
+    opacity: 0.1;
+  }
+
+  93% {
+    opacity: 0;
+  }
+}
+
+/* Bolt Animation Helpers */
+/* Note: The SVGs in App.jsx use the bolt-flicker keyframes */
+
+@keyframes bolt-flicker {
+  0% {
+    opacity: 0;
+  }
+
+  2% {
+    opacity: 1;
+    filter: drop-shadow(0 0 15px cyan);
+  }
+
+  5% {
+    opacity: 0;
+  }
+
+  7% {
+    opacity: 0.8;
+    filter: drop-shadow(0 0 25px white);
+  }
+
+  10% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+
+/* Floating Particles */
+.particle {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  background: #fff;
+  border-radius: 50%;
+  box-shadow: 0 0 10px #fff;
+  animation: float-up 3s linear infinite;
+}
+
+@keyframes float-up {
+  0% {
+    transform: translateY(110vh) scale(0);
+    opacity: 0;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateY(-10vh) scale(1.5);
+    opacity: 0;
+  }
+}
+
+/* UI Elements */
+
+/* Navbar */
+.nav-links {
+  position: absolute;
+  left: 50%;
+  display: flex;
+  gap: 2rem;
+}
+
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 1.5rem 3rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(0, 243, 255, 0.3);
+  background: rgba(0, 0, 0, 0.4);
+  /* More transparent */
+  backdrop-filter: blur(8px);
+  z-index: 100;
+}
+
+.nav-link {
+  font-family: 'Chakra Petch', sans-serif;
+  color: rgba(255, 255, 255, 0.8);
+  text-decoration: none;
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  transition: 0.3s;
+  position: relative;
+}
+
+.nav-link:hover {
+  color: #fff;
+  text-shadow: 0 0 10px var(--accent-color);
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 0%;
+  height: 2px;
+  background: var(--accent-color);
+  transition: 0.3s;
+  box-shadow: 0 0 10px var(--accent-color);
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
+
+/* Hero Section */
+.hero-container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  z-index: 10;
+}
+
+.hero-title {
+  font-family: 'Chakra Petch', sans-serif;
+  font-size: 7rem;
+  /* Larger */
+  font-weight: 800;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+  color: #fff;
+
+  /* Neon Outline Text Effect */
+  -webkit-text-stroke: 2px rgba(0, 243, 255, 0.8);
+  text-shadow:
+    0 0 10px rgba(0, 243, 255, 0.5),
+    0 0 30px rgba(0, 243, 255, 0.3);
+
+  letter-spacing: 8px;
+  background: transparent;
+}
+
+.hero-title br {
+  display: block;
+}
+
+.hero-btn {
+  margin-top: 3rem;
+  padding: 1.5rem 5rem;
+  font-family: 'Chakra Petch', sans-serif;
+  font-size: 1.4rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  color: #000;
+  background: var(--accent-color);
+  border: none;
+  /* Complex Cyberpunk Shape */
+  clip-path: polygon(10% 0, 100% 0,
+      100% 70%, 90% 100%,
+      0 100%, 0 30%);
   cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+  box-shadow:
+    0 0 10px var(--accent-color),
+    0 0 30px var(--accent-color);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  z-index: 1000;
+  /* Ensure it's above everything */
+  pointer-events: auto;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+.hero-btn:hover {
+  transform: translateY(-3px) scale(1.02);
+  background: #fff;
+  box-shadow:
+    0 0 20px #fff,
+    0 0 50px var(--accent-color);
 }
