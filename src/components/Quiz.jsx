@@ -1,716 +1,497 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { FileCode, FileJson, Play, CheckCircle, Terminal as TerminalIcon, Layout, Eye, RefreshCw, Printer } from 'lucide-react';
 import '../index.css';
 
-const questions = [
-    {
-        id: 1,
-        level: "EASY",
-        title: "Contains Duplicate",
-        description: "Return true if any value appears at least twice in the array.",
-        languages: {
-            javascript: {
-                code: `function containsDuplicate(nums) {
-    const s = new Set(nums);
-    return s.____ !== nums.length;
+const websiteChallenge = {
+    title: "Build a Interactive Webpage",
+    description: "Fill in the missing code to create a functional webpage with styling and interactivity.",
+    files: {
+        html: {
+            name: "index.html",
+            icon: <Layout size={18} />,
+            color: "#e34c26",
+            code: `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="____">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        /* CSS is loaded from style.css */
+    </style>
+</head>
+<body>
+    <div id="app">
+        <h1>Welcome Dev!</h1>
+        <button id="____">Click Me</button>
+        <p id="output">Waiting for interaction...</p>
+    </div>
+</body>
+</html>`,
+            blanks: [
+                { index: 0, answer: "utf-8", points: 1 },
+                { index: 1, answer: "actionBtn", points: 2 }
+            ]
+        },
+        css: {
+            name: "style.css",
+            icon: <FileCode size={18} />,
+            color: "#264de4",
+            code: `body {
+    background-color: #1a1a1a;
+    color: #ffffff;
+    font-family: 'Inter', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+#app {
+    text-align: ____; /* Hint: center the text */
+    padding: 2rem;
+    border: 1px solid #333;
+    border-radius: 10px;
+    background: #222;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+}
+
+button {
+    padding: 10px 20px;
+    background: #00f3ff;
+    border: none;
+    border-radius: 5px;
+    cursor: ____; /* Hint: mouse hand icon */
+    font-weight: bold;
+    color: #000;
+    margin-top: 10px;
 }`,
-                answer: "size",
-                output: "true / false"
-            },
-            python: {
-                code: `def containsDuplicate(nums):
-    return len(set(nums)) != len(____)`,
-                answer: "nums",
-                output: "True / False"
-            },
-            java: {
-                code: `boolean containsDuplicate(int[] nums) {
-    Set<Integer> set = new HashSet<>();
-    for (int i : nums) set.add(i);
-    return set.____() != nums.length;
-}`,
-                answer: "size",
-                output: "true / false"
-            },
-            cpp: {
-                code: `bool containsDuplicate(vector<int>& nums) {
-    unordered_set<int> s(nums.begin(), nums.end());
-    return s.____() != nums.size();
-}`,
-                answer: "size",
-                output: "true / false"
-            },
-            c: {
-                code: `bool containsDuplicate(int* nums, int size) {
-    // Naive O(n^2) check for dups
-    for (int i = 0; i < size; i++) {
-        for (int j = i + 1; j < size; j++) {
-            if (nums[i] == nums[____]) return true;
+            blanks: [
+                { index: 0, answer: "center", points: 2 },
+                { index: 1, answer: "pointer", points: 2 }
+            ]
+        },
+        js: {
+            name: "script.js",
+            icon: <FileJson size={18} />,
+            color: "#f7df1e",
+            code: `const btn = document.getElementById('actionBtn');
+const output = document.getElementById('output');
+
+if(btn) {
+    // Define the click handler
+    ____ handleClick() {
+        if(output) {
+            output.textContent = "Code executed successfully!";
+            output.style.color = "#00ff88";
         }
     }
-    return false;
+
+    // Add event listener
+    btn.addEventListener('____', handleClick);
 }`,
-                answer: "j",
-                output: "true / false"
-            }
-        }
-    },
-    {
-        id: 2,
-        level: "EASY",
-        title: "Valid Palindrome",
-        description: "Check if string is a palindrome (alphanumeric only, ignore case).",
-        languages: {
-            javascript: {
-                code: `function isPalindrome(s) {
-    const clean = s.replace(/[^a-z0-9]/gi, '').toLowerCase();
-    return clean === clean.split('').____().join('');
-}`,
-                answer: "reverse",
-                output: "true / false"
-            },
-            python: {
-                code: `def isPalindrome(s):
-    clean = ''.join(c.lower() for c in s if c.isalnum())
-    return clean == clean[____]`,
-                answer: "::-1",
-                output: "True / False"
-            },
-            java: {
-                code: `boolean isPalindrome(String s) {
-    String clean = s.replaceAll("[^a-zA-Z0-9]", "").toLowerCase();
-    String rev = new StringBuilder(clean).____().toString();
-    return clean.equals(rev);
-}`,
-                answer: "reverse",
-                output: "true / false"
-            },
-            cpp: {
-                code: `bool isPalindrome(string s) {
-    string clean = ""; 
-    for(char c: s) if(isalnum(c)) clean += tolower(c);
-    string rev = clean;
-    ____(rev.begin(), rev.end());
-    return clean == rev;
-}`,
-                answer: "reverse",
-                output: "true / false"
-            },
-            c: {
-                code: `bool isPalindrome(char* s) {
-    int l = 0, r = strlen(s) - 1;
-    while(l < r) {
-        if(s[l] != s[____]) return false;
-        l++; r--;
-    }
-    return true;
-}`,
-                answer: "r",
-                output: "true / false"
-            }
-        }
-    },
-    {
-        id: 3,
-        level: "MEDIUM",
-        title: "Two Sum",
-        description: "Find indices of two numbers that sum to target.",
-        languages: {
-            javascript: {
-                code: `function twoSum(nums, target) {
-    const map = new Map();
-    for (let i = 0; i < nums.length; i++) {
-        const comp = target - nums[i];
-        if (map.____(comp)) return [map.get(comp), i];
-        map.set(nums[i], i);
-    }
-}`,
-                answer: "has",
-                output: "[0, 1]"
-            },
-            python: {
-                code: `def twoSum(nums, target):
-    seen = {}
-    for i, num in enumerate(nums):
-        comp = target - num
-        if comp ____ seen:
-            return [seen[comp], i]
-        seen[num] = i`,
-                answer: "in",
-                output: "[0, 1]"
-            },
-            java: {
-                code: `int[] twoSum(int[] nums, int target) {
-    Map<Integer, Integer> map = new HashMap<>();
-    for (int i = 0; i < nums.length; i++) {
-        int comp = target - nums[i];
-        if (map.____(comp)) return new int[] { map.get(comp), i };
-        map.put(nums[i], i);
-    }
-    return null;
-}`,
-                answer: "containsKey",
-                output: "[0, 1]"
-            },
-            cpp: {
-                code: `vector<int> twoSum(vector<int>& nums, int target) {
-    unordered_map<int, int> map;
-    for (int i = 0; i < nums.size(); i++) {
-        int comp = target - nums[i];
-        if (map.____(comp)) return {map[comp], i};
-        map[nums[i]] = i;
-    }
-    return {};
-}`,
-                answer: "count",
-                output: "{0, 1}"
-            },
-            c: {
-                code: `int* twoSum(int* nums, int size, int target) {
-    for (int i = 0; i < size; i++) {
-        for (int j = i + 1; j < size; j++) {
-            if (nums[i] + nums[j] == ____) {
-                int* res = malloc(2 * sizeof(int));
-                res[0]=i; res[1]=j; return res;
-            }
+            blanks: [
+                { index: 0, answer: "function", points: 6 },
+                { index: 1, answer: "click", points: 3 }
+            ]
         }
     }
-}`,
-                answer: "target",
-                output: "[0, 1]"
-            }
+};
+
+const AutoSizeInput = ({ value, onChange, placeholder, isValidated, isValid }) => {
+    const inputRef = useRef(null);
+    const [width, setWidth] = useState(0);
+    const spanRef = useRef(null);
+
+    useEffect(() => {
+        if (spanRef.current) {
+            setWidth(spanRef.current.offsetWidth + 20); // Buffer
         }
-    },
-    {
-        id: 4,
-        level: "MEDIUM",
-        title: "Async / Parallel",
-        description: "Execute tasks or threads efficiently.",
-        languages: {
-            javascript: {
-                code: `async function runAll(tasks) {
-    return await Promise.____(tasks.map(t => t()));
-}`,
-                answer: "all",
-                output: "[...results]"
-            },
-            python: {
-                code: `import asyncio
-async def run_all(tasks):
-    return await asyncio.____(*tasks)`,
-                answer: "gather",
-                output: "[...results]"
-            },
-            java: {
-                code: `CompletableFuture<Void> runAll(CompletableFuture<?>... cfs) {
-    return CompletableFuture.____(cfs);
-}`,
-                answer: "allOf",
-                output: "Void"
-            },
-            cpp: {
-                code: `// Launch async task
-auto future = std::____(std::launch::async, [](){ 
-    return do_work(); 
-});`,
-                answer: "async",
-                output: "future<T>"
-            },
-            c: {
-                code: `// Create a POSIX thread
-pthread_t thread;
-pthread_____(&thread, NULL, myThreadFunc, NULL);
-pthread_join(thread, NULL);`,
-                answer: "create",
-                output: "0 (success)"
-            }
-        }
-    },
-    {
-        id: 5,
-        level: "HARD",
-        title: "Binary Search",
-        description: "Find index of target in sorted array, or -1.",
-        languages: {
-            javascript: {
-                code: `function search(nums, target) {
-    let l = 0, r = nums.length - 1;
-    while (l <= r) {
-        let mid = Math.floor((l + r) / ____);
-        if (nums[mid] === target) return mid;
-        if (nums[mid] < target) l = mid + 1;
-        else r = mid - 1;
-    }
-    return -1;
-}`,
-                answer: "2",
-                output: "index"
-            },
-            python: {
-                code: `def search(nums, target):
-    l, r = 0, len(nums) - 1
-    while l <= r:
-        mid = (l + r) ____ 2
-        if nums[mid] == target: return mid
-        if nums[mid] < target: l = mid + 1
-        else: r = mid - 1
-    return -1`,
-                answer: "//",
-                output: "index"
-            },
-            java: {
-                code: `int search(int[] nums, int target) {
-    int l = 0, r = nums.length - 1;
-    while (l <= r) {
-        int mid = l + (r - l) / ____;
-        if (nums[mid] == target) return mid;
-        if (nums[mid] < target) l = mid + 1;
-        else r = mid - 1;
-    }
-    return -1;
-}`,
-                answer: "2",
-                output: "index"
-            },
-            cpp: {
-                code: `int search(vector<int>& nums, int target) {
-    int l = 0, r = nums.size() - 1;
-    while (l <= r) {
-        int mid = l + (r - l) / ____;
-        if (nums[mid] == target) return mid;
-        if (nums[mid] < target) l = mid + 1;
-        else r = mid - 1;
-    }
-    return -1;
-}`,
-                answer: "2",
-                output: "index"
-            },
-            c: {
-                code: `int search(int* nums, int size, int target) {
-    int l = 0, r = size - 1;
-    while (l <= r) {
-        int mid = l + (r - l) / ____;
-        if (nums[mid] == target) return mid;
-        if (nums[mid] < target) l = mid + 1;
-        else r = mid - 1;
-    }
-    return -1;
-}`,
-                answer: "2",
-                output: "index"
-            }
-        }
-    }
-];
+    }, [value, placeholder]);
+
+    return (
+        <span style={{ display: 'inline-flex', position: 'relative', verticalAlign: 'middle' }}>
+            <span
+                ref={spanRef}
+                style={{
+                    position: 'absolute',
+                    opacity: 0,
+                    whiteSpace: 'pre',
+                    fontFamily: 'inherit',
+                    fontSize: 'inherit'
+                }}
+            >
+                {value || placeholder}
+            </span>
+            <input
+                ref={inputRef}
+                type="text"
+                value={value}
+                onChange={onChange}
+                placeholder={placeholder}
+                style={{
+                    width: Math.max(width, 40) + 'px',
+                    minWidth: '40px',
+                    background: 'transparent',
+                    border: 'none',
+                    borderBottom: '1px dashed #58a6ff',
+                    borderBottomColor: isValidated ? (isValid ? '#4ade80' : '#f87171') : '#58a6ff',
+                    color: isValidated ? (isValid ? '#4ade80' : '#f87171') : '#fff',
+                    fontFamily: 'inherit',
+                    fontSize: 'inherit',
+                    outline: 'none',
+                    padding: '0 2px',
+                    textAlign: 'center'
+                }}
+                className="code-input-field"
+            />
+            {isValidated && (
+                <span style={{
+                    position: 'absolute',
+                    top: '-12px',
+                    right: '-8px',
+                    fontSize: '10px',
+                    color: isValid ? '#4ade80' : '#f87171'
+                }}>
+                    {isValid ? '●' : '●'}
+                </span>
+            )}
+        </span>
+    );
+};
 
 const Quiz = () => {
-    const [currentQuestion, setCurrentQuestion] = useState(0);
-    const [userAnswer, setUserAnswer] = useState("");
-    const [selectedLanguage, setSelectedLanguage] = useState("javascript");
-    const [error, setError] = useState(false);
-    const [success, setSuccess] = useState(false);
-    const [isFinished, setIsFinished] = useState(false);
-    const [score, setScore] = useState(0);
+    const [activeTab, setActiveTab] = useState('html');
+    const [userAnswers, setUserAnswers] = useState({});
+    const [validationState, setValidationState] = useState({});
+    const [hasRun, setHasRun] = useState(false);
+    const [showSummary, setShowSummary] = useState(false);
+    const [totalScore, setTotalScore] = useState(0);
+    const [previewSrc, setPreviewSrc] = useState('');
 
-    const POINTS = {
-        "EASY": 1,
-        "MEDIUM": 3,
-        "HARD": 6
-    };
+    const maxScore = Object.values(websiteChallenge.files).reduce((acc, file) => {
+        return acc + file.blanks.reduce((sum, b) => sum + b.points, 0);
+    }, 0);
 
-    const question = questions[currentQuestion];
-    // Fallback if a new language doesn't have a question defined (though all do here)
-    const currentLangData = question.languages[selectedLanguage] || question.languages['javascript'];
+    useEffect(() => {
+        const getFilledCode = (fileKey) => {
+            let code = websiteChallenge.files[fileKey].code;
+            websiteChallenge.files[fileKey].blanks.forEach((blank, idx) => {
+                const val = userAnswers[`${fileKey}-${idx}`] || "";
+                code = code.replace("____", val);
+            });
+            return code;
+        };
 
-    const handleNext = () => {
-        const isCorrect = userAnswer.trim() === currentLangData.answer;
-        const isLastQuestion = currentQuestion === questions.length - 1;
+        const html = getFilledCode('html');
+        const css = getFilledCode('css');
+        const js = getFilledCode('js');
 
-        if (isCorrect) {
-            setSuccess(true);
-            const pointsToAdd = POINTS[questions[currentQuestion].level] || 0;
+        const combinedSrc = `
+            <html>
+                <style>${css}</style>
+                <body>
+                    ${html.replace(/<\/?html>|<\/?head>|<\/?body>|<meta[^>]*>|<title>[^<]*<\/title>/g, '')}
+                    <script>
+                        try {
+                            ${js}
+                        } catch(e) { console.error(e); }
+                    </script>
+                </body>
+            </html>
+        `;
+        setPreviewSrc(combinedSrc);
+    }, [userAnswers]);
 
-            setTimeout(() => {
-                setScore(prev => prev + pointsToAdd); // Update score
-                setSuccess(false);
-                setUserAnswer("");
-                if (!isLastQuestion) {
-                    setCurrentQuestion(prev => prev + 1);
-                } else {
-                    setIsFinished(true);
-                }
-            }, 1000);
-        } else {
-            // If incorrect
-            if (isLastQuestion) {
-                // Allow finishing even if incorrect on the last question
-                setIsFinished(true);
-            } else {
-                // Shake error for previous questions
-                setError(true);
-                setTimeout(() => setError(false), 500);
-            }
+    const handleInputChange = (fileKey, blankIndex, value) => {
+        setUserAnswers(prev => ({
+            ...prev,
+            [`${fileKey}-${blankIndex}`]: value
+        }));
+        if (hasRun) {
+            setValidationState(prev => {
+                const newState = { ...prev };
+                delete newState[`${fileKey}-${blankIndex}`];
+                return newState;
+            });
         }
     };
 
-    const handlePrev = () => {
-        if (currentQuestion > 0) {
-            setCurrentQuestion(prev => prev - 1);
-            setUserAnswer("");
-            setSuccess(false);
-            setError(false);
-        }
+    const runCode = () => {
+        let currentScore = 0;
+        const newValidationState = {};
+
+        Object.entries(websiteChallenge.files).forEach(([fileKey, file]) => {
+            file.blanks.forEach((blank, idx) => {
+                const userAns = (userAnswers[`${fileKey}-${idx}`] || "").trim();
+                const isCorrect = userAns === blank.answer;
+                newValidationState[`${fileKey}-${idx}`] = isCorrect;
+                if (isCorrect) currentScore += blank.points;
+            });
+        });
+
+        setValidationState(newValidationState);
+        setTotalScore(currentScore);
+        setHasRun(true);
     };
 
-    const handleSkip = () => {
-        if (currentQuestion < questions.length - 1) {
-            setCurrentQuestion(prev => prev + 1);
-            setUserAnswer("");
-            setSuccess(false);
-            setError(false);
-        } else {
-            // Skip last question = Finish
-            setIsFinished(true);
-        }
-    };
-
-    if (isFinished) {
+    const renderCodeBlock = (fileKey, fileData) => {
+        const parts = fileData.code.split('____');
         return (
-            <div className="quiz-container" style={{
-                minHeight: '100vh',
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'center',
-                alignItems: 'center',
-                position: 'relative',
-                zIndex: 10,
-                color: '#fff',
-                padding: '2rem'
-            }}>
-                <motion.div
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.5 }}
-                    style={{
-                        textAlign: 'center',
-                        background: 'rgba(2, 11, 20, 0.8)',
-                        padding: '4rem',
-                        borderRadius: '20px',
-                        border: '1px solid #00f3ff',
-                        boxShadow: '0 0 50px rgba(0, 243, 255, 0.3)'
-                    }}
-                >
-                    <h1 style={{
-                        fontFamily: 'Chakra Petch, sans-serif',
-                        fontSize: '3.5rem',
-                        color: '#00f3ff',
-                        marginBottom: '1rem',
-                        textShadow: '0 0 20px #00f3ff'
-                    }}>
-                        SYSTEM COMPLETED
-                    </h1>
-                    <p style={{
-                        fontSize: '1.5rem',
-                        color: '#fff',
-                        marginBottom: '1rem',
-                        fontFamily: 'Inter, sans-serif'
-                    }}>
-                        Thank You for Participating!
-                    </p>
+            <div className="code-editor">
+                {parts.map((part, index) => {
+                    const isLast = index === parts.length - 1;
+                    const blankIndex = index;
+                    const inputKey = `${fileKey}-${blankIndex}`;
+                    const isValid = validationState[inputKey];
+                    const isValidated = hasRun && validationState.hasOwnProperty(inputKey);
 
-                    <div style={{
-                        fontSize: '2rem',
-                        color: '#ff0055',
-                        fontWeight: 'bold',
-                        marginBottom: '3rem',
-                        fontFamily: 'Chakra Petch, sans-serif'
-                    }}>
-                        SCORE: <span style={{ color: '#00ff88' }}>{score}</span> / 14
+                    return (
+                        <React.Fragment key={index}>
+                            <span style={{ whiteSpace: 'pre-wrap' }}>{part}</span>
+                            {!isLast && (
+                                <AutoSizeInput
+                                    value={userAnswers[inputKey] || ""}
+                                    onChange={(e) => handleInputChange(fileKey, blankIndex, e.target.value)}
+                                    placeholder="..."
+                                    isValidated={isValidated}
+                                    isValid={isValid}
+                                />
+                            )}
+                        </React.Fragment>
+                    );
+                })}
+            </div>
+        );
+    };
+
+    const getGrade = () => {
+        const percentage = (totalScore / maxScore) * 100;
+        if (percentage === 100) return 'S';
+        if (percentage >= 80) return 'A';
+        if (percentage >= 60) return 'B';
+        if (percentage >= 40) return 'C';
+        return 'F';
+    };
+
+    if (showSummary) {
+        const grade = getGrade();
+        return (
+            <div className="summary-overlay">
+                <motion.div
+                    initial={{ scale: 0.9, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    className="summary-card-modern"
+                >
+                    <div className="card-top-accent"></div>
+
+                    <div className="system-header">
+                        <TerminalIcon size={32} color="#00f3ff" />
+                        <h2>SYSTEM EVALUATION</h2>
                     </div>
 
-                    <motion.button
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                        onClick={() => window.location.href = '/'}
-                        style={{
-                            padding: '1.5rem 4rem',
-                            fontSize: '1.2rem',
-                            fontWeight: 'bold',
-                            fontFamily: 'Chakra Petch, sans-serif',
-                            background: '#ff0055',
-                            color: '#fff',
-                            border: 'none',
-                            cursor: 'pointer',
-                            clipPath: 'polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px)',
-                            boxShadow: '0 0 20px rgba(255, 0, 85, 0.5)'
-                        }}
-                    >
-                        RETURN HOME
-                    </motion.button>
+                    <div className="score-content">
+                        <div className="grade-box">
+                            <span className="grade-label">GRADE</span>
+                            <span className={`grade-value grade-${grade}`}>{grade}</span>
+                        </div>
+
+                        <div className="metrics">
+                            <div className="metric-row">
+                                <span>SYNTAX CHECK</span>
+                                <span className={totalScore === maxScore ? "success" : "warn"}>
+                                    {totalScore === maxScore ? "PASSED" : "ISSUES FOUND"}
+                                </span>
+                            </div>
+                            <div className="metric-row">
+                                <span>LOGIC SCORE</span>
+                                <span className="score-nums">{totalScore} <span className="total">/ {maxScore}</span></span>
+                            </div>
+                            <div className="progress-bar-container">
+                                <motion.div
+                                    className="progress-fill"
+                                    initial={{ width: 0 }}
+                                    animate={{ width: `${(totalScore / maxScore) * 100}%` }}
+                                    transition={{ duration: 1, ease: "easeOut" }}
+                                />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="actions-footer">
+                        <button className="secondary-btn" onClick={() => setShowSummary(false)}>
+                            <RefreshCw size={16} /> REVIEW CODE
+                        </button>
+                        <button className="primary-btn" onClick={() => window.location.href = '/'}>
+                            HOME
+                        </button>
+                    </div>
                 </motion.div>
+
+                <style>{`
+                    .summary-overlay {
+                        position: fixed; inset: 0;
+                        background: rgba(0,0,0,0.85);
+                        backdrop-filter: blur(8px);
+                        display: flex; justify-content: center; alignItems: center;
+                        z-index: 100;
+                    }
+                    .summary-card-modern {
+                        background: #0d1117;
+                        border: 1px solid #30363d;
+                        border-radius: 16px;
+                        width: 90%; max-width: 500px;
+                        padding: 2rem;
+                        position: relative;
+                        overflow: hidden;
+                        box-shadow: 0 0 80px rgba(0, 243, 255, 0.15);
+                    }
+                    .card-top-accent {
+                        position: absolute; top: 0; left: 0; right: 0; height: 4px;
+                        background: linear-gradient(90deg, #ff0055, #00f3ff, #ff0055);
+                        animation: gradient-slide 3s linear infinite;
+                        background-size: 200% 100%;
+                    }
+                    @keyframes gradient-slide { 0% { background-position: 100% 0; } 100% { background-position: -100% 0; } }
+
+                    .system-header {
+                        display: flex; align-items: center; gap: 1rem;
+                        margin-bottom: 2rem;
+                        border-bottom: 1px solid #30363d;
+                        padding-bottom: 1rem;
+                    }
+                    .system-header h2 {
+                        font-family: 'Chakra Petch', sans-serif;
+                        color: #fff; letter-spacing: 2px;
+                        margin: 0; font-size: 1.5rem;
+                    }
+
+                    .score-content { display: flex; gap: 2rem; margin-bottom: 2rem; align-items: center; }
+                    .grade-box {
+                        display: flex; flex-direction: column; align-items: center;
+                        background: rgba(255,255,255,0.05); padding: 1rem;
+                        border-radius: 8px; border: 1px solid #30363d;
+                        min-width: 100px;
+                    }
+                    .grade-label { color: #8b949e; font-size: 0.8rem; letter-spacing: 1px; margin-bottom: 5px; }
+                    .grade-value { font-family: 'Chakra Petch', sans-serif; font-size: 3.5rem; font-weight: bold; line-height: 1; }
+                    .grade-S { color: #eab308; text-shadow: 0 0 20px rgba(234, 179, 8, 0.5); }
+                    .grade-A { color: #00ff88; text-shadow: 0 0 20px rgba(0, 255, 136, 0.5); }
+                    .grade-B { color: #00f3ff; }
+                    .grade-C { color: #f97316; }
+                    .grade-F { color: #ef4444; }
+
+                    .metrics { flex: 1; display: flex; flex-direction: column; gap: 1rem; }
+                    .metric-row { display: flex; justify-content: space-between; font-size: 0.9rem; color: #c9d1d9; }
+                    .success { color: #00ff88; font-weight: bold; }
+                    .warn { color: #ff0055; font-weight: bold; }
+                    .score-nums { font-family: 'Chakra Petch', sans-serif; font-size: 1.2rem; color: #fff; }
+                    .total { color: #8b949e; font-size: 0.9rem; }
+                    
+                    .progress-bar-container { height: 6px; background: #21262d; border-radius: 3px; overflow: hidden; margin-top: 5px; }
+                    .progress-fill { height: 100%; background: #00f3ff; box-shadow: 0 0 10px #00f3ff; }
+
+                    .actions-footer { display: flex; gap: 1rem; }
+                    button {
+                        flex: 1; padding: 12px; border: none; border-radius: 6px;
+                        font-weight: bold; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 8px;
+                        font-family: 'Chakra Petch', sans-serif; transition: 0.2s;
+                    }
+                    .secondary-btn { background: rgba(255,255,255,0.1); color: #fff; }
+                    .secondary-btn:hover { background: rgba(255,255,255,0.2); }
+                    .primary-btn { background: #00f3ff; color: #000; }
+                    .primary-btn:hover { background: #00d2dd; box-shadow: 0 0 20px rgba(0, 243, 255, 0.4); }
+                `}</style>
             </div>
         );
     }
 
-    const languages = [
-        { id: 'javascript', label: 'JS' },
-        { id: 'python', label: 'PY' },
-        { id: 'java', label: 'JAVA' },
-        { id: 'cpp', label: 'C++' },
-        { id: 'c', label: 'C' },
-    ];
-
     return (
-        <div className="quiz-container" style={{
-            minHeight: '100vh',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            alignItems: 'center',
-            position: 'relative',
-            zIndex: 10,
-            color: '#fff',
-            padding: '2rem'
-        }}>
-            <AnimatePresence mode="wait">
-                <motion.div
-                    key={currentQuestion}
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.9 }}
-                    transition={{ duration: 0.4 }}
-                    style={{
-                        width: '100%',
-                        maxWidth: '900px',
-                        padding: '3rem',
-                        background: 'rgba(2, 11, 20, 0.8)',
-                        backdropFilter: 'blur(10px)',
-                        border: '1px solid rgba(0, 243, 255, 0.2)',
-                        borderRadius: '16px',
-                        boxShadow: '0 0 30px rgba(0, 0, 0, 0.5)'
-                    }}
-                >
-                    {/* Header: Level and Language Selector */}
-                    <div style={{ marginBottom: '2rem' }}>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem' }}>
-                            <span style={{
-                                color: question.level === 'EASY' ? '#00ff88' : question.level === 'MEDIUM' ? '#ffcc00' : '#ff0055',
-                                fontFamily: 'Chakra Petch, sans-serif',
-                                fontWeight: 'bold',
-                                letterSpacing: '2px',
-                                flexShrink: 0
-                            }}>
-                                {question.level} CHALLENGE {currentQuestion + 1}/{questions.length}
-                            </span>
+        <div className="ide-container">
+            <motion.div
+                className="ide-window"
+                initial={{ y: 20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+            >
+                <div className="ide-header">
+                    <div className="window-controls">
+                        <span className="dot close"></span>
+                        <span className="dot minimize"></span>
+                        <span className="dot expand"></span>
+                    </div>
+                    <div className="project-title">{websiteChallenge.title}</div>
+                    <div className="actions">
+                        <button className="run-btn" onClick={runCode}>
+                            RUN CODE <Play size={16} fill="currentColor" />
+                        </button>
+                        <button className="finish-btn" onClick={() => setShowSummary(true)} disabled={!hasRun} style={{ opacity: hasRun ? 1 : 0.5 }}>
+                            FINISH <CheckCircle size={16} />
+                        </button>
+                    </div>
+                </div>
 
-                            {/* Horizontal Scrollable Language Selector */}
-                            <div className="lang-selector" style={{
-                                display: 'flex',
-                                gap: '8px',
-                                overflowX: 'auto',
-                                paddingBottom: '5px',
-                                maxWidth: '100%',
-                            }}>
-                                {languages.map(lang => (
-                                    <button
-                                        key={lang.id}
-                                        onClick={() => {
-                                            setSelectedLanguage(lang.id);
-                                            setUserAnswer("");
-                                        }}
-                                        style={{
-                                            background: selectedLanguage === lang.id ? '#00f3ff' : 'rgba(0, 243, 255, 0.1)',
-                                            color: selectedLanguage === lang.id ? '#000' : '#00f3ff',
-                                            border: '1px solid #00f3ff',
-                                            borderRadius: '20px',
-                                            padding: '5px 15px',
-                                            cursor: 'pointer',
-                                            fontWeight: 'bold',
-                                            fontSize: '0.8rem',
-                                            textTransform: 'uppercase',
-                                            fontFamily: 'Chakra Petch, sans-serif',
-                                            transition: '0.3s',
-                                            whiteSpace: 'nowrap'
-                                        }}
-                                    >
-                                        {lang.label}
-                                    </button>
+                <div className="ide-body">
+                    <div className="ide-pane editor-pane">
+                        <div className="file-tabs">
+                            {Object.entries(websiteChallenge.files).map(([key, file]) => (
+                                <button
+                                    key={key}
+                                    className={`file-tab ${activeTab === key ? 'active' : ''}`}
+                                    onClick={() => setActiveTab(key)}
+                                >
+                                    <span style={{ color: file.color }}>{file.icon}</span>
+                                    {file.name}
+                                </button>
+                            ))}
+                        </div>
+                        <div className="editor-area">
+                            <div className="editor-numbers">
+                                {Array.from({ length: 20 }, (_, i) => i + 1).map(n => (
+                                    <div key={n}>{n}</div>
                                 ))}
                             </div>
-                        </div>
-
-                        <h2 style={{
-                            fontFamily: 'Inter, sans-serif',
-                            fontSize: '2rem',
-                            marginTop: '1rem',
-                            marginBottom: '0.5rem',
-                            textTransform: 'uppercase'
-                        }}>
-                            {question.title}
-                        </h2>
-
-                        <div style={{
-                            textAlign: 'left',
-                            marginBottom: '1rem',
-                            background: 'rgba(0,0,0,0.3)',
-                            padding: '1rem',
-                            borderRadius: '8px',
-                            borderLeft: '4px solid #ff0055'
-                        }}>
-                            <span style={{ color: '#a3a3a3', fontSize: '0.9rem', display: 'block', marginBottom: '0.5rem' }}>PROBLEM STATEMENT:</span>
-                            <p style={{ fontSize: '1.2rem', lineHeight: '1.5' }}>{question.description}</p>
+                            <div className="editor-content">
+                                {renderCodeBlock(activeTab, websiteChallenge.files[activeTab])}
+                            </div>
                         </div>
                     </div>
-
-                    {/* Code Display Area */}
-                    <div style={{
-                        background: '#0d1117',
-                        padding: '2rem',
-                        borderRadius: '8px',
-                        borderLeft: '4px solid #00f3ff',
-                        fontFamily: 'monospace',
-                        fontSize: '1.4rem',
-                        marginBottom: '2rem',
-                        textAlign: 'left',
-                        position: 'relative',
-                        boxShadow: 'inset 0 0 20px rgba(0,0,0,0.5)',
-                        whiteSpace: 'pre-wrap',
-                        overflowX: 'auto'
-                    }}>
-                        {currentLangData.code.split(/_+/).map((part, index, array) => (
-                            <React.Fragment key={index}>
-                                {part}
-                                {index < array.length - 1 && (
-                                    <input
-                                        autoFocus
-                                        type="text"
-                                        value={userAnswer}
-                                        onChange={(e) => setUserAnswer(e.target.value)}
-                                        onKeyDown={(e) => e.key === 'Enter' && handleNext()}
-                                        placeholder="..."
-                                        style={{
-                                            background: 'transparent',
-                                            border: 'none',
-                                            borderBottom: `2px solid ${error ? '#ff0055' : success ? '#00ff88' : '#00f3ff'}`,
-                                            color: success ? '#00ff88' : '#fff',
-                                            fontSize: '1.4rem',
-                                            fontFamily: 'monospace',
-                                            width: '120px',
-                                            textAlign: 'center',
-                                            outline: 'none',
-                                            margin: '0 5px'
-                                        }}
-                                        className={error ? 'shake-input' : ''}
-                                    />
-                                )}
-                            </React.Fragment>
-                        ))}
-                    </div>
-
-                    {/* Output Preview */}
-                    <div style={{
-                        textAlign: 'left',
-                        marginBottom: '3rem',
-                        opacity: 0.7
-                    }}>
-                        <p style={{
-                            fontSize: '0.9rem',
-                            textTransform: 'uppercase',
-                            letterSpacing: '1px',
-                            marginBottom: '0.5rem',
-                            color: '#a3a3a3'
-                        }}>
-                            Expected Output ({selectedLanguage}):
-                        </p>
-                        <div style={{
-                            color: '#00f3ff',
-                            fontFamily: 'monospace',
-                            fontSize: '1.1rem'
-                        }}>
-                            &gt; {currentLangData.output}
+                    <div className="ide-pane preview-pane">
+                        <div className="preview-header"><Eye size={16} /> Live Preview</div>
+                        <div className="preview-content">
+                            <iframe title="Live Preview" srcDoc={previewSrc} style={{ width: '100%', height: '100%', border: 'none', background: '#fff' }} />
                         </div>
                     </div>
-
-                    {/* Controls */}
-                    <div style={{ display: 'flex', justifyContent: 'center', gap: '20px', flexWrap: 'wrap' }}>
-                        <motion.button
-                            onClick={handlePrev}
-                            disabled={currentQuestion === 0}
-                            whileHover={currentQuestion !== 0 ? { scale: 1.05 } : {}}
-                            whileTap={currentQuestion !== 0 ? { scale: 0.95 } : {}}
-                            style={{
-                                padding: '1rem 3rem',
-                                fontSize: '1.1rem',
-                                fontFamily: 'Chakra Petch, sans-serif',
-                                background: 'transparent',
-                                border: '1px solid #a3a3a3',
-                                color: '#a3a3a3',
-                                cursor: currentQuestion === 0 ? 'not-allowed' : 'pointer',
-                                opacity: currentQuestion === 0 ? 0.5 : 1
-                            }}
-                        >
-                            PREV
-                        </motion.button>
-
-                        <motion.button
-                            onClick={handleSkip}
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.95 }}
-                            style={{
-                                padding: '1rem 3rem',
-                                fontSize: '1.1rem',
-                                fontFamily: 'Chakra Petch, sans-serif',
-                                background: 'transparent',
-                                border: '1px solid #00f3ff',
-                                color: '#00f3ff',
-                                cursor: 'pointer',
-                            }}
-                        >
-                            {currentQuestion === questions.length - 1 ? 'FINISH' : 'NEXT'}
-                        </motion.button>
-
-                        <motion.button
-                            onClick={handleNext}
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.95 }}
-                            style={{
-                                padding: '1rem 4rem',
-                                fontSize: '1.2rem',
-                                fontWeight: 'bold',
-                                fontFamily: 'Chakra Petch, sans-serif',
-                                background: success ? '#00ff88' : '#00f3ff',
-                                color: '#000',
-                                border: 'none',
-                                cursor: 'pointer',
-                                clipPath: 'polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px)',
-                                transition: 'background 0.3s'
-                            }}
-                        >
-                            {success ? 'CORRECT!' : (currentQuestion === questions.length - 1 ? 'FINISH' : 'RUN CODE >')}
-                        </motion.button>
-                    </div>
-                </motion.div>
-            </AnimatePresence>
+                </div>
+            </motion.div>
 
             <style>{`
-                .shake-input {
-                    animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
-                }
-                @keyframes shake {
-                    10%, 90% { transform: translate3d(-1px, 0, 0); }
-                    20%, 80% { transform: translate3d(2px, 0, 0); }
-                    30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
-                    40%, 60% { transform: translate3d(4px, 0, 0); }
-                }
-                /* Hide scrollbar for lang-selector but allow scroll */
-                .lang-selector::-webkit-scrollbar {
-                    height: 4px;
-                }
-                .lang-selector::-webkit-scrollbar-thumb {
-                    background: #00f3ff;
-                    border-radius: 2px;
-                }
+                /* IDE Styles (reused) */
+                .ide-container { min-height: 100vh; display: flex; justify-content: center; align-items: center; padding: 2rem; color: #fff; font-family: 'Inter', sans-serif; }
+                .ide-window { width: 100%; max-width: 1200px; height: 85vh; background: #0d1117; border: 1px solid #30363d; border-radius: 8px; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
+                .ide-header { height: 50px; background: #161b22; border-bottom: 1px solid #30363d; display: flex; align-items: center; justify-content: space-between; padding: 0 1rem; flex-shrink: 0; }
+                .window-controls { display: flex; gap: 8px; }
+                .dot { width: 12px; height: 12px; border-radius: 50%; }
+                .close { background: #ff5f56; }
+                .minimize { background: #ffbd2e; }
+                .expand { background: #27c93f; }
+                .project-title { font-family: 'Chakra Petch', sans-serif; color: #8b949e; font-size: 0.9rem; position: absolute; left: 50%; transform: translateX(-50%); }
+                .actions { display: flex; gap: 1rem; }
+                .run-btn, .finish-btn { padding: 6px 14px; border-radius: 6px; font-size: 0.8rem; font-weight: 600; display: flex; align-items: center; gap: 6px; border: 1px solid rgba(255,255,255,0.1); cursor: pointer; transition: 0.2s; }
+                .run-btn { background: #238636; color: #fff; } .run-btn:hover { background: #2ea043; }
+                .finish-btn { background: #1f6feb; color: #fff; } .finish-btn:hover:not(:disabled) { background: #388bfd; }
+                .ide-body { flex: 1; display: flex; overflow: hidden; }
+                .ide-pane { display: flex; flex-direction: column; }
+                .editor-pane { flex: 6; border-right: 1px solid #30363d; } .preview-pane { flex: 4; background: #010409; }
+                .file-tabs { display: flex; background: #0d1117; border-bottom: 1px solid #30363d; }
+                .file-tab { background: transparent; border: none; color: #8b949e; padding: 10px 15px; cursor: pointer; display: flex; gap: 8px; align-items: center; font-family: 'monospace'; font-size: 0.85rem; border-top: 2px solid transparent; }
+                .file-tab:hover { background: #161b22; } .file-tab.active { background: #1e1e1e; color: #fff; border-top: 2px solid #f7df1e; }
+                .editor-area { flex: 1; display: flex; background: #1e1e1e; overflow: hidden; }
+                .editor-numbers { width: 50px; background: #1e1e1e; color: #858585; text-align: right; padding: 20px 10px; font-family: 'monospace'; font-size: 14px; line-height: 1.6; border-right: 1px solid #333; user-select: none; }
+                .editor-content { flex: 1; padding: 20px; font-family: 'JetBrains Mono', 'Consolas', monospace; font-size: 14px; line-height: 1.6; color: #d4d4d4; overflow: auto; }
+                .preview-header { background: #161b22; color: #8b949e; padding: 8px 15px; font-size: 0.8rem; display: flex; align-items: center; gap: 6px; border-bottom: 1px solid #30363d; }
+                .preview-content { flex: 1; background: #fff; display: flex; flex-direction: column; }
+                .code-input-field:focus { border-bottom: 1px solid #00f3ff !important; }
             `}</style>
         </div>
     );
