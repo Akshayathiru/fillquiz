@@ -1,11 +1,20 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FileCode, FileJson, Play, CheckCircle, Terminal as TerminalIcon, Layout, Eye, RefreshCw, Printer } from 'lucide-react';
+import { FileCode, FileJson, Zap, CheckCircle, Terminal as TerminalIcon, Layout, Eye, RefreshCw, ShoppingCart, Info } from 'lucide-react';
 import '../index.css';
 
-const websiteChallenge = {
-    title: "Build a Interactive Webpage",
-    description: "Fill in the missing code to create a functional webpage with styling and interactivity.",
+const ecommerceChallenge = {
+    title: "E-commerce Product Page",
+    description: "Your task is to build a modern, responsive product page for 'TechStore'. You need to complete the HTML structure, add professional CSS styling, and implement the 'Add to Cart' logic in JavaScript.",
+    taskDetails: [
+        "1. Set the correct ID for the cart counter in HTML.",
+        "2. Add the 'Add to Cart' button ID.",
+        "3. Use 'space-between' for navigation layout.",
+        "4. Animate the product card with a 'transform' transition.",
+        "5. Set the button cursor to 'pointer'.",
+        "6. Connect the button click event in JavaScript.",
+        "7. Update the cart display using 'textContent'."
+    ],
     files: {
         html: {
             name: "index.html",
@@ -14,23 +23,32 @@ const websiteChallenge = {
             code: `<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="____">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-        /* CSS is loaded from style.css */
-    </style>
+    <meta charset="UTF-8">
+    <title>TechStore - Premium Gear</title>
 </head>
 <body>
-    <div id="app">
-        <h1>Welcome Dev!</h1>
-        <button id="____">Click Me</button>
-        <p id="output">Waiting for interaction...</p>
-    </div>
+    <header>
+        <nav>
+            <div class="logo">TechStore</div>
+            <div class="cart">Cart: <span id="____">0</span></div>
+        </nav>
+    </header>
+
+    <main>
+        <div class="product-card">
+            <div class="product-image"></div>
+            <div class="product-info">
+                <h2>Pro Wireless Headphones</h2>
+                <p class="price">$299.99</p>
+                <button id="____">Add to Cart</button>
+            </div>
+        </div>
+    </main>
 </body>
 </html>`,
             blanks: [
-                { index: 0, answer: "utf-8", points: 1 },
-                { index: 1, answer: "actionBtn", points: 2 }
+                { index: 0, answer: "cart-count", points: 10 },
+                { index: 1, answer: "add-btn", points: 10 }
             ]
         },
         css: {
@@ -38,125 +56,95 @@ const websiteChallenge = {
             icon: <FileCode size={18} />,
             color: "#264de4",
             code: `body {
-    background-color: #1a1a1a;
-    color: #ffffff;
     font-family: 'Inter', sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+    background-color: #f4f7f6;
     margin: 0;
 }
 
-#app {
-    text-align: ____; /* Hint: center the text */
-    padding: 2rem;
-    border: 1px solid #333;
-    border-radius: 10px;
-    background: #222;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+nav {
+    display: flex;
+    justify-content: ____; /* Hint: space between items */
+    padding: 1rem 5%;
+    background: #fff;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.product-card {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    width: 300px;
+    margin: 2rem auto;
+    transition: ____ 0.3s ease; /* Hint: animate changes */
+}
+
+.product-card:hover {
+    transform: translateY(-10px);
 }
 
 button {
-    padding: 10px 20px;
-    background: #00f3ff;
+    width: 100%;
+    padding: 12px;
+    background: #2563eb;
+    color: white;
     border: none;
-    border-radius: 5px;
-    cursor: ____; /* Hint: mouse hand icon */
-    font-weight: bold;
-    color: #000;
-    margin-top: 10px;
+    cursor: ____; /* Hint: pointer hand */
+    font-weight: 600;
 }`,
             blanks: [
-                { index: 0, answer: "center", points: 2 },
-                { index: 1, answer: "pointer", points: 2 }
+                { index: 0, answer: "space-between", points: 15 },
+                { index: 1, answer: "transform", points: 15 },
+                { index: 2, answer: "pointer", points: 10 }
             ]
         },
         js: {
             name: "script.js",
             icon: <FileJson size={18} />,
             color: "#f7df1e",
-            code: `const btn = document.getElementById('actionBtn');
-const output = document.getElementById('output');
+            code: `let count = 0;
+const cartDisplay = document.getElementById('cart-count');
+const addBtn = document.getElementById('____');
 
-if(btn) {
-    // Define the click handler
-    ____ handleClick() {
-        if(output) {
-            output.textContent = "Code executed successfully!";
-            output.style.color = "#00ff88";
+if(addBtn) {
+    addBtn.addEventListener('____', () => {
+        count++;
+        if(cartDisplay) {
+            cartDisplay.____ = count;
         }
-    }
-
-    // Add event listener
-    btn.addEventListener('____', handleClick);
+    });
 }`,
             blanks: [
-                { index: 0, answer: "function", points: 6 },
-                { index: 1, answer: "click", points: 3 }
+                { index: 0, answer: "add-btn", points: 15 },
+                { index: 1, answer: "click", points: 10 },
+                { index: 2, answer: "textContent", points: 15 }
             ]
         }
     }
 };
 
-const AutoSizeInput = ({ value, onChange, placeholder, isValidated, isValid }) => {
-    const inputRef = useRef(null);
-    const [width, setWidth] = useState(0);
+const AutoSizeInput = ({ value, onChange, placeholder }) => {
     const spanRef = useRef(null);
+    const [width, setWidth] = useState(40);
 
     useEffect(() => {
         if (spanRef.current) {
-            setWidth(spanRef.current.offsetWidth + 20); // Buffer
+            setWidth(Math.max(40, spanRef.current.offsetWidth + 20));
         }
     }, [value, placeholder]);
 
     return (
         <span style={{ display: 'inline-flex', position: 'relative', verticalAlign: 'middle' }}>
-            <span
-                ref={spanRef}
-                style={{
-                    position: 'absolute',
-                    opacity: 0,
-                    whiteSpace: 'pre',
-                    fontFamily: 'inherit',
-                    fontSize: 'inherit'
-                }}
-            >
+            <span ref={spanRef} style={{ position: 'absolute', opacity: 0, whiteSpace: 'pre', fontFamily: 'inherit', fontSize: 'inherit' }}>
                 {value || placeholder}
             </span>
             <input
-                ref={inputRef}
                 type="text"
                 value={value}
                 onChange={onChange}
                 placeholder={placeholder}
-                style={{
-                    width: Math.max(width, 40) + 'px',
-                    minWidth: '40px',
-                    background: 'transparent',
-                    border: 'none',
-                    borderBottom: '1px dashed #58a6ff',
-                    borderBottomColor: isValidated ? (isValid ? '#4ade80' : '#f87171') : '#58a6ff',
-                    color: isValidated ? (isValid ? '#4ade80' : '#f87171') : '#fff',
-                    fontFamily: 'inherit',
-                    fontSize: 'inherit',
-                    outline: 'none',
-                    padding: '0 2px',
-                    textAlign: 'center'
-                }}
                 className="code-input-field"
+                style={{ width: `${width}px` }}
             />
-            {isValidated && (
-                <span style={{
-                    position: 'absolute',
-                    top: '-12px',
-                    right: '-8px',
-                    fontSize: '10px',
-                    color: isValid ? '#4ade80' : '#f87171'
-                }}>
-                    {isValid ? '●' : '●'}
-                </span>
-            )}
         </span>
     );
 };
@@ -164,20 +152,19 @@ const AutoSizeInput = ({ value, onChange, placeholder, isValidated, isValid }) =
 const Quiz = () => {
     const [activeTab, setActiveTab] = useState('html');
     const [userAnswers, setUserAnswers] = useState({});
-    const [validationState, setValidationState] = useState({});
     const [hasRun, setHasRun] = useState(false);
     const [showSummary, setShowSummary] = useState(false);
     const [totalScore, setTotalScore] = useState(0);
     const [previewSrc, setPreviewSrc] = useState('');
 
-    const maxScore = Object.values(websiteChallenge.files).reduce((acc, file) => {
+    const maxScore = Object.values(ecommerceChallenge.files).reduce((acc, file) => {
         return acc + file.blanks.reduce((sum, b) => sum + b.points, 0);
     }, 0);
 
     useEffect(() => {
         const getFilledCode = (fileKey) => {
-            let code = websiteChallenge.files[fileKey].code;
-            websiteChallenge.files[fileKey].blanks.forEach((blank, idx) => {
+            let code = ecommerceChallenge.files[fileKey].code;
+            ecommerceChallenge.files[fileKey].blanks.forEach((blank, idx) => {
                 const val = userAnswers[`${fileKey}-${idx}`] || "";
                 code = code.replace("____", val);
             });
@@ -209,31 +196,24 @@ const Quiz = () => {
             ...prev,
             [`${fileKey}-${blankIndex}`]: value
         }));
-        if (hasRun) {
-            setValidationState(prev => {
-                const newState = { ...prev };
-                delete newState[`${fileKey}-${blankIndex}`];
-                return newState;
-            });
-        }
     };
 
     const runCode = () => {
-        let currentScore = 0;
-        const newValidationState = {};
+        setHasRun(true);
+    };
 
-        Object.entries(websiteChallenge.files).forEach(([fileKey, file]) => {
+    const calculateFinalScore = () => {
+        let score = 0;
+        Object.entries(ecommerceChallenge.files).forEach(([fileKey, file]) => {
             file.blanks.forEach((blank, idx) => {
                 const userAns = (userAnswers[`${fileKey}-${idx}`] || "").trim();
-                const isCorrect = userAns === blank.answer;
-                newValidationState[`${fileKey}-${idx}`] = isCorrect;
-                if (isCorrect) currentScore += blank.points;
+                if (userAns === blank.answer) {
+                    score += blank.points;
+                }
             });
         });
-
-        setValidationState(newValidationState);
-        setTotalScore(currentScore);
-        setHasRun(true);
+        setTotalScore(score);
+        setShowSummary(true);
     };
 
     const renderCodeBlock = (fileKey, fileData) => {
@@ -242,21 +222,14 @@ const Quiz = () => {
             <div className="code-editor">
                 {parts.map((part, index) => {
                     const isLast = index === parts.length - 1;
-                    const blankIndex = index;
-                    const inputKey = `${fileKey}-${blankIndex}`;
-                    const isValid = validationState[inputKey];
-                    const isValidated = hasRun && validationState.hasOwnProperty(inputKey);
-
                     return (
                         <React.Fragment key={index}>
                             <span style={{ whiteSpace: 'pre-wrap' }}>{part}</span>
                             {!isLast && (
                                 <AutoSizeInput
-                                    value={userAnswers[inputKey] || ""}
-                                    onChange={(e) => handleInputChange(fileKey, blankIndex, e.target.value)}
+                                    value={userAnswers[`${fileKey}-${index}`] || ""}
+                                    onChange={(e) => handleInputChange(fileKey, index, e.target.value)}
                                     placeholder="..."
-                                    isValidated={isValidated}
-                                    isValid={isValid}
                                 />
                             )}
                         </React.Fragment>
@@ -279,167 +252,82 @@ const Quiz = () => {
         const grade = getGrade();
         return (
             <div className="summary-overlay">
-                <motion.div
-                    initial={{ scale: 0.9, opacity: 0 }}
-                    animate={{ scale: 1, opacity: 1 }}
-                    className="summary-card-modern"
-                >
+                <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="summary-card-modern">
                     <div className="card-top-accent"></div>
-
                     <div className="system-header">
-                        <TerminalIcon size={32} color="#00f3ff" />
-                        <h2>SYSTEM EVALUATION</h2>
+                        <TerminalIcon size={40} color="#bc13fe" />
+                        <h2 style={{ fontFamily: 'Space Grotesk', fontSize: '2rem' }}>CHALLENGE COMPLETE</h2>
                     </div>
-
                     <div className="score-content">
                         <div className="grade-box">
-                            <span className="grade-label">GRADE</span>
+                            <span className="grade-label">RANK</span>
                             <span className={`grade-value grade-${grade}`}>{grade}</span>
                         </div>
-
                         <div className="metrics">
                             <div className="metric-row">
-                                <span>SYNTAX CHECK</span>
-                                <span className={totalScore === maxScore ? "success" : "warn"}>
-                                    {totalScore === maxScore ? "PASSED" : "ISSUES FOUND"}
-                                </span>
-                            </div>
-                            <div className="metric-row">
-                                <span>LOGIC SCORE</span>
-                                <span className="score-nums">{totalScore} <span className="total">/ {maxScore}</span></span>
+                                <span style={{ color: '#94a3b8' }}>TOTAL POINTS</span>
+                                <span className="score-nums">{totalScore} <span style={{ color: '#475569', fontSize: '1.2rem' }}>/ {maxScore}</span></span>
                             </div>
                             <div className="progress-bar-container">
                                 <motion.div
                                     className="progress-fill"
                                     initial={{ width: 0 }}
                                     animate={{ width: `${(totalScore / maxScore) * 100}%` }}
-                                    transition={{ duration: 1, ease: "easeOut" }}
+                                    transition={{ duration: 1.5, ease: "easeOut" }}
                                 />
                             </div>
                         </div>
                     </div>
-
                     <div className="actions-footer">
-                        <button className="secondary-btn" onClick={() => setShowSummary(false)}>
-                            <RefreshCw size={16} /> REVIEW CODE
-                        </button>
                         <button className="primary-btn" onClick={() => window.location.href = '/'}>
-                            HOME
+                            RETURN TO BASE
                         </button>
                     </div>
                 </motion.div>
-
-                <style>{`
-                    .summary-overlay {
-                        position: fixed; inset: 0;
-                        background: rgba(0,0,0,0.85);
-                        backdrop-filter: blur(8px);
-                        display: flex; justify-content: center; alignItems: center;
-                        z-index: 100;
-                    }
-                    .summary-card-modern {
-                        background: #0d1117;
-                        border: 1px solid #30363d;
-                        border-radius: 16px;
-                        width: 90%; max-width: 500px;
-                        padding: 2rem;
-                        position: relative;
-                        overflow: hidden;
-                        box-shadow: 0 0 80px rgba(0, 243, 255, 0.15);
-                    }
-                    .card-top-accent {
-                        position: absolute; top: 0; left: 0; right: 0; height: 4px;
-                        background: linear-gradient(90deg, #ff0055, #00f3ff, #ff0055);
-                        animation: gradient-slide 3s linear infinite;
-                        background-size: 200% 100%;
-                    }
-                    @keyframes gradient-slide { 0% { background-position: 100% 0; } 100% { background-position: -100% 0; } }
-
-                    .system-header {
-                        display: flex; align-items: center; gap: 1rem;
-                        margin-bottom: 2rem;
-                        border-bottom: 1px solid #30363d;
-                        padding-bottom: 1rem;
-                    }
-                    .system-header h2 {
-                        font-family: 'Chakra Petch', sans-serif;
-                        color: #fff; letter-spacing: 2px;
-                        margin: 0; font-size: 1.5rem;
-                    }
-
-                    .score-content { display: flex; gap: 2rem; margin-bottom: 2rem; align-items: center; }
-                    .grade-box {
-                        display: flex; flex-direction: column; align-items: center;
-                        background: rgba(255,255,255,0.05); padding: 1rem;
-                        border-radius: 8px; border: 1px solid #30363d;
-                        min-width: 100px;
-                    }
-                    .grade-label { color: #8b949e; font-size: 0.8rem; letter-spacing: 1px; margin-bottom: 5px; }
-                    .grade-value { font-family: 'Chakra Petch', sans-serif; font-size: 3.5rem; font-weight: bold; line-height: 1; }
-                    .grade-S { color: #eab308; text-shadow: 0 0 20px rgba(234, 179, 8, 0.5); }
-                    .grade-A { color: #00ff88; text-shadow: 0 0 20px rgba(0, 255, 136, 0.5); }
-                    .grade-B { color: #00f3ff; }
-                    .grade-C { color: #f97316; }
-                    .grade-F { color: #ef4444; }
-
-                    .metrics { flex: 1; display: flex; flex-direction: column; gap: 1rem; }
-                    .metric-row { display: flex; justify-content: space-between; font-size: 0.9rem; color: #c9d1d9; }
-                    .success { color: #00ff88; font-weight: bold; }
-                    .warn { color: #ff0055; font-weight: bold; }
-                    .score-nums { font-family: 'Chakra Petch', sans-serif; font-size: 1.2rem; color: #fff; }
-                    .total { color: #8b949e; font-size: 0.9rem; }
-                    
-                    .progress-bar-container { height: 6px; background: #21262d; border-radius: 3px; overflow: hidden; margin-top: 5px; }
-                    .progress-fill { height: 100%; background: #00f3ff; box-shadow: 0 0 10px #00f3ff; }
-
-                    .actions-footer { display: flex; gap: 1rem; }
-                    button {
-                        flex: 1; padding: 12px; border: none; border-radius: 6px;
-                        font-weight: bold; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 8px;
-                        font-family: 'Chakra Petch', sans-serif; transition: 0.2s;
-                    }
-                    .secondary-btn { background: rgba(255,255,255,0.1); color: #fff; }
-                    .secondary-btn:hover { background: rgba(255,255,255,0.2); }
-                    .primary-btn { background: #00f3ff; color: #000; }
-                    .primary-btn:hover { background: #00d2dd; box-shadow: 0 0 20px rgba(0, 243, 255, 0.4); }
-                `}</style>
             </div>
         );
     }
 
     return (
         <div className="ide-container">
-            <motion.div
-                className="ide-window"
-                initial={{ y: 20, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-            >
+            <div className="bg-animate"></div>
+            <motion.div className="ide-window" initial={{ y: 40, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ duration: 0.6 }}>
                 <div className="ide-header">
                     <div className="window-controls">
                         <span className="dot close"></span>
                         <span className="dot minimize"></span>
                         <span className="dot expand"></span>
                     </div>
-                    <div className="project-title">{websiteChallenge.title}</div>
+                    <div className="project-title">{ecommerceChallenge.title}</div>
                     <div className="actions">
                         <button className="run-btn" onClick={runCode}>
-                            RUN CODE <Play size={16} fill="currentColor" />
+                            <Zap size={18} fill="currentColor" /> REVIEW CODE
                         </button>
-                        <button className="finish-btn" onClick={() => setShowSummary(true)} disabled={!hasRun} style={{ opacity: hasRun ? 1 : 0.5 }}>
-                            FINISH <CheckCircle size={16} />
+                        <button className="finish-btn" onClick={calculateFinalScore} disabled={!hasRun}>
+                            COMPLETE CHALLENGE <CheckCircle size={18} />
                         </button>
                     </div>
                 </div>
 
                 <div className="ide-body">
+                    <div className="task-pane">
+                        <h3><Info size={20} /> MISSION</h3>
+                        <p>{ecommerceChallenge.description}</p>
+                        <div style={{ marginTop: '2rem' }}>
+                            <h4 style={{ color: '#ffffff', fontSize: '0.9rem', marginBottom: '1rem', textTransform: 'uppercase', letterSpacing: '1px' }}>Objectives:</h4>
+                            <ul style={{ listStyle: 'none', padding: 0 }}>
+                                {ecommerceChallenge.taskDetails.map((task, i) => (
+                                    <li key={i} style={{ color: '#94a3b8', fontSize: '0.85rem', marginBottom: '0.75rem', display: 'flex', gap: '0.5rem' }}>
+                                        <span style={{ color: '#00f2ff' }}>▹</span> {task}
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    </div>
                     <div className="ide-pane editor-pane">
                         <div className="file-tabs">
-                            {Object.entries(websiteChallenge.files).map(([key, file]) => (
-                                <button
-                                    key={key}
-                                    className={`file-tab ${activeTab === key ? 'active' : ''}`}
-                                    onClick={() => setActiveTab(key)}
-                                >
+                            {Object.entries(ecommerceChallenge.files).map(([key, file]) => (
+                                <button key={key} className={`file-tab ${activeTab === key ? 'active' : ''}`} onClick={() => setActiveTab(key)}>
                                     <span style={{ color: file.color }}>{file.icon}</span>
                                     {file.name}
                                 </button>
@@ -447,52 +335,21 @@ const Quiz = () => {
                         </div>
                         <div className="editor-area">
                             <div className="editor-numbers">
-                                {Array.from({ length: 20 }, (_, i) => i + 1).map(n => (
-                                    <div key={n}>{n}</div>
-                                ))}
+                                {Array.from({ length: 25 }, (_, i) => i + 1).map(n => <div key={n}>{n}</div>)}
                             </div>
                             <div className="editor-content">
-                                {renderCodeBlock(activeTab, websiteChallenge.files[activeTab])}
+                                {renderCodeBlock(activeTab, ecommerceChallenge.files[activeTab])}
                             </div>
                         </div>
                     </div>
                     <div className="ide-pane preview-pane">
-                        <div className="preview-header"><Eye size={16} /> Live Preview</div>
+                        <div className="preview-header"><Eye size={18} /> LIVE PREVIEW</div>
                         <div className="preview-content">
                             <iframe title="Live Preview" srcDoc={previewSrc} style={{ width: '100%', height: '100%', border: 'none', background: '#fff' }} />
                         </div>
                     </div>
                 </div>
             </motion.div>
-
-            <style>{`
-                /* IDE Styles (reused) */
-                .ide-container { min-height: 100vh; display: flex; justify-content: center; align-items: center; padding: 2rem; color: #fff; font-family: 'Inter', sans-serif; }
-                .ide-window { width: 100%; max-width: 1200px; height: 85vh; background: #0d1117; border: 1px solid #30363d; border-radius: 8px; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
-                .ide-header { height: 50px; background: #161b22; border-bottom: 1px solid #30363d; display: flex; align-items: center; justify-content: space-between; padding: 0 1rem; flex-shrink: 0; }
-                .window-controls { display: flex; gap: 8px; }
-                .dot { width: 12px; height: 12px; border-radius: 50%; }
-                .close { background: #ff5f56; }
-                .minimize { background: #ffbd2e; }
-                .expand { background: #27c93f; }
-                .project-title { font-family: 'Chakra Petch', sans-serif; color: #8b949e; font-size: 0.9rem; position: absolute; left: 50%; transform: translateX(-50%); }
-                .actions { display: flex; gap: 1rem; }
-                .run-btn, .finish-btn { padding: 6px 14px; border-radius: 6px; font-size: 0.8rem; font-weight: 600; display: flex; align-items: center; gap: 6px; border: 1px solid rgba(255,255,255,0.1); cursor: pointer; transition: 0.2s; }
-                .run-btn { background: #238636; color: #fff; } .run-btn:hover { background: #2ea043; }
-                .finish-btn { background: #1f6feb; color: #fff; } .finish-btn:hover:not(:disabled) { background: #388bfd; }
-                .ide-body { flex: 1; display: flex; overflow: hidden; }
-                .ide-pane { display: flex; flex-direction: column; }
-                .editor-pane { flex: 6; border-right: 1px solid #30363d; } .preview-pane { flex: 4; background: #010409; }
-                .file-tabs { display: flex; background: #0d1117; border-bottom: 1px solid #30363d; }
-                .file-tab { background: transparent; border: none; color: #8b949e; padding: 10px 15px; cursor: pointer; display: flex; gap: 8px; align-items: center; font-family: 'monospace'; font-size: 0.85rem; border-top: 2px solid transparent; }
-                .file-tab:hover { background: #161b22; } .file-tab.active { background: #1e1e1e; color: #fff; border-top: 2px solid #f7df1e; }
-                .editor-area { flex: 1; display: flex; background: #1e1e1e; overflow: hidden; }
-                .editor-numbers { width: 50px; background: #1e1e1e; color: #858585; text-align: right; padding: 20px 10px; font-family: 'monospace'; font-size: 14px; line-height: 1.6; border-right: 1px solid #333; user-select: none; }
-                .editor-content { flex: 1; padding: 20px; font-family: 'JetBrains Mono', 'Consolas', monospace; font-size: 14px; line-height: 1.6; color: #d4d4d4; overflow: auto; }
-                .preview-header { background: #161b22; color: #8b949e; padding: 8px 15px; font-size: 0.8rem; display: flex; align-items: center; gap: 6px; border-bottom: 1px solid #30363d; }
-                .preview-content { flex: 1; background: #fff; display: flex; flex-direction: column; }
-                .code-input-field:focus { border-bottom: 1px solid #00f3ff !important; }
-            `}</style>
         </div>
     );
 };
