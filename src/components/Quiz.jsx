@@ -1,122 +1,187 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FileCode, FileJson, Zap, CheckCircle, Terminal as TerminalIcon, Layout, Eye, RefreshCw, ShoppingCart, Info } from 'lucide-react';
+import {
+    FileCode, FileJson, Zap, CheckCircle,
+    Layout, Eye, Info, Play, ChevronRight,
+    Terminal, Settings, Sparkles, Rocket, Command, Cpu, Activity
+} from 'lucide-react';
 import '../index.css';
 
 const ecommerceChallenge = {
-    title: "E-commerce Product Page",
-    description: "Your task is to build a modern, responsive product page for 'TechStore'. You need to complete the HTML structure, add professional CSS styling, and implement the 'Add to Cart' logic in JavaScript.",
+    title: "RUNTIME TERRORS // SPRINT-02 [HARD]",
+    description: "Initialize the Cryptographic Sequence Generator. Your objective is to patch the sequence algorithm, enable the matrix grid layout, and ensure the decryption visualizer functions correctly.",
     taskDetails: [
-        "1. Set the correct ID for the cart counter in HTML.",
-        "2. Add the 'Add to Cart' button ID.",
-        "3. Use 'space-between' for navigation layout.",
-        "4. Animate the product card with a 'transform' transition.",
-        "5. Set the button cursor to 'pointer'.",
-        "6. Connect the button click event in JavaScript.",
-        "7. Update the cart display using 'textContent'."
+        "1.  Initialize the Sequence Algorithm: `Array.from`.",
+        "2.  Map ASCII codes to characters: `String.fromCharCode`.",
+        "3.  Filter for valid 'Alpha' signals (A-Z).",
+        "4.  CSS: Implement `grid-template-columns` for the matrix.",
+        "5.  CSS: Apply `backdrop-filter` for the glass effect.",
+        "6.  JS: Bind the `generate` action to the primary trigger.",
+        "7.  JS: Inject the decoded sequence into the DOM."
     ],
     files: {
         html: {
             name: "index.html",
-            icon: <Layout size={18} />,
-            color: "#e34c26",
+            icon: <Layout size={14} />,
+            color: "var(--accent-yellow)",
             code: `<!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>TechStore - Premium Gear</title>
-</head>
 <body>
-    <header>
-        <nav>
-            <div class="logo">TechStore</div>
-            <div class="cart">Cart: <span id="____">0</span></div>
-        </nav>
-    </header>
+    <div class="cyber-container">
+        <header>
+            <div class="glitch" data-glitch="DECRYPT_V1">DECRYPT_V1</div>
+            <div class="status-indicator">SYSTEM: <span id="sys-status">OFFLINE</span></div>
+        </header>
 
-    <main>
-        <div class="product-card">
-            <div class="product-image"></div>
-            <div class="product-info">
-                <h2>Pro Wireless Headphones</h2>
-                <p class="price">$299.99</p>
-                <button id="____">Add to Cart</button>
+        <main>
+            <div class="matrix-grid" id="____"></div>
+            
+            <div class="controls">
+                <div class="input-group">
+                    <label>SEED_KEY:</label>
+                    <input type="text" value="XP-99" readonly />
+                </div>
+                <button id="____" class="cyber-btn">
+                    <span class="btn-text">INITIATE SEQUENCE</span>
+                    <span class="btn-glitch"></span>
+                </button>
             </div>
-        </div>
-    </main>
+        </main>
+    </div>
 </body>
 </html>`,
             blanks: [
-                { index: 0, answer: "cart-count", points: 10 },
-                { index: 1, answer: "add-btn", points: 10 }
+                { index: 0, answer: "grid-output", points: 15 },
+                { index: 1, answer: "gen-btn", points: 15 }
             ]
         },
         css: {
             name: "style.css",
-            icon: <FileCode size={18} />,
-            color: "#264de4",
+            icon: <FileCode size={14} />,
+            color: "var(--accent-blue)",
             code: `body {
-    font-family: 'Inter', sans-serif;
-    background-color: #f4f7f6;
-    margin: 0;
-}
-
-nav {
-    display: flex;
-    justify-content: ____; /* Hint: space between items */
-    padding: 1rem 5%;
-    background: #fff;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-}
-
-.product-card {
-    background: white;
-    border-radius: 12px;
+    background: #000;
+    font-family: 'JetBrains Mono', monospace;
+    color: #0f0;
     overflow: hidden;
-    width: 300px;
-    margin: 2rem auto;
-    transition: ____ 0.3s ease; /* Hint: animate changes */
+    position: relative;
 }
 
-.product-card:hover {
-    transform: translateY(-10px);
+.cyber-overlay {
+    position: absolute;
+    inset: 0;
+    background: 
+        linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%),
+        linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+    background-size: 100% 2px, 3px 100%;
+    pointer-events: none;
+    z-index: 10;
 }
 
-button {
-    width: 100%;
-    padding: 12px;
-    background: #2563eb;
-    color: white;
-    border: none;
-    cursor: ____; /* Hint: pointer hand */
-    font-weight: 600;
+.cyber-container {
+    padding: 2rem;
+    height: 100vh;
+    background: 
+        radial-gradient(circle at 50% 50%, #111 0%, #000 120%),
+        repeating-linear-gradient(0deg, transparent, transparent 1px, #0f0 1px, transparent 2px);
+    background-size: 100% 100%, 100% 40px;
+}
+
+.matrix-grid {
+    display: grid;
+    grid-template-columns: ____;
+    gap: 4px;
+    margin: 2rem 0;
+    min-height: 200px;
+    padding: 10px;
+    border: 1px solid #333;
+    background: rgba(0, 20, 0, 0.2);
+    box-shadow: inset 0 0 20px rgba(0, 50, 0, 0.5);
+    ____: blur(5px);
+}
+
+.matrix-cell {
+    background: rgba(0, 40, 0, 0.4);
+    color: #0f0;
+    padding: 15px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-align: center;
+    border: 1px solid #0f0;
+    text-shadow: 0 0 5px #0f0;
+    animation: flicker 2s infinite;
+}
+
+.cyber-btn {
+    background: #000;
+    border: 1px solid #0f0;
+    color: #0f0;
+    padding: 1.5rem 3rem;
+    font-weight: 900;
+    letter-spacing: 2px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s;
+    text-transform: uppercase;
+    box-shadow: 0 0 10px rgba(0, 255, 0, 0.2);
+}
+
+.cyber-btn:hover {
+    background: #0f0;
+    color: #000;
+    box-shadow: 0 0 30px #0f0;
+}
+
+@keyframes flicker {
+    0% { opacity: 0.8; }
+    5%, 10% { opacity: 0.4; }
+    15% { opacity: 1; }
+    100% { opacity: 1; }
 }`,
             blanks: [
-                { index: 0, answer: "space-between", points: 15 },
-                { index: 1, answer: "transform", points: 15 },
-                { index: 2, answer: "pointer", points: 10 }
+                { index: 0, answer: "repeat(auto-fill, minmax(60px, 1fr))", points: 20 },
+                { index: 1, answer: "backdrop-filter", points: 15 }
             ]
         },
         js: {
-            name: "script.js",
-            icon: <FileJson size={18} />,
-            color: "#f7df1e",
-            code: `let count = 0;
-const cartDisplay = document.getElementById('cart-count');
-const addBtn = document.getElementById('____');
+            name: "main.js",
+            icon: <FileJson size={14} />,
+            color: "var(--accent-blue)",
+            code: `const btn = document.getElementById('gen-btn');
+const output = document.getElementById('grid-output');
+const statusSpan = document.getElementById('sys-status');
 
-if(addBtn) {
-    addBtn.addEventListener('____', () => {
-        count++;
-        if(cartDisplay) {
-            cartDisplay.____ = count;
-        }
+if(btn) {
+    btn.addEventListener('click', () => {
+        statusSpan.innerText = "COMPUTING...";
+        statusSpan.style.color = "yellow";
+        
+        // 1. Generate Array of 20 random numbers
+        // 2. Convert to ASCII chars
+        // 3. Filter only Uppercase Letters
+        
+        const chars = Array.____({length: 20}, () => Math.floor(Math.random() * (90 - 65 + 1)) + 65)
+            .map(code => String.____(code))
+            .filter(char => /[A-Z]/.test(char));
+            
+        setTimeout(() => {
+            output.innerHTML = "";
+            chars.forEach(char => {
+                const cell = document.createElement('div');
+                cell.className = 'matrix-cell';
+                cell.____ = char;
+                output.appendChild(cell);
+            });
+            statusSpan.innerText = "C_LOCKED";
+            statusSpan.style.color = "#0f0";
+        }, 500);
     });
 }`,
             blanks: [
-                { index: 0, answer: "add-btn", points: 15 },
-                { index: 1, answer: "click", points: 10 },
-                { index: 2, answer: "textContent", points: 15 }
+                { index: 0, answer: "from", points: 20 },
+                { index: 1, answer: "fromCharCode", points: 20 },
+                { index: 2, answer: "innerText", points: 10 }
             ]
         }
     }
@@ -124,16 +189,16 @@ if(addBtn) {
 
 const AutoSizeInput = ({ value, onChange, placeholder }) => {
     const spanRef = useRef(null);
-    const [width, setWidth] = useState(40);
+    const [width, setWidth] = useState(35);
 
     useEffect(() => {
         if (spanRef.current) {
-            setWidth(Math.max(40, spanRef.current.offsetWidth + 20));
+            setWidth(Math.max(35, spanRef.current.offsetWidth + 12));
         }
     }, [value, placeholder]);
 
     return (
-        <span style={{ display: 'inline-flex', position: 'relative', verticalAlign: 'middle' }}>
+        <span style={{ display: 'inline-flex', position: 'relative', verticalAlign: 'middle', margin: '0 4px' }}>
             <span ref={spanRef} style={{ position: 'absolute', opacity: 0, whiteSpace: 'pre', fontFamily: 'inherit', fontSize: 'inherit' }}>
                 {value || placeholder}
             </span>
@@ -143,7 +208,16 @@ const AutoSizeInput = ({ value, onChange, placeholder }) => {
                 onChange={onChange}
                 placeholder={placeholder}
                 className="code-input-field"
-                style={{ width: `${width}px` }}
+                style={{
+                    width: `${width}px`,
+                    background: 'rgba(255, 234, 0, 0.03)',
+                    border: '1px solid rgba(255, 234, 0, 0.15)',
+                    borderRadius: '4px',
+                    padding: '0 8px',
+                    fontSize: '0.9rem',
+                    color: 'var(--accent-yellow)',
+                    transition: 'all 0.3s ease'
+                }}
             />
         </span>
     );
@@ -219,7 +293,7 @@ const Quiz = () => {
     const renderCodeBlock = (fileKey, fileData) => {
         const parts = fileData.code.split('____');
         return (
-            <div className="code-editor">
+            <div className="code-editor" style={{ color: '#888', fontVariantLigatures: 'none' }}>
                 {parts.map((part, index) => {
                     const isLast = index === parts.length - 1;
                     return (
@@ -244,43 +318,45 @@ const Quiz = () => {
         if (percentage === 100) return 'S';
         if (percentage >= 80) return 'A';
         if (percentage >= 60) return 'B';
-        if (percentage >= 40) return 'C';
         return 'F';
     };
 
     if (showSummary) {
-        const grade = getGrade();
         return (
-            <div className="summary-overlay">
-                <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="summary-card-modern">
-                    <div className="card-top-accent"></div>
-                    <div className="system-header">
-                        <TerminalIcon size={40} color="#bc13fe" />
-                        <h2 style={{ fontFamily: 'Space Grotesk', fontSize: '2rem' }}>CHALLENGE COMPLETE</h2>
-                    </div>
-                    <div className="score-content">
-                        <div className="grade-box">
-                            <span className="grade-label">RANK</span>
-                            <span className={`grade-value grade-${grade}`}>{grade}</span>
-                        </div>
-                        <div className="metrics">
-                            <div className="metric-row">
-                                <span style={{ color: '#94a3b8' }}>TOTAL POINTS</span>
-                                <span className="score-nums">{totalScore} <span style={{ color: '#475569', fontSize: '1.2rem' }}>/ {maxScore}</span></span>
-                            </div>
-                            <div className="progress-bar-container">
-                                <motion.div
-                                    className="progress-fill"
-                                    initial={{ width: 0 }}
-                                    animate={{ width: `${(totalScore / maxScore) * 100}%` }}
-                                    transition={{ duration: 1.5, ease: "easeOut" }}
-                                />
-                            </div>
-                        </div>
-                    </div>
-                    <div className="actions-footer">
-                        <button className="primary-btn" onClick={() => window.location.href = '/'}>
-                            RETURN TO BASE
+            <div className="summary-overlay" style={{ background: 'rgba(0,0,0,0.95)' }}>
+                <motion.div
+                    initial={{ scale: 0.98, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    className="summary-card"
+                    style={{
+                        background: '#080808',
+                        border: '1px solid #1a1a1a',
+                        borderRadius: '8px',
+                        padding: '5rem',
+                        textAlign: 'center',
+                        maxWidth: '600px',
+                        boxShadow: '0 40px 80px rgba(0,0,0,0.8)'
+                    }}
+                >
+                    <div style={{
+                        fontFamily: 'var(--font-heading)',
+                        fontSize: '8rem',
+                        fontWeight: '800',
+                        color: 'var(--accent-yellow)',
+                        marginBottom: '1rem',
+                        lineHeight: 1
+                    }}>{getGrade()}</div>
+                    <h2 style={{ fontSize: '1rem', fontWeight: '800', marginBottom: '1.5rem', color: '#fff', letterSpacing: '4px', textTransform: 'uppercase' }}>Mission Result</h2>
+                    <p style={{ color: 'var(--text-dim)', fontSize: '1rem', marginBottom: '3.5rem', lineHeight: 1.6 }}>
+                        Synchronization complete. Performance metrics evaluated.<br />
+                        Neural throughput: <strong style={{ color: 'var(--accent-yellow)' }}>{totalScore}</strong> points.
+                    </p>
+                    <div style={{ display: 'flex', gap: '1rem' }}>
+                        <button className="btn-asym" style={{ flex: 1, background: 'white' }} onClick={() => window.location.href = '/'}>
+                            RETURN
+                        </button>
+                        <button className="btn-asym" style={{ flex: 1, background: 'transparent', color: 'white', border: '1px solid #222' }} onClick={() => window.location.reload()}>
+                            REBOOT
                         </button>
                     </div>
                 </motion.div>
@@ -290,62 +366,144 @@ const Quiz = () => {
 
     return (
         <div className="ide-container">
-            <div className="bg-animate"></div>
-            <motion.div className="ide-window" initial={{ y: 40, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ duration: 0.6 }}>
+            <motion.div
+                className="ide-window"
+                initial={{ y: 20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ duration: 0.5 }}
+            >
                 <div className="ide-header">
-                    <div className="window-controls">
-                        <span className="dot close"></span>
-                        <span className="dot minimize"></span>
-                        <span className="dot expand"></span>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
+                        <div className="window-controls" style={{ display: 'flex', gap: '0.6rem' }}>
+                            <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#222' }}></div>
+                            <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#222' }}></div>
+                            <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#222' }}></div>
+                        </div>
+                        <div style={{ fontSize: '0.7rem', fontWeight: '800', color: 'white', display: 'flex', alignItems: 'center', gap: '0.8rem', letterSpacing: '2px', textTransform: 'uppercase' }}>
+                            <Terminal size={14} color="var(--accent-yellow)" />
+                            {ecommerceChallenge.title}
+                        </div>
                     </div>
-                    <div className="project-title">{ecommerceChallenge.title}</div>
-                    <div className="actions">
-                        <button className="run-btn" onClick={runCode}>
-                            <Zap size={18} fill="currentColor" /> REVIEW CODE
+                    <div style={{ display: 'flex', gap: '1rem' }}>
+                        <button className="btn-asym" onClick={runCode} style={{ background: 'transparent', color: 'white', border: '1px solid #222', padding: '0.5rem 1.5rem', fontSize: '0.65rem' }}>
+                            <Play size={10} fill="currentColor" /> EXECUTE
                         </button>
-                        <button className="finish-btn" onClick={calculateFinalScore} disabled={!hasRun}>
-                            COMPLETE CHALLENGE <CheckCircle size={18} />
+                        <button className="btn-asym" onClick={calculateFinalScore} disabled={!hasRun} style={{ background: hasRun ? 'var(--accent-yellow)' : '#1a1a1a', color: 'black', padding: '0.5rem 1.5rem', fontSize: '0.65rem' }}>
+                            SYNC <CheckCircle size={10} />
                         </button>
                     </div>
                 </div>
 
                 <div className="ide-body">
-                    <div className="task-pane">
-                        <h3><Info size={20} /> MISSION</h3>
-                        <p>{ecommerceChallenge.description}</p>
-                        <div style={{ marginTop: '2rem' }}>
-                            <h4 style={{ color: '#ffffff', fontSize: '0.9rem', marginBottom: '1rem', textTransform: 'uppercase', letterSpacing: '1px' }}>Objectives:</h4>
-                            <ul style={{ listStyle: 'none', padding: 0 }}>
-                                {ecommerceChallenge.taskDetails.map((task, i) => (
-                                    <li key={i} style={{ color: '#94a3b8', fontSize: '0.85rem', marginBottom: '0.75rem', display: 'flex', gap: '0.5rem' }}>
-                                        <span style={{ color: '#00f2ff' }}>▹</span> {task}
-                                    </li>
-                                ))}
-                            </ul>
+                    {/* Column 1: Objectives */}
+                    <div className="task-pane" style={{ display: 'flex', flexDirection: 'column', height: '100%', overflow: 'hidden' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.8rem', marginBottom: '2rem', flexShrink: 0 }}>
+                            <div style={{ width: '6px', height: '6px', background: 'var(--accent-yellow)' }}></div>
+                            <h3 style={{ fontSize: '0.7rem', fontWeight: '800', color: 'white', letterSpacing: '2px', textTransform: 'uppercase' }}>Objectives</h3>
+                        </div>
+
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', height: '100%', overflowY: 'auto', paddingRight: '0.5rem' }}>
+                            {ecommerceChallenge.taskDetails.map((task, i) => (
+                                <motion.div
+                                    key={i}
+                                    whileHover={{ x: 4, background: '#0c0c0c' }}
+                                    style={{
+                                        padding: '1.2rem',
+                                        background: '#050505',
+                                        border: '1px solid #111',
+                                        borderRadius: '4px',
+                                        display: 'flex',
+                                        alignItems: 'flex-start',
+                                        gap: '1.2rem',
+                                        transition: 'all 0.2s ease'
+                                    }}
+                                >
+                                    <div style={{
+                                        color: '#ffea00',
+                                        fontSize: '0.8rem',
+                                        fontWeight: '800',
+                                        fontFamily: 'var(--font-mono)',
+                                        marginTop: '0.1rem'
+                                    }}>
+                                        {String(i + 1).padStart(2, '0')}
+                                    </div>
+                                    <div style={{
+                                        fontSize: '0.8rem',
+                                        lineHeight: '1.6',
+                                        color: '#bbb',
+                                        fontWeight: '500'
+                                    }}>
+                                        {/* Highlight keywords in backticks or quotes */}
+                                        {task.split(/(`[^`]+`|'[^']+')/).map((part, idx) => {
+                                            if (part.startsWith('`') || part.startsWith("'")) {
+                                                return (
+                                                    <span key={idx} style={{ color: '#00f3ff', fontWeight: '700' }}>
+                                                        {part.replace(/[`']/g, '')}
+                                                    </span>
+                                                );
+                                            }
+                                            return part;
+                                        })}
+                                    </div>
+                                </motion.div>
+                            ))}
                         </div>
                     </div>
-                    <div className="ide-pane editor-pane">
-                        <div className="file-tabs">
+
+                    {/* Column 2: Editor */}
+                    <div className="editor-pane">
+                        <div className="file-tabs" style={{ background: '#0c0c0c', borderBottom: '1px solid #1a1a1a', display: 'flex', gap: '2px', padding: '0 1rem' }}>
                             {Object.entries(ecommerceChallenge.files).map(([key, file]) => (
-                                <button key={key} className={`file-tab ${activeTab === key ? 'active' : ''}`} onClick={() => setActiveTab(key)}>
-                                    <span style={{ color: file.color }}>{file.icon}</span>
+                                <button
+                                    key={key}
+                                    className={`file-tab ${activeTab === key ? 'active' : ''}`}
+                                    onClick={() => setActiveTab(key)}
+                                    style={{
+                                        fontSize: '0.8rem',
+                                        fontWeight: '800',
+                                        letterSpacing: '1px',
+                                        color: activeTab === key ? 'var(--accent-yellow)' : '#666',
+                                        background: activeTab === key ? '#111' : 'transparent',
+                                        border: 'none',
+                                        borderTop: activeTab === key ? '2px solid var(--accent-yellow)' : '2px solid transparent',
+                                        padding: '1rem 1.5rem',
+                                        cursor: 'pointer',
+                                        transition: 'all 0.2s'
+                                    }}
+                                >
                                     {file.name}
                                 </button>
                             ))}
                         </div>
-                        <div className="editor-area">
-                            <div className="editor-numbers">
-                                {Array.from({ length: 25 }, (_, i) => i + 1).map(n => <div key={n}>{n}</div>)}
-                            </div>
-                            <div className="editor-content">
+                        <div style={{ flex: 1, display: 'flex', overflow: 'hidden', padding: '1.5rem' }}>
+                            <div className="editor-content" style={{ padding: '2rem', background: '#030303', border: '1px solid #111', borderRadius: '4px', overflowY: 'auto', height: '100%', fontSize: '0.95rem', lineHeight: '1.6' }}>
                                 {renderCodeBlock(activeTab, ecommerceChallenge.files[activeTab])}
                             </div>
                         </div>
                     </div>
-                    <div className="ide-pane preview-pane">
-                        <div className="preview-header"><Eye size={18} /> LIVE PREVIEW</div>
-                        <div className="preview-content">
-                            <iframe title="Live Preview" srcDoc={previewSrc} style={{ width: '100%', height: '100%', border: 'none', background: '#fff' }} />
+
+                    {/* Column 3: Preview */}
+                    <div className="preview-pane">
+                        <div style={{
+                            height: '54px',
+                            background: '#0c0c0c',
+                            borderBottom: '1px solid #1a1a1a',
+                            display: 'flex',
+                            alignItems: 'center',
+                            padding: '0 1.5rem',
+                            fontSize: '0.65rem',
+                            fontWeight: '800',
+                            color: '#444',
+                            gap: '0.8rem',
+                            letterSpacing: '2px',
+                            textTransform: 'uppercase'
+                        }}>
+                            <Activity size={12} color="var(--accent-blue)" /> SYSTEM_PREVIEW
+                        </div>
+                        <div style={{ flex: 1, padding: '1.5rem', background: '#000' }}>
+                            <div style={{ width: '100%', height: '100%', borderRadius: '4px', overflow: 'hidden', border: '1px solid #1a1a1a', background: '#000' }}>
+                                <iframe title="Preview" srcDoc={previewSrc} style={{ width: '100%', height: '100%', border: 'none' }} />
+                            </div>
                         </div>
                     </div>
                 </div>

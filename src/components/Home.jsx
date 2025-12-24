@@ -1,201 +1,190 @@
-import React from 'react';
 import { motion } from 'framer-motion';
-import { useNavigate } from 'react-router-dom';
-import { Code2, Zap, Trophy, ArrowRight, Sparkles, Terminal, Cpu, Globe } from 'lucide-react';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { useEffect } from 'react';
+import {
+    Zap, Activity, Terminal
+} from 'lucide-react';
+import { ParticleBackground, RotatingGradient } from './Backgrounds';
+import DashboardSection from './Dashboard';
+import RulesSection from './RulesSection';
 
 const Home = () => {
     const navigate = useNavigate();
+    const location = useLocation();
 
-    const features = [
-        {
-            icon: <Cpu size={32} />,
-            title: 'Cybernetic Logic',
-            desc: 'Master complex frontend architectures with our interactive neural-link challenges.',
-            color: '#ff007f'
-        },
-        {
-            icon: <Zap size={32} />,
-            title: 'Instant Sync',
-            desc: 'Real-time code rendering with zero latency. See your changes as they happen.',
-            color: '#00f2ff'
-        },
-        {
-            icon: <Globe size={32} />,
-            title: 'Global Ranking',
-            desc: 'Compete with developers across the grid and climb the leaderboard.',
-            color: '#bc13fe'
+    useEffect(() => {
+        if (location.hash) {
+            const elem = document.querySelector(location.hash);
+            if (elem) {
+                elem.scrollIntoView({ behavior: 'smooth' });
+            }
         }
-    ];
+    }, [location]);
 
     return (
-        <div className="home-root" style={{ minHeight: '100vh', position: 'relative', overflow: 'hidden', backgroundColor: '#020205' }}>
-            <div className="bg-animate"></div>
-
-            {/* Grid Overlay */}
-            <div style={{
-                position: 'absolute',
-                inset: 0,
-                backgroundImage: 'linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px)',
-                backgroundSize: '50px 50px',
-                zIndex: 0
-            }}></div>
+        <div className="home-root" style={{ position: 'relative', minHeight: '100vh' }}>
+            {/* Background Layers */}
+            <ParticleBackground />
+            <RotatingGradient />
 
             {/* Hero Section */}
-            <section style={{ padding: '10rem 2rem 6rem', textAlign: 'center', position: 'relative', zIndex: 1 }}>
-                <div className="container" style={{ maxWidth: '1200px', margin: '0 auto' }}>
-                    <motion.div
-                        initial={{ opacity: 0, scale: 0.9 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ duration: 0.8, ease: "easeOut" }}
-                    >
-                        <div style={{
-                            display: 'inline-flex',
-                            alignItems: 'center',
-                            gap: '0.75rem',
-                            padding: '0.75rem 1.5rem',
-                            background: 'rgba(255, 255, 255, 0.03)',
-                            border: '1px solid rgba(255, 255, 255, 0.1)',
-                            borderRadius: '20px',
-                            color: '#00f2ff',
-                            fontSize: '0.9rem',
-                            fontWeight: '700',
-                            marginBottom: '3rem',
-                            textTransform: 'uppercase',
-                            letterSpacing: '2px',
-                            boxShadow: '0 0 20px rgba(0, 242, 255, 0.2)'
-                        }}>
-                            <Sparkles size={18} />
-                            <span>System Update: E-commerce Mission Live</span>
-                        </div>
-
-                        <h1 style={{
-                            fontSize: 'clamp(3.5rem, 10vw, 6.5rem)',
-                            fontWeight: '900',
-                            color: '#ffffff',
-                            marginBottom: '2rem',
-                            letterSpacing: '-4px',
-                            lineHeight: 0.9,
-                            fontFamily: 'Space Grotesk, sans-serif'
-                        }}>
-                            WELCOME TO <br />
-                            <span style={{
-                                background: 'linear-gradient(135deg, #ff007f 0%, #bc13fe 50%, #00f2ff 100%)',
-                                WebkitBackgroundClip: 'text',
-                                WebkitTextFillColor: 'transparent',
-                                backgroundClip: 'text',
-                                filter: 'drop-shadow(0 0 30px rgba(188, 19, 254, 0.5))'
-                            }}>NEURAL_LINK.</span>
-                        </h1>
-
-                        <p style={{
-                            fontSize: '1.4rem',
-                            color: '#94a3b8',
-                            marginBottom: '4rem',
-                            maxWidth: '800px',
-                            margin: '0 auto 4rem',
-                            lineHeight: '1.6',
-                            fontWeight: '400'
-                        }}>
-                            The ultimate neural-link training ground for elite frontend developers. <br />
-                            Bridge the gap between theory and cybernetic implementation.
-                        </p>
-
-                        <div style={{ display: 'flex', gap: '2rem', justifyContent: 'center', flexWrap: 'wrap' }}>
-                            <motion.button
-                                whileHover={{ scale: 1.1, boxShadow: '0 0 50px rgba(188, 19, 254, 0.6)' }}
-                                whileTap={{ scale: 0.9 }}
-                                onClick={() => navigate('/quiz')}
-                                style={{
-                                    background: 'linear-gradient(135deg, #ff007f 0%, #bc13fe 100%)',
-                                    color: 'white',
-                                    padding: '1.5rem 3.5rem',
-                                    borderRadius: '24px',
-                                    fontSize: '1.25rem',
-                                    fontWeight: '900',
-                                    border: 'none',
-                                    cursor: 'pointer',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    gap: '1rem',
-                                    textTransform: 'uppercase',
-                                    letterSpacing: '2px'
-                                }}
-                            >
-                                START MISSION <ArrowRight size={24} />
-                            </motion.button>
-
-                            <motion.button
-                                whileHover={{ background: 'rgba(255, 255, 255, 0.1)', borderColor: '#00f2ff' }}
-                                style={{
-                                    background: 'rgba(255, 255, 255, 0.03)',
-                                    color: 'white',
-                                    padding: '1.5rem 3.5rem',
-                                    borderRadius: '24px',
-                                    fontSize: '1.25rem',
-                                    fontWeight: '700',
-                                    border: '1px solid rgba(255, 255, 255, 0.1)',
-                                    cursor: 'pointer',
-                                    textTransform: 'uppercase',
-                                    letterSpacing: '2px'
-                                }}
-                            >
-                                VIEW GRID
-                            </motion.button>
-                        </div>
-                    </motion.div>
-                </div>
-            </section>
-
-            {/* Features Section */}
-            <section style={{ padding: '6rem 2rem 10rem', position: 'relative', zIndex: 1 }}>
-                <div className="container" style={{ maxWidth: '1300px', margin: '0 auto' }}>
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))', gap: '3rem' }}>
-                        {features.map((f, i) => (
-                            <motion.div
-                                key={i}
-                                initial={{ opacity: 0, y: 30 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                transition={{ delay: i * 0.2 }}
-                                whileHover={{ y: -15, background: 'rgba(255, 255, 255, 0.05)', borderColor: f.color }}
-                                style={{
-                                    background: 'rgba(255, 255, 255, 0.02)',
-                                    padding: '4rem 3rem',
-                                    borderRadius: '32px',
-                                    border: '1px solid rgba(255, 255, 255, 0.05)',
-                                    backdropFilter: 'blur(20px)',
-                                    transition: 'all 0.4s ease',
-                                    textAlign: 'left'
-                                }}
-                            >
-                                <div style={{
-                                    width: '80px',
-                                    height: '80px',
-                                    borderRadius: '24px',
-                                    background: `${f.color}15`,
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                    color: f.color,
-                                    marginBottom: '2rem',
-                                    boxShadow: `0 0 30px ${f.color}20`
-                                }}>
-                                    {f.icon}
-                                </div>
-                                <h3 style={{
-                                    fontSize: '1.75rem',
-                                    fontWeight: '800',
-                                    color: '#ffffff',
-                                    marginBottom: '1.25rem',
-                                    fontFamily: 'Space Grotesk, sans-serif'
-                                }}>
-                                    {f.title}
-                                </h3>
-                                <p style={{ color: '#94a3b8', lineHeight: '1.8', fontSize: '1.1rem' }}>{f.desc}</p>
-                            </motion.div>
-                        ))}
+            <section style={{
+                padding: '12rem 2rem 8rem',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+                textAlign: 'center',
+                position: 'relative',
+                minHeight: '100vh',
+            }}>
+                <motion.div
+                    initial={{ opacity: 0, scale: 0.98 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.8 }}
+                    style={{ zIndex: 10, maxWidth: '1100px' }}
+                >
+                    <div className="hero-badge">
+                        <Activity size={12} style={{ marginRight: '0.6rem' }} />
+                        PROTOCOL // ALPHA-7 // SYNCHRONIZATION EVENT
                     </div>
-                </div>
+
+                    <motion.h1
+                        initial="hidden"
+                        animate="visible"
+                        variants={{
+                            hidden: { opacity: 1 },
+                            visible: {
+                                transition: {
+                                    staggerChildren: 0.08,
+                                    delayChildren: 0.5
+                                }
+                            }
+                        }}
+                        style={{
+                            fontFamily: 'var(--font-heading)',
+                            fontSize: 'clamp(2rem, 5vw, 4.5rem)',
+                            fontWeight: '800',
+                            lineHeight: 1.1,
+                            letterSpacing: '0.05em',
+                            wordSpacing: '0.8rem',
+                            marginBottom: '2.5rem',
+                            color: 'white',
+                            textTransform: 'uppercase'
+                        }}
+                    >
+                        {/* Typewriter Effect for WELCOME TO */}
+                        <div>
+                            {"WELCOME TO".split("").map((char, index) => (
+                                <motion.span
+                                    key={index}
+                                    variants={{
+                                        hidden: { opacity: 0, y: 10 },
+                                        visible: { opacity: 1, y: 0 }
+                                    }}
+                                    style={{
+                                        color: 'var(--accent-blue)',
+                                        display: 'inline-block',
+                                        width: char === " " ? '1rem' : 'auto'
+                                    }}
+                                >
+                                    {char === " " ? "\u00A0" : char} {/* Added special handling for space */}
+                                </motion.span>
+                            ))}
+                        </div>
+
+                        {/* Typewriter Effect for RUNTIME TERRORS */}
+                        <div style={{ marginTop: '1.5rem' }}>
+                            {"RUNTIME TERRORS".split("").map((char, index) => (
+                                <motion.span
+                                    key={index}
+                                    variants={{
+                                        hidden: { opacity: 0, y: 10 },
+                                        visible: { opacity: 1, y: 0 }
+                                    }}
+                                    style={{
+                                        color: 'var(--accent-yellow)',
+                                        display: 'inline-block'
+                                    }}
+                                >
+                                    {char === " " ? "\u00A0" : char}
+                                </motion.span>
+                            ))}
+                        </div>
+                    </motion.h1>
+
+                    <p style={{
+                        margin: '0 auto 4rem',
+                        fontSize: '1.2rem',
+                        color: 'var(--text-dim)',
+                        lineHeight: 1.6,
+                        maxWidth: '700px',
+                        fontWeight: '500',
+                        letterSpacing: '0.02em'
+                    }}>
+                        Initialize precision engineering protocols.
+                        A high-velocity technical event designed for elite synchronization.
+                        Master the black-box systems with advanced neural interfaces.
+                    </p>
+
+                    <div style={{ display: 'flex', gap: '1.5rem', justifyContent: 'center' }}>
+                        <button
+                            className="btn-asym"
+                            onClick={() => navigate('/quiz')}
+                            style={{ padding: '1.2rem 3rem' }}
+                        >
+                            INITIALIZE MISSION <Zap size={18} fill="currentColor" />
+                        </button>
+
+                        <button
+                            className="btn-asym"
+                            style={{
+                                background: 'transparent',
+                                color: 'white',
+                                border: '1px solid #333',
+                                padding: '1.2rem 3rem'
+                            }}
+                        >
+                            ARCHIVE DATA
+                        </button>
+                    </div>
+                </motion.div>
             </section>
+
+            {/* Dashboard Section */}
+            <DashboardSection />
+
+            {/* Rules Section */}
+            <div id="rules" style={{ scrollMarginTop: '100px' }}>
+                <RulesSection />
+            </div>
+
+            {/* Industrial Footer */}
+            <footer style={{
+                padding: '6rem 2rem',
+                borderTop: '1px solid rgba(255, 255, 255, 0.05)',
+                textAlign: 'center',
+                background: 'rgba(0,0,0,0.5)',
+                backdropFilter: 'blur(10px)'
+            }}>
+                <div className="logo" style={{ fontSize: '1.2rem', justifyContent: 'center', marginBottom: '2.5rem', color: 'white', fontWeight: '800' }}>
+                    <Terminal size={22} color="var(--accent-yellow)" style={{ marginRight: '1rem' }} />
+                    RUNTIME_TERRORS.EXE
+                </div>
+                <div style={{
+                    display: 'flex',
+                    gap: '4rem',
+                    justifyContent: 'center',
+                    marginBottom: '3rem'
+                }}>
+                    {['SYSTEM', 'NETWORK', 'UPLINK', 'STATUS'].map(link => (
+                        <span key={link} style={{ fontSize: '0.65rem', fontWeight: '800', letterSpacing: '4px', color: '#333', cursor: 'pointer' }}>{link}</span>
+                    ))}
+                </div>
+                <div style={{ color: '#222', fontSize: '0.6rem', fontWeight: '800', letterSpacing: '2px' }}>
+                    © 2025 VOID_CORP // ENCRYPTION: AES-256 // SESSION: ACTIVE
+                </div>
+            </footer>
         </div>
     );
 };
