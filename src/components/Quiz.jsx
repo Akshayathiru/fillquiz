@@ -77,12 +77,12 @@ const ecommerceChallenge = {
 </body>
 </html>`,
             blanks: [
-                { index: 0, answer: "Shopping Cart", points: 2 },
-                { index: 1, answer: "style.css", points: 2 },
-                { index: 2, answer: "My Shop", points: 2 },
-                { index: 3, answer: "products", points: 2 },
-                { index: 4, answer: "Clear Cart", points: 2 },
-                { index: 5, answer: "script.js", points: 2 }
+                { index: 0, answer: "My Shop", points: 15 },
+                { index: 1, answer: "style.css", points: 15 },
+                { index: 2, answer: "My Shop", points: 15 },
+                { index: 3, answer: "products", points: 20 },
+                { index: 4, answer: "Clear Cart", points: 10 },
+                { index: 5, answer: "script.js", points: 15 }
             ]
         },
         css: {
@@ -114,15 +114,15 @@ button {
     cursor: pointer;
 }`,
             blanks: [
-                { index: 0, answer: "sans-serif", points: 3 },
-                { index: 1, answer: "#f4f4f4", points: 3 },
-                { index: 2, answer: "80%", points: 3 },
-                { index: 3, answer: "auto", points: 3 },
-                { index: 4, answer: "1px solid #ddd", points: 3 },
-                { index: 5, answer: "#fff", points: 3 },
-                { index: 6, answer: "#28a745", points: 3 },
-                { index: 7, answer: "#fff", points: 3 },
-                { index: 8, answer: "none", points: 3 }
+                { index: 0, answer: "sans-serif", points: 10 },
+                { index: 1, answer: "#f4f4f4", points: 10 },
+                { index: 2, answer: "80%", points: 10 },
+                { index: 3, answer: "auto", points: 15 },
+                { index: 4, answer: "1px solid #ddd", points: 20 },
+                { index: 5, answer: "#fff", points: 10 },
+                { index: 6, answer: "#28a745", points: 15 },
+                { index: 7, answer: "#fff", points: 10 },
+                { index: 8, answer: "none", points: 15 }
             ]
         },
         js: {
@@ -179,25 +179,25 @@ function clearCart() {
     alert("____");
 }`,
             blanks: [
-                { index: 0, answer: "0", points: 3 },
-                { index: 1, answer: "0", points: 3 },
-                { index: 2, answer: "products", points: 3 },
-                { index: 3, answer: "forEach", points: 3 },
-                { index: 4, answer: "createElement", points: 3 },
-                { index: 5, answer: "className", points: 3 },
-                { index: 6, answer: "name", points: 3 },
-                { index: 7, answer: "price", points: 3 },
-                { index: 8, answer: "price", points: 3 },
-                { index: 9, answer: "Add to Cart", points: 3 },
-                { index: 10, answer: "appendChild", points: 3 },
-                { index: 11, answer: "+=", points: 3 },
-                { index: 12, answer: "+=", points: 3 },
-                { index: 13, answer: "total", points: 3 },
-                { index: 14, answer: "count", points: 3 },
-                { index: 15, answer: "Item Added", points: 3 },
-                { index: 16, answer: "0", points: 3 },
-                { index: 17, answer: "0", points: 3 },
-                { index: 18, answer: "Cart Cleared", points: 3 }
+                { index: 0, answer: "0", points: 10 },
+                { index: 1, answer: "0", points: 10 },
+                { index: 2, answer: "products", points: 25 },
+                { index: 3, answer: "forEach", points: 30 },
+                { index: 4, answer: "createElement", points: 25 },
+                { index: 5, answer: "className", points: 20 },
+                { index: 6, answer: "name", points: 15 },
+                { index: 7, answer: "price", points: 15 },
+                { index: 8, answer: "price", points: 20 },
+                { index: 9, answer: "Add to Cart", points: 10 },
+                { index: 10, answer: "appendChild", points: 25 },
+                { index: 11, answer: "+", points: 30 },
+                { index: 12, answer: "+", points: 20 },
+                { index: 13, answer: "total", points: 20 },
+                { index: 14, answer: "count", points: 20 },
+                { index: 15, answer: "Item Added", points: 10 },
+                { index: 16, answer: "0", points: 15 },
+                { index: 17, answer: "0", points: 15 },
+                { index: 18, answer: "Cart Cleared", points: 10 }
             ]
         }
     }
@@ -245,19 +245,24 @@ const Quiz = () => {
     const [hasRun, setHasRun] = useState(false);
     const [showSummary, setShowSummary] = useState(false);
     const [totalScore, setTotalScore] = useState(0);
+    const [missionResults, setMissionResults] = useState([]);
     const [previewSrc, setPreviewSrc] = useState('');
 
     const maxScore = Object.values(ecommerceChallenge.files).reduce((acc, file) => {
         return acc + file.blanks.reduce((sum, b) => sum + b.points, 0);
     }, 0);
 
-    useEffect(() => {
+    const updatePreview = (useSolutions = false) => {
         const getFilledCode = (fileKey) => {
             if (!ecommerceChallenge.files[fileKey]) return "";
             let code = ecommerceChallenge.files[fileKey].code;
-            // PRE-FILL PREVIEW WITH CORRECT ANSWERS so users see the goal output immediately
-            ecommerceChallenge.files[fileKey].blanks.forEach((blank) => {
-                const val = blank.answer;
+
+            ecommerceChallenge.files[fileKey].blanks.forEach((blank, idx) => {
+                // If useSolutions is true, use the correct answer. 
+                // Otherwise use what the user typed (fallback to empty string)
+                const val = useSolutions
+                    ? blank.answer
+                    : (userAnswers[`${fileKey}-${idx}`] || "");
                 code = code.replace("____", val);
             });
             return code;
@@ -289,7 +294,12 @@ const Quiz = () => {
             </html>
         `;
         setPreviewSrc(combinedSrc);
-    }, []); // Removed dependency on userAnswers to prevent re-render with incorrect code
+    };
+
+    // Show the "Goal" output on initial load
+    useEffect(() => {
+        updatePreview(true);
+    }, []);
 
     const handleInputChange = (fileKey, blankIndex, value) => {
         setUserAnswers(prev => ({
@@ -299,20 +309,34 @@ const Quiz = () => {
     };
 
     const runCode = () => {
+        updatePreview(false); // Render the user's actual filled code
         setHasRun(true);
     };
 
     const calculateFinalScore = () => {
-        let score = 0;
-        Object.entries(ecommerceChallenge.files).forEach(([fileKey, file]) => {
-            file.blanks.forEach((blank, idx) => {
-                const userAns = (userAnswers[`${fileKey}-${idx}`] || "").trim();
-                if (userAns === blank.answer) {
-                    score += blank.points;
-                }
+        let earned = 0;
+        const results = [];
+
+        Object.entries(ecommerceChallenge.files).forEach(([fileKey, fileData]) => {
+            fileData.blanks.forEach((blank, idx) => {
+                const userAns = (userAnswers[`${fileKey}-${idx}`] || "").trim().toLowerCase();
+                const isCorrect = userAns === blank.answer.toLowerCase();
+
+                if (isCorrect) earned += blank.points;
+
+                results.push({
+                    file: fileData.name,
+                    task: ecommerceChallenge.taskDetails[results.length] || `Blank ${idx + 1}`,
+                    isCorrect,
+                    points: blank.points,
+                    userAns: userAnswers[`${fileKey}-${idx}`] || "EMPTY",
+                    expected: blank.answer
+                });
             });
         });
-        setTotalScore(score);
+
+        setTotalScore(earned);
+        setMissionResults(results);
         setShowSummary(true);
     };
 
@@ -339,53 +363,116 @@ const Quiz = () => {
         );
     };
 
-    const getGrade = () => {
-        const percentage = (totalScore / maxScore) * 100;
-        if (percentage === 100) return 'S';
+    const getGrade = (score) => {
+        const percentage = (score / maxScore) * 100;
+        if (percentage >= 95) return 'S';
         if (percentage >= 80) return 'A';
         if (percentage >= 60) return 'B';
+        if (percentage >= 40) return 'C';
         return 'F';
     };
 
     if (showSummary) {
         return (
-            <div className="summary-overlay" style={{ background: 'rgba(0,0,0,0.95)' }}>
+            <div className="summary-overlay" style={{ background: 'rgba(0,0,0,0.98)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '2rem' }}>
                 <motion.div
-                    initial={{ scale: 0.98, opacity: 0 }}
-                    animate={{ scale: 1, opacity: 1 }}
+                    initial={{ y: 50, opacity: 0, scale: 0.9 }}
+                    animate={{ y: 0, opacity: 1, scale: 1 }}
                     className="summary-card"
                     style={{
-                        background: '#080808',
-                        border: '1px solid #1a1a1a',
-                        borderRadius: '8px',
-                        padding: '5rem',
+                        background: '#0a0a0a',
+                        border: '1px solid var(--accent-yellow)',
+                        borderRadius: '12px',
+                        padding: '3rem',
                         textAlign: 'center',
-                        maxWidth: '600px',
-                        boxShadow: '0 40px 80px rgba(0,0,0,0.8)'
+                        maxWidth: '800px',
+                        width: '100%',
+                        maxHeight: '90vh',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        boxShadow: '0 0 50px rgba(255, 234, 0, 0.15)',
+                        position: 'relative',
+                        overflow: 'hidden'
                     }}
                 >
+                    {/* Scanner Line */}
                     <div style={{
-                        fontFamily: 'var(--font-heading)',
-                        fontSize: '8rem',
-                        fontWeight: '800',
-                        color: 'var(--accent-yellow)',
-                        marginBottom: '1rem',
-                        lineHeight: 1
-                    }}>{getGrade()}</div>
-                    <h2 style={{ fontSize: '1rem', fontWeight: '800', marginBottom: '1.5rem', color: '#fff', letterSpacing: '4px', textTransform: 'uppercase' }}>Mission Result</h2>
-                    <p style={{ color: 'var(--text-dim)', fontSize: '1rem', marginBottom: '3.5rem', lineHeight: 1.6 }}>
-                        Synchronization complete. Performance metrics evaluated.<br />
-                        Neural throughput: <strong style={{ color: 'var(--accent-yellow)' }}>{totalScore}</strong> points.
-                    </p>
+                        position: 'absolute', top: 0, left: 0, width: '100%', height: '2px',
+                        background: 'linear-gradient(90deg, transparent, var(--accent-yellow), transparent)',
+                        animation: 'scan 4s infinite linear', zIndex: 10
+                    }}></div>
+
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '2rem' }}>
+                        <div style={{ textAlign: 'left' }}>
+                            <div style={{ fontSize: '0.6rem', fontWeight: '900', color: 'var(--accent-yellow)', letterSpacing: '4px', textTransform: 'uppercase', marginBottom: '0.5rem' }}>Mission Synopsis</div>
+                            <h2 style={{ fontSize: '1.2rem', fontWeight: '800', color: 'white' }}>RUNTIME_ERROR_LOG</h2>
+                        </div>
+                        <div style={{ textAlign: 'right' }}>
+                            <div style={{ fontSize: '3rem', fontWeight: '950', color: 'white', lineHeight: 1 }}>{getGrade(totalScore)}</div>
+                            <div style={{ fontSize: '0.6rem', color: '#666', textTransform: 'uppercase', letterSpacing: '2px' }}>Final Grade</div>
+                        </div>
+                    </div>
+
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1.5rem', marginBottom: '2rem', background: '#050505', padding: '1.5rem', borderRadius: '4px', border: '1px solid #111' }}>
+                        <div>
+                            <div style={{ fontSize: '0.55rem', color: '#666', textTransform: 'uppercase', marginBottom: '0.4rem' }}>Neural Throughput</div>
+                            <div style={{ fontSize: '1.2rem', fontWeight: '800', color: 'var(--accent-yellow)' }}>{totalScore} <span style={{ fontSize: '0.7rem', color: '#444' }}>/ {maxScore}</span></div>
+                        </div>
+                        <div>
+                            <div style={{ fontSize: '0.55rem', color: '#666', textTransform: 'uppercase', marginBottom: '0.4rem' }}>Accuracy</div>
+                            <div style={{ fontSize: '1.2rem', fontWeight: '800', color: 'white' }}>{maxScore > 0 ? Math.round((totalScore / maxScore) * 100) : 0}%</div>
+                        </div>
+                        <div>
+                            <div style={{ fontSize: '0.55rem', color: '#666', textTransform: 'uppercase', marginBottom: '0.4rem' }}>Status</div>
+                            <div style={{ fontSize: '1.2rem', fontWeight: '800', color: totalScore >= (maxScore * 0.5) ? '#0f0' : '#f00' }}>
+                                {totalScore >= (maxScore * 0.5) ? 'SUCCESS' : 'FAILED'}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style={{ flex: 1, overflowY: 'auto', marginBottom: '2rem', paddingRight: '1rem' }} className="custom-scroll">
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                            {missionResults.map((res, i) => (
+                                <div key={i} style={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: '1rem',
+                                    background: '#030303',
+                                    padding: '0.8rem 1.2rem',
+                                    border: '1px solid #111',
+                                    borderRadius: '4px',
+                                    textAlign: 'left'
+                                }}>
+                                    <div style={{
+                                        width: '8px', height: '8px', borderRadius: '50%',
+                                        background: res.isCorrect ? '#0f0' : '#f00',
+                                        boxShadow: res.isCorrect ? '0 0 10px #0f0' : '0 0 10px #f00'
+                                    }}></div>
+                                    <div style={{ flex: 1 }}>
+                                        <div style={{ fontSize: '0.65rem', color: '#555', textTransform: 'uppercase', fontWeight: '800' }}>[{res.file}]</div>
+                                        <div style={{ fontSize: '0.8rem', color: '#bbb' }}>{res.task}</div>
+                                    </div>
+                                    <div style={{ textAlign: 'right' }}>
+                                        <div style={{ fontSize: '0.8rem', fontWeight: '800', color: res.isCorrect ? 'var(--accent-yellow)' : '#444' }}>+{res.isCorrect ? res.points : 0}</div>
+                                        {!res.isCorrect && <div style={{ fontSize: '0.6rem', color: '#f00' }}>ERR: {res.userAns}</div>}
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+
                     <div style={{ display: 'flex', gap: '1rem' }}>
-                        <button className="btn-asym" style={{ flex: 1, background: 'white' }} onClick={() => window.location.href = '/'}>
-                            RETURN
+                        <button className="btn-asym" style={{ flex: 1, background: 'var(--accent-yellow)', color: 'black' }} onClick={() => window.location.href = '/'}>
+                            FINALIZE_SESSION
                         </button>
                         <button className="btn-asym" style={{ flex: 1, background: 'transparent', color: 'white', border: '1px solid #222' }} onClick={() => window.location.reload()}>
-                            REBOOT
+                            REBOOT_MISSION
                         </button>
                     </div>
                 </motion.div>
+                <style>{`
+                    @keyframes scan { 0% { top: -10%; } 100% { top: 110%; } }
+                `}</style>
             </div>
         );
     }
