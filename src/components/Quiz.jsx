@@ -403,27 +403,27 @@ const Quiz = () => {
                     }}></div>
 
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '2rem' }}>
-                        <div style={{ textAlign: 'left' }}>
-                            <div style={{ fontSize: '0.6rem', fontWeight: '900', color: 'var(--accent-yellow)', letterSpacing: '4px', textTransform: 'uppercase', marginBottom: '0.5rem' }}>Mission Synopsis</div>
-                            <h2 style={{ fontSize: '1.2rem', fontWeight: '800', color: 'white' }}>RUNTIME_ERROR_LOG</h2>
+                        <div style={{ textAlign: 'left', fontFamily: 'var(--font-mission)' }}>
+                            <div style={{ fontSize: '0.6rem', fontWeight: '900', color: 'var(--accent-yellow)', letterSpacing: '4px', textTransform: 'uppercase', marginBottom: '0.5rem', fontFamily: 'var(--font-display)' }}>Mission Synopsis</div>
+                            <h2 style={{ fontSize: '1.2rem', fontWeight: '800', color: 'white', fontFamily: 'var(--font-display)' }}>RUNTIME_ERROR_LOG</h2>
                         </div>
-                        <div style={{ textAlign: 'right' }}>
+                        <div style={{ textAlign: 'right', fontFamily: 'var(--font-display)' }}>
                             <div style={{ fontSize: '3rem', fontWeight: '950', color: 'white', lineHeight: 1 }}>{getGrade(totalScore)}</div>
                             <div style={{ fontSize: '0.6rem', color: '#666', textTransform: 'uppercase', letterSpacing: '2px' }}>Final Grade</div>
                         </div>
                     </div>
 
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1.5rem', marginBottom: '2rem', background: '#050505', padding: '1.5rem', borderRadius: '4px', border: '1px solid #111' }}>
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1.5rem', marginBottom: '2rem', background: '#050505', padding: '1.5rem', borderRadius: '4px', border: '1px solid #111', fontFamily: 'var(--font-mission)' }}>
                         <div>
-                            <div style={{ fontSize: '0.55rem', color: '#666', textTransform: 'uppercase', marginBottom: '0.4rem' }}>Neural Throughput</div>
+                            <div style={{ fontSize: '0.55rem', color: '#666', textTransform: 'uppercase', marginBottom: '0.4rem', fontFamily: 'var(--font-display)' }}>Neural Throughput</div>
                             <div style={{ fontSize: '1.2rem', fontWeight: '800', color: 'var(--accent-yellow)' }}>{totalScore} <span style={{ fontSize: '0.7rem', color: '#444' }}>/ {maxScore}</span></div>
                         </div>
                         <div>
-                            <div style={{ fontSize: '0.55rem', color: '#666', textTransform: 'uppercase', marginBottom: '0.4rem' }}>Accuracy</div>
+                            <div style={{ fontSize: '0.55rem', color: '#666', textTransform: 'uppercase', marginBottom: '0.4rem', fontFamily: 'var(--font-display)' }}>Accuracy</div>
                             <div style={{ fontSize: '1.2rem', fontWeight: '800', color: 'white' }}>{maxScore > 0 ? Math.round((totalScore / maxScore) * 100) : 0}%</div>
                         </div>
                         <div>
-                            <div style={{ fontSize: '0.55rem', color: '#666', textTransform: 'uppercase', marginBottom: '0.4rem' }}>Status</div>
+                            <div style={{ fontSize: '0.55rem', color: '#666', textTransform: 'uppercase', marginBottom: '0.4rem', fontFamily: 'var(--font-display)' }}>Status</div>
                             <div style={{ fontSize: '1.2rem', fontWeight: '800', color: totalScore >= (maxScore * 0.5) ? '#0f0' : '#f00' }}>
                                 {totalScore >= (maxScore * 0.5) ? 'SUCCESS' : 'FAILED'}
                             </div>
@@ -448,11 +448,11 @@ const Quiz = () => {
                                         background: res.isCorrect ? '#0f0' : '#f00',
                                         boxShadow: res.isCorrect ? '0 0 10px #0f0' : '0 0 10px #f00'
                                     }}></div>
-                                    <div style={{ flex: 1 }}>
-                                        <div style={{ fontSize: '0.65rem', color: '#555', textTransform: 'uppercase', fontWeight: '800' }}>[{res.file}]</div>
+                                    <div style={{ flex: 1, fontFamily: 'var(--font-mission)' }}>
+                                        <div style={{ fontSize: '0.65rem', color: '#555', textTransform: 'uppercase', fontWeight: '800', fontFamily: 'var(--font-display)' }}>[{res.file}]</div>
                                         <div style={{ fontSize: '0.8rem', color: '#bbb' }}>{res.task}</div>
                                     </div>
-                                    <div style={{ textAlign: 'right' }}>
+                                    <div style={{ textAlign: 'right', fontFamily: 'var(--font-display)' }}>
                                         <div style={{ fontSize: '0.8rem', fontWeight: '800', color: res.isCorrect ? 'var(--accent-yellow)' : '#444' }}>+{res.isCorrect ? res.points : 0}</div>
                                         {!res.isCorrect && <div style={{ fontSize: '0.6rem', color: '#f00' }}>ERR: {res.userAns}</div>}
                                     </div>
@@ -492,7 +492,7 @@ const Quiz = () => {
                             <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#222' }}></div>
                             <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#222' }}></div>
                         </div>
-                        <div style={{ fontSize: '0.7rem', fontWeight: '800', color: 'white', display: 'flex', alignItems: 'center', gap: '0.8rem', letterSpacing: '2px', textTransform: 'uppercase' }}>
+                        <div style={{ fontSize: '0.7rem', fontWeight: '800', color: 'white', display: 'flex', alignItems: 'center', gap: '0.8rem', letterSpacing: '2px', textTransform: 'uppercase', fontFamily: 'var(--font-display)' }}>
                             <Terminal size={14} color="var(--accent-yellow)" />
                             {ecommerceChallenge.title}
                         </div>
@@ -512,7 +512,7 @@ const Quiz = () => {
                     <div className="task-pane" style={{ display: 'flex', flexDirection: 'column', height: '100%', overflow: 'hidden' }}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '0.8rem', marginBottom: '2rem', flexShrink: 0 }}>
                             <div style={{ width: '6px', height: '6px', background: 'var(--accent-yellow)' }}></div>
-                            <h3 style={{ fontSize: '0.7rem', fontWeight: '800', color: 'white', letterSpacing: '2px', textTransform: 'uppercase' }}>Objectives</h3>
+                            <h3 style={{ fontSize: '0.7rem', fontWeight: '800', color: 'white', letterSpacing: '2px', textTransform: 'uppercase', fontFamily: 'var(--font-display)' }}>Objectives</h3>
                         </div>
 
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', flex: '1 1 0', overflowY: 'auto', paddingRight: '0.5rem', paddingBottom: '2rem' }} className="custom-scroll">
@@ -544,13 +544,14 @@ const Quiz = () => {
                                         fontSize: '0.8rem',
                                         lineHeight: '1.6',
                                         color: '#bbb',
-                                        fontWeight: '500'
+                                        fontWeight: '500',
+                                        fontFamily: 'var(--font-mission)'
                                     }}>
                                         {/* Highlight keywords in backticks or quotes */}
                                         {task.split(/(`[^`]+`|'[^']+')/).map((part, idx) => {
                                             if (part.startsWith('`') || part.startsWith("'")) {
                                                 return (
-                                                    <span key={idx} style={{ color: '#00f3ff', fontWeight: '700' }}>
+                                                    <span key={idx} style={{ color: '#00f3ff', fontWeight: '700', fontFamily: 'var(--font-mono)' }}>
                                                         {part.replace(/[`']/g, '')}
                                                     </span>
                                                 );
@@ -581,7 +582,8 @@ const Quiz = () => {
                                         borderTop: activeTab === key ? '2px solid var(--accent-yellow)' : '2px solid transparent',
                                         padding: '1rem 1.5rem',
                                         cursor: 'pointer',
-                                        transition: 'all 0.2s'
+                                        transition: 'all 0.2s',
+                                        fontFamily: 'var(--font-display)'
                                     }}
                                 >
                                     {file.name}
@@ -609,7 +611,8 @@ const Quiz = () => {
                             color: '#444',
                             gap: '0.8rem',
                             letterSpacing: '2px',
-                            textTransform: 'uppercase'
+                            textTransform: 'uppercase',
+                            fontFamily: 'var(--font-display)'
                         }}>
                             <Activity size={12} color="var(--accent-blue)" /> SYSTEM_PREVIEW
                         </div>

@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@500&family=Space+Grotesk:wght@300;400;500;600;700&family=Orbitron:wght@400;500;600;700;800;900&display=swap');
 
 :root {
   /* Industrial Yellow Theme */
@@ -20,6 +20,8 @@
   --font-heading: 'Plus Jakarta Sans', sans-serif;
   --font-body: 'Outfit', sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
+  --font-mission: 'Space Grotesk', sans-serif;
+  --font-display: 'Orbitron', sans-serif;
 }
 
 * {
@@ -207,7 +209,7 @@ body {
   background: var(--accent-yellow);
   color: black;
   border: none;
-  font-family: var(--font-heading);
+  font-family: var(--font-display);
   font-weight: 800;
   font-size: 0.75rem;
   letter-spacing: 1px;
