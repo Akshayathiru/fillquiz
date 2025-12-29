@@ -1,5 +1,6 @@
-coconst express = require("express");
-const Score = require("../models/Score");   // ✅ MISSING IMPORT
+
+const express = require("express");
+const Score = require("../models/Score");   // ✅ Model import
 const auth = require("../middleware/auth");
 
 const router = express.Router();
@@ -29,10 +30,6 @@ router.get("/me", auth, async (req, res) => {
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
-});
-
-module.exports = router;
-
 });
 
 // ADMIN: view all scores
