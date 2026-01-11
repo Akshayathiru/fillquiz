@@ -8,8 +8,8 @@ import {
 import '../index.css';
 
 const ecommerceChallenge = {
-    title: "SHOPPING_CART_V1 // SPRINT-09",
-    description: "Construct a functional Shopping Cart system. Implement product rendering, state management for totals, and event handling for adding/clearing items.",
+    title: "ARCANES_V1 // SPRINT-09",
+    description: "Construct a functional Magical Inventory system. Implement artifact rendering, state management for totals, and event handling for adding/clearing items.",
     taskDetails: [
         "1.  HTML: Set the page title.",
         "2.  HTML: Link the external stylesheet.",
@@ -203,7 +203,7 @@ function clearCart() {
     }
 };
 
-const AutoSizeInput = ({ value, onChange, placeholder }) => {
+const AutoSizeInput = ({ value, onChange, placeholder, disabled }) => {
     const spanRef = useRef(null);
     const [width, setWidth] = useState(35);
 
@@ -223,16 +223,18 @@ const AutoSizeInput = ({ value, onChange, placeholder }) => {
                 value={value}
                 onChange={onChange}
                 placeholder={placeholder}
+                disabled={disabled}
                 className="code-input-field"
                 style={{
                     width: `${width}px`,
-                    background: 'rgba(255, 234, 0, 0.03)',
-                    border: '1px solid rgba(255, 234, 0, 0.15)',
+                    background: disabled ? 'rgba(255, 0, 0, 0.05)' : 'rgba(255, 234, 0, 0.03)',
+                    border: disabled ? '1px solid rgba(255, 0, 0, 0.15)' : '1px solid rgba(255, 234, 0, 0.15)',
                     borderRadius: '4px',
                     padding: '0 8px',
                     fontSize: '0.9rem',
-                    color: 'var(--accent-yellow)',
-                    transition: 'all 0.3s ease'
+                    color: disabled ? '#666' : 'var(--accent-yellow)',
+                    transition: 'all 0.3s ease',
+                    cursor: disabled ? 'not-allowed' : 'text'
                 }}
             />
         </span>
@@ -247,6 +249,8 @@ const Quiz = () => {
     const [totalScore, setTotalScore] = useState(0);
     const [missionResults, setMissionResults] = useState([]);
     const [previewSrc, setPreviewSrc] = useState('');
+    const [timeLeft, setTimeLeft] = useState(1200); // 20 minutes in seconds
+    const [isTimeUp, setIsTimeUp] = useState(false);
 
     const maxScore = Object.values(ecommerceChallenge.files).reduce((acc, file) => {
         return acc + file.blanks.reduce((sum, b) => sum + b.points, 0);
@@ -279,9 +283,9 @@ const Quiz = () => {
                     /* Inject Custom Scrollbar for Preview */
                     ::-webkit-scrollbar { width: 10px; height: 10px; }
                     ::-webkit-scrollbar-track { background: #050505; border-left: 1px solid #1a1a1a; }
-                    ::-webkit-scrollbar-thumb { background: #FFD700; border-radius: 5px; border: 2px solid #050505; }
+                    ::-webkit-scrollbar-thumb { background: #c5a059; border-radius: 5px; border: 2px solid #050505; }
                     ::-webkit-scrollbar-thumb:hover { background: #fff; }
-                    html, body { height: 100%; margin: 0; overflow-y: scroll; scrollbar-width: thin; scrollbar-color: #FFD700 #050505; }
+                    html, body { height: 100%; margin: 0; overflow-y: scroll; scrollbar-width: thin; scrollbar-color: #c5a059 #050505; }
                 </style>
                 <body>
                     ${html.replace(/<\/?html>|<\/?head>|<\/?body>|<meta[^>]*>|<title>[^<]*<\/title>/g, '')}
@@ -340,6 +344,29 @@ const Quiz = () => {
         setShowSummary(true);
     };
 
+    // Timer Logic
+    useEffect(() => {
+        if (showSummary) return;
+
+        if (timeLeft <= 0) {
+            setIsTimeUp(true);
+            calculateFinalScore();
+            return;
+        }
+
+        const timer = setInterval(() => {
+            setTimeLeft(prev => prev - 1);
+        }, 1000);
+
+        return () => clearInterval(timer);
+    }, [timeLeft, showSummary]);
+
+    const formatTime = (seconds) => {
+        const mins = Math.floor(seconds / 60);
+        const secs = seconds % 60;
+        return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+    };
+
     const renderCodeBlock = (fileKey, fileData) => {
         const parts = fileData.code.split('____');
         return (
@@ -354,6 +381,7 @@ const Quiz = () => {
                                     value={userAnswers[`${fileKey}-${index}`] || ""}
                                     onChange={(e) => handleInputChange(fileKey, index, e.target.value)}
                                     placeholder="..."
+                                    disabled={isTimeUp}
                                 />
                             )}
                         </React.Fragment>
@@ -404,8 +432,8 @@ const Quiz = () => {
 
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '2rem' }}>
                         <div style={{ textAlign: 'left', fontFamily: 'var(--font-mission)' }}>
-                            <div style={{ fontSize: '0.6rem', fontWeight: '900', color: 'var(--accent-yellow)', letterSpacing: '4px', textTransform: 'uppercase', marginBottom: '0.5rem', fontFamily: 'var(--font-display)' }}>Mission Synopsis</div>
-                            <h2 style={{ fontSize: '1.2rem', fontWeight: '800', color: 'white', fontFamily: 'var(--font-display)' }}>RUNTIME_ERROR_LOG</h2>
+                            <div style={{ fontSize: '0.6rem', fontWeight: '900', color: 'var(--magic-gold)', letterSpacing: '4px', textTransform: 'uppercase', marginBottom: '0.5rem', fontFamily: 'var(--font-display)' }}>Mission Synopsis</div>
+                            <h2 style={{ fontSize: '1.2rem', fontWeight: '800', color: 'white', fontFamily: 'var(--font-display)' }}>ANCIENT_SCROLL_LOG</h2>
                         </div>
                         <div style={{ textAlign: 'right', fontFamily: 'var(--font-display)' }}>
                             <div style={{ fontSize: '3rem', fontWeight: '950', color: 'white', lineHeight: 1 }}>{getGrade(totalScore)}</div>
@@ -415,8 +443,8 @@ const Quiz = () => {
 
                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1.5rem', marginBottom: '2rem', background: '#050505', padding: '1.5rem', borderRadius: '4px', border: '1px solid #111', fontFamily: 'var(--font-mission)' }}>
                         <div>
-                            <div style={{ fontSize: '0.55rem', color: '#666', textTransform: 'uppercase', marginBottom: '0.4rem', fontFamily: 'var(--font-display)' }}>Neural Throughput</div>
-                            <div style={{ fontSize: '1.2rem', fontWeight: '800', color: 'var(--accent-yellow)' }}>{totalScore} <span style={{ fontSize: '0.7rem', color: '#444' }}>/ {maxScore}</span></div>
+                            <div style={{ fontSize: '0.55rem', color: '#666', textTransform: 'uppercase', marginBottom: '0.4rem', fontFamily: 'var(--font-display)' }}>Magical Output</div>
+                            <div style={{ fontSize: '1.2rem', fontWeight: '800', color: 'var(--magic-gold)' }}>{totalScore} <span style={{ fontSize: '0.7rem', color: '#444' }}>/ {maxScore}</span></div>
                         </div>
                         <div>
                             <div style={{ fontSize: '0.55rem', color: '#666', textTransform: 'uppercase', marginBottom: '0.4rem', fontFamily: 'var(--font-display)' }}>Accuracy</div>
@@ -462,7 +490,7 @@ const Quiz = () => {
                     </div>
 
                     <div style={{ display: 'flex', gap: '1rem' }}>
-                        <button className="btn-asym" style={{ flex: 1, background: 'var(--accent-yellow)', color: 'black' }} onClick={() => window.location.href = '/'}>
+                        <button className="btn-asym" style={{ flex: 1, background: 'var(--magic-gold)', color: '#0a0b1e' }} onClick={() => window.location.href = '/'}>
                             FINALIZE_SESSION
                         </button>
                         <button className="btn-asym" style={{ flex: 1, background: 'transparent', color: 'white', border: '1px solid #222' }} onClick={() => window.location.reload()}>
@@ -497,11 +525,27 @@ const Quiz = () => {
                             {ecommerceChallenge.title}
                         </div>
                     </div>
-                    <div style={{ display: 'flex', gap: '1rem' }}>
-                        <button className="btn-asym" onClick={runCode} style={{ background: 'transparent', color: 'white', border: '1px solid #222', padding: '0.5rem 1.5rem', fontSize: '0.65rem' }}>
+                    <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'center' }}>
+                        <div style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '0.5rem',
+                            padding: '0.4rem 1rem',
+                            background: timeLeft < 60 ? 'rgba(255, 0, 0, 0.1)' : 'rgba(255, 234, 0, 0.05)',
+                            border: timeLeft < 60 ? '1px solid #f00' : '1px solid rgba(255, 234, 0, 0.2)',
+                            borderRadius: '4px',
+                            color: timeLeft < 60 ? '#f00' : 'var(--accent-yellow)',
+                            fontFamily: 'var(--font-mono)',
+                            fontSize: '0.8rem',
+                            fontWeight: '800'
+                        }}>
+                            <Rocket size={12} className={timeLeft < 60 ? 'animate-pulse' : ''} />
+                            {formatTime(timeLeft)}
+                        </div>
+                        <button className="btn-asym" onClick={runCode} disabled={isTimeUp} style={{ background: 'transparent', color: isTimeUp ? '#444' : 'white', border: '1px solid #222', padding: '0.5rem 1.5rem', fontSize: '0.65rem' }}>
                             <Play size={10} fill="currentColor" /> EXECUTE
                         </button>
-                        <button className="btn-asym" onClick={calculateFinalScore} disabled={!hasRun} style={{ background: hasRun ? 'var(--accent-yellow)' : '#1a1a1a', color: 'black', padding: '0.5rem 1.5rem', fontSize: '0.65rem' }}>
+                        <button className="btn-asym" onClick={calculateFinalScore} disabled={!hasRun || isTimeUp} style={{ background: hasRun && !isTimeUp ? 'var(--magic-gold)' : '#1a1a1a', color: '#0a0b1e', padding: '0.5rem 1.5rem', fontSize: '0.65rem' }}>
                             SYNC <CheckCircle size={10} />
                         </button>
                     </div>

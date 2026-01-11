@@ -9,15 +9,13 @@ const RuleCard = ({ text, index }) => (
         transition={{ duration: 0.6, delay: index * 0.1 }}
         whileHover={{
             y: -15,
-            boxShadow: index % 2 === 0
-                ? '0 20px 50px -10px rgba(255, 215, 0, 0.3), 0 0 30px rgba(255, 215, 0, 0.2)'
-                : '0 20px 50px -10px rgba(0, 123, 255, 0.3), 0 0 30px rgba(0, 123, 255, 0.2)',
-            borderColor: index % 2 === 0 ? 'rgba(255, 215, 0, 0.5)' : 'rgba(0, 123, 255, 0.5)'
+            boxShadow: '0 20px 50px -10px rgba(197, 160, 89, 0.3), 0 0 30px rgba(197, 160, 89, 0.2)',
+            borderColor: 'rgba(197, 160, 89, 0.5)'
         }}
         style={{
             background: 'rgba(20, 20, 20, 0.4)',
             backdropFilter: 'blur(16px)',
-            border: '1px solid rgba(255, 255, 255, 0.08)',
+            border: '1px solid var(--glass-border)',
             borderRadius: '20px',
             padding: '2.5rem',
             minHeight: '200px',
@@ -34,8 +32,9 @@ const RuleCard = ({ text, index }) => (
             left: '1.5rem',
             fontSize: '0.7rem',
             fontWeight: '900',
-            color: 'var(--accent-yellow)',
-            opacity: 0.3
+            color: 'var(--magic-gold)',
+            opacity: 0.3,
+            fontFamily: 'var(--font-display)'
         }}>
             0{index + 1}
         </div>
@@ -43,7 +42,8 @@ const RuleCard = ({ text, index }) => (
             fontSize: '1.1rem',
             lineHeight: '1.6',
             color: 'rgba(255, 255, 255, 0.9)',
-            fontWeight: '500'
+            fontWeight: '500',
+            fontFamily: 'var(--font-mission)'
         }}>
             {text}
         </p>
@@ -52,10 +52,10 @@ const RuleCard = ({ text, index }) => (
 
 const RulesSection = () => {
     const rules = [
-        "Participants will be given source code with missing or blank sections.",
-        "Task is to fill in the blanks with correct syntax and logic so the program works correctly.",
-        "Scoring criteria: Critical errors (code fails to compile), Major errors (logical failure), Minor errors (warnings).",
-        "Highest scoring participant wins the first prize. Duration: 25 minutes."
+        "Wizards will be given source scripts with missing or blank incantations.",
+        "Task is to fill in the blanks with correct syntax and logic so the magic works correctly.",
+        "Evaluation criteria: Curses (code fails), Hexes (logical failure), Jinxes (warnings).",
+        "The most powerful sorcerer wins the first prize. Duration: 20 minutes."
     ];
 
     return (
@@ -77,7 +77,7 @@ const RulesSection = () => {
                 <div style={{
                     width: '40px',
                     height: '2px',
-                    background: 'var(--accent-yellow)',
+                    background: 'var(--magic-gold)',
                     marginBottom: '2rem'
                 }} />
                 <h2 style={{
@@ -86,13 +86,14 @@ const RulesSection = () => {
                     lineHeight: '1',
                     textTransform: 'uppercase',
                     color: 'white',
-                    marginBottom: '2rem'
+                    marginBottom: '2rem',
+                    fontFamily: 'var(--font-heading)'
                 }}>
-                    MISSION<br />
-                    <span style={{ color: 'var(--accent-blue)' }}>PROTOCOLS</span>
+                    ANCIENT<br />
+                    <span style={{ color: 'var(--magic-gold)' }}>PROTOCOLS</span>
                 </h2>
-                <p style={{ color: 'var(--text-dim)', fontSize: '1.1rem', maxWidth: '350px' }}>
-                    Follow the operational guidelines to ensure maximum synchronization during the event.
+                <p style={{ color: 'var(--text-dim)', fontSize: '1.1rem', maxWidth: '350px', fontFamily: 'var(--font-mission)' }}>
+                    Follow the magical guidelines to ensure maximum concentration during the event.
                 </p>
             </div>
 

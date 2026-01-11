@@ -4,20 +4,20 @@ import { motion } from 'framer-motion';
 const DashboardCard = ({ title, value, accentColor }) => (
     <motion.div
         whileHover={{
-            scale: 1.05,
             y: -15,
-            boxShadow: `0 20px 40px -10px ${accentColor}66, 0 0 20px ${accentColor}88, inset 0 0 20px ${accentColor}22`
+            boxShadow: `0 20px 40px -10px rgba(197, 160, 89, 0.4), 0 0 20px rgba(197, 160, 89, 0.2)`,
+            borderColor: 'rgba(197, 160, 89, 0.5)'
         }}
         style={{
             background: 'rgba(15, 15, 15, 0.6)',
             backdropFilter: 'blur(12px)',
-            border: '1px solid rgba(255, 255, 255, 0.05)',
+            border: '1px solid var(--glass-border)',
             borderRadius: '16px',
             padding: '2rem',
             display: 'flex',
             flexDirection: 'column',
             gap: '1rem',
-            boxShadow: `0 10px 30px rgba(0, 0, 0, 0.5), inset 0 0 20px ${accentColor}10`,
+            boxShadow: `0 10px 30px rgba(0, 0, 0, 0.5)`,
             position: 'relative',
             overflow: 'hidden'
         }}
@@ -28,21 +28,23 @@ const DashboardCard = ({ title, value, accentColor }) => (
             left: 0,
             width: '2px',
             height: '100%',
-            background: accentColor
+            background: 'var(--magic-gold)'
         }} />
         <span style={{
             fontSize: '0.75rem',
             fontWeight: '700',
             letterSpacing: '2px',
             color: 'rgba(255, 255, 255, 0.5)',
-            textTransform: 'uppercase'
+            textTransform: 'uppercase',
+            fontFamily: 'var(--font-display)'
         }}>
             {title}
         </span>
         <div style={{
             fontSize: '2.5rem',
             fontWeight: '900',
-            color: accentColor
+            color: 'var(--magic-gold)',
+            fontFamily: 'var(--font-heading)'
         }}>
             {value}
         </div>
@@ -58,19 +60,19 @@ const DashboardSection = () => {
                 gap: '2rem'
             }}>
                 <DashboardCard
-                    title="Challenge Intensity"
+                    title="Magical Intensity"
                     value="HIGH"
-                    accentColor="#FFD700"
+                    accentColor="var(--magic-gold)"
                 />
                 <DashboardCard
                     title="Error Types"
-                    value="CRITICAL • MAJOR • MINOR"
-                    accentColor="#007BFF"
+                    value="CURSE • HEX • JINX"
+                    accentColor="var(--magic-gold)"
                 />
                 <DashboardCard
                     title="Time Limit"
-                    value="25 MIN"
-                    accentColor="#ffffff"
+                    value="20 MIN"
+                    accentColor="var(--text-main)"
                 />
             </div>
         </section>

@@ -1,27 +1,30 @@
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@500&family=Space+Grotesk:wght@300;400;500;600;700&family=Orbitron:wght@400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=MedievalSharp&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@500&family=Space+Grotesk:wght@300;400;500;600;700&family=Orbitron:wght@400;500;600;700;800;900&display=swap');
 
 :root {
-  /* Industrial Yellow Theme */
+  /* Harry Potter Theme */
   --bg-black: #050505;
-  --bg-deep: #0a0a0a;
-  --accent-yellow: #FFD700;
-  /* Bright Yellow */
-  --accent-blue: #007BFF;
-  /* Bright Blue */
+  --magic-blue: #0a0b1e;
+  --magic-emerald: #062c21;
+  --magic-gold: #c5a059;
+  --magic-glow: rgba(197, 160, 89, 0.4);
 
-  --glass-bg: rgba(10, 10, 10, 0.8);
-  --glass-border: rgba(255, 255, 255, 0.05);
+  --accent-yellow: #c5a059;
+  /* Reusing gold for yellow */
+  --accent-blue: #0a0b1e;
+
+  --glass-bg: rgba(10, 11, 30, 0.85);
+  --glass-border: rgba(197, 160, 89, 0.2);
   --glass-blur: blur(20px);
 
   --text-main: #ffffff;
-  --text-dim: #a0a0a0;
-  --text-muted: #555555;
+  --text-dim: #e1e1f5;
+  --text-muted: #888888;
 
-  --font-heading: 'Plus Jakarta Sans', sans-serif;
-  --font-body: 'Outfit', sans-serif;
+  --font-heading: 'Cinzel', serif;
+  --font-body: 'Cinzel', serif;
   --font-mono: 'JetBrains Mono', monospace;
-  --font-mission: 'Space Grotesk', sans-serif;
-  --font-display: 'Orbitron', sans-serif;
+  --font-mission: 'MedievalSharp', cursive;
+  --font-display: 'Cinzel', serif;
 }
 
 * {
@@ -32,19 +35,20 @@
 }
 
 body {
-  background-color: var(--bg-black);
+  background-color: var(--magic-blue);
   color: var(--text-main);
   font-family: var(--font-body);
   line-height: 1.5;
   overflow-x: hidden;
+  text-shadow: 0 0 1px rgba(255, 255, 255, 0.1);
 }
 
-/* Industrial Tech Background */
+/* Harry Potter Magical Background */
 .mesh-container {
   position: fixed;
   inset: 0;
   z-index: -2;
-  background: var(--bg-black);
+  background-color: var(--magic-blue);
   overflow: hidden;
 }
 
@@ -52,25 +56,23 @@ body {
   content: '';
   position: absolute;
   inset: 0;
-  background-image:
-    linear-gradient(rgba(255, 234, 0, 0.02) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 234, 0, 0.02) 1px, transparent 1px);
-  background-size: 80px 80px;
-  mask-image: radial-gradient(circle at 50% 50%, black, transparent 90%);
+  background: url('/assets/castle-bg.png') center/cover no-repeat;
+  filter: brightness(0.6) contrast(1.1);
+  z-index: -1;
 }
 
 .mesh-blob {
   position: absolute;
   border-radius: 50%;
   filter: blur(150px);
-  opacity: 0.25;
+  opacity: 0.15;
   animation: float-slow 15s infinite alternate ease-in-out;
 }
 
 .blob-indigo {
   width: 700px;
   height: 700px;
-  background: var(--accent-yellow);
+  background: var(--magic-gold);
   top: -200px;
   left: -200px;
 }
@@ -78,10 +80,36 @@ body {
 .blob-pink {
   width: 600px;
   height: 600px;
-  background: var(--accent-blue);
+  background: var(--magic-gold);
   bottom: -200px;
   right: -100px;
   animation-delay: -8s;
+  opacity: 0.1;
+}
+
+/* Fog Effect Overlay */
+.mesh-container::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: -50%;
+  width: 200%;
+  height: 60%;
+  background: url('https://www.transparenttextures.com/patterns/fog.png');
+  opacity: 0.15;
+  pointer-events: none;
+  animation: drift 60s linear infinite;
+  z-index: 0;
+}
+
+@keyframes drift {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(25%);
+  }
 }
 
 @keyframes float-slow {
@@ -103,7 +131,7 @@ body {
   justify-content: flex-start;
   gap: 6rem;
   border-bottom: 1px solid var(--glass-border);
-  background: rgba(0, 0, 0, 0.9);
+  background: rgba(10, 11, 30, 0.95);
   backdrop-filter: var(--glass-blur);
   position: sticky;
   top: 0;

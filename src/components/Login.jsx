@@ -51,7 +51,7 @@ const Login = ({ onLogin }) => {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            background: 'var(--bg-black)',
+            background: 'transparent',
             position: 'relative',
             overflow: 'hidden'
         }}>
@@ -62,7 +62,7 @@ const Login = ({ onLogin }) => {
                 left: 0,
                 right: 0,
                 bottom: 0,
-                backgroundImage: 'radial-gradient(circle at 50% 50%, rgba(255, 215, 0, 0.05) 0%, transparent 60%)',
+                backgroundImage: 'radial-gradient(circle at 50% 50%, rgba(197, 160, 89, 0.1) 0%, transparent 60%)',
                 zIndex: 0
             }} />
 
@@ -87,24 +87,25 @@ const Login = ({ onLogin }) => {
                     <div style={{
                         display: 'inline-flex',
                         padding: '1rem',
-                        background: 'rgba(255, 215, 0, 0.1)',
+                        background: 'rgba(197, 160, 89, 0.1)',
                         borderRadius: '16px',
                         marginBottom: '1.5rem',
-                        border: '1px solid rgba(255, 215, 0, 0.2)'
+                        border: '1px solid rgba(197, 160, 89, 0.2)'
                     }}>
-                        <Terminal size={32} color="var(--accent-yellow)" />
+                        <Terminal size={32} color="var(--magic-gold)" />
                     </div>
                     <h1 style={{
                         fontSize: '2rem',
                         fontWeight: '800',
                         color: 'white',
                         marginBottom: '0.5rem',
-                        letterSpacing: '-0.02em'
+                        letterSpacing: '2px',
+                        fontFamily: 'var(--font-display)'
                     }}>
-                        IDENTITY VERIFICATION
+                        WIZARD VERIFICATION
                     </h1>
-                    <p style={{ color: 'var(--text-dim)', fontSize: '0.9rem' }}>
-                        Enter your credentials to access the secure terminal.
+                    <p style={{ color: 'var(--text-dim)', fontSize: '0.9rem', fontFamily: 'var(--font-mission)' }}>
+                        Enter your scrolls to access the magic terminal.
                     </p>
                 </div>
 
@@ -185,10 +186,12 @@ const Login = ({ onLogin }) => {
                             width: '100%',
                             justifyContent: 'center',
                             fontSize: '0.9rem',
-                            padding: '1rem'
+                            padding: '1rem',
+                            background: 'var(--magic-gold)',
+                            color: '#0a0b1e'
                         }}
                     >
-                        AUTHENTICATE <LogIn size={18} />
+                        ENTER CHAMBER <LogIn size={18} />
                     </motion.button>
                 </form>
             </motion.div>

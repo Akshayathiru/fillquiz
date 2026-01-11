@@ -26,14 +26,14 @@ function Navbar({ user, onLogout }) {
             width: '32px',
             height: '32px',
             borderRadius: '4px',
-            background: 'var(--accent-yellow)',
+            background: 'var(--magic-gold)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
             marginRight: '1rem',
-            boxShadow: '0 0 20px rgba(255, 234, 0, 0.2)'
+            boxShadow: '0 0 20px rgba(197, 160, 89, 0.4)'
           }}>
-            <Terminal size={20} color="black" />
+            <Terminal size={20} color="#0a0b1e" />
           </div>
           RUNTIME TERRORS
         </div>
@@ -57,12 +57,12 @@ function Navbar({ user, onLogout }) {
           display: 'flex',
           alignItems: 'center',
           gap: '1rem',
-          background: 'rgba(255, 234, 0, 0.05)',
-          border: '1px solid rgba(255, 234, 0, 0.3)',
+          background: 'rgba(197, 160, 89, 0.05)',
+          border: '1px solid rgba(197, 160, 89, 0.3)',
           padding: '0.3rem 0.3rem 0.3rem 1rem',
           borderRadius: '4px'
         }}>
-          <span style={{ fontSize: '0.8rem', color: 'var(--accent-yellow)', fontWeight: '600', textTransform: 'uppercase' }}>
+          <span style={{ fontSize: '0.8rem', color: 'var(--magic-gold)', fontWeight: '600', textTransform: 'uppercase' }}>
             {user.name}
           </span>
           <button
@@ -118,19 +118,15 @@ function App() {
     localStorage.removeItem('fillquiz_user');
   }
 
-  if (!user) {
-    return <Login onLogin={handleLogin} />;
-  }
-
   return (
     <Router>
       <div className="app">
         <MeshBackground />
-        <Navbar user={user} onLogout={handleLogout} />
+        {user && <Navbar user={user} onLogout={handleLogout} />}
         <main className="animate-fade-in">
           <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/quiz" element={<Quiz />} />
+            <Route path="/" element={user ? <Home /> : <Login onLogin={handleLogin} />} />
+            <Route path="/quiz" element={user ? <Quiz /> : <Login onLogin={handleLogin} />} />
           </Routes>
         </main>
       </div>

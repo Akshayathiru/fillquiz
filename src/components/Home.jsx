@@ -4,7 +4,6 @@ import { useEffect } from 'react';
 import {
     Zap, Activity, Terminal
 } from 'lucide-react';
-import { ParticleBackground, RotatingGradient } from './Backgrounds';
 import DashboardSection from './Dashboard';
 import RulesSection from './RulesSection';
 
@@ -22,10 +21,8 @@ const Home = () => {
     }, [location]);
 
     return (
-        <div className="home-root" style={{ position: 'relative', minHeight: '100vh' }}>
-            {/* Background Layers */}
-            <ParticleBackground />
-            <RotatingGradient />
+        <div className="home-root" style={{ position: 'relative', minHeight: '100vh', fontFamily: 'var(--font-body)' }}>
+            {/* Background Layers are handled globally by mesh-container */}
 
             {/* Hero Section */}
             <section style={{
@@ -44,9 +41,9 @@ const Home = () => {
                     transition={{ duration: 0.8 }}
                     style={{ zIndex: 10, maxWidth: '1100px' }}
                 >
-                    <div className="hero-badge">
+                    <div className="hero-badge" style={{ borderColor: 'var(--magic-gold)', color: 'var(--magic-gold)', background: 'rgba(197, 160, 89, 0.1)' }}>
                         <Activity size={12} style={{ marginRight: '0.6rem' }} />
-                        PROTOCOL // ALPHA-7 // SYNCHRONIZATION EVENT
+                        MINISTRY PREPARATION // ARCANES-4 // EVALUATION
                     </div>
 
                     <motion.h1
@@ -83,7 +80,7 @@ const Home = () => {
                                         visible: { opacity: 1, y: 0 }
                                     }}
                                     style={{
-                                        color: 'var(--accent-blue)',
+                                        color: 'white',
                                         display: 'inline-block',
                                         width: char === " " ? '1rem' : 'auto'
                                     }}
@@ -103,8 +100,9 @@ const Home = () => {
                                         visible: { opacity: 1, y: 0 }
                                     }}
                                     style={{
-                                        color: 'var(--accent-yellow)',
-                                        display: 'inline-block'
+                                        color: 'var(--magic-gold)',
+                                        display: 'inline-block',
+                                        textShadow: '0 0 20px rgba(197, 160, 89, 0.5)'
                                     }}
                                 >
                                     {char === " " ? "\u00A0" : char}
@@ -122,30 +120,30 @@ const Home = () => {
                         fontWeight: '500',
                         letterSpacing: '0.02em'
                     }}>
-                        Initialize precision engineering protocols.
-                        A high-velocity technical event designed for elite synchronization.
-                        Master the black-box systems with advanced neural interfaces.
+                        Initialize your magical aptitude evaluation.
+                        A prestigious technical challenge for the modern wizard.
+                        Master the ancient arts through neural coding interfaces.
                     </p>
 
                     <div style={{ display: 'flex', gap: '1.5rem', justifyContent: 'center' }}>
                         <button
                             className="btn-asym"
                             onClick={() => navigate('/quiz')}
-                            style={{ padding: '1.2rem 3rem' }}
+                            style={{ padding: '1.2rem 3rem', background: 'var(--magic-gold)', color: 'var(--magic-blue)' }}
                         >
-                            INITIALIZE MISSION <Zap size={18} fill="currentColor" />
+                            ENTER THE CHAMBER <Zap size={18} fill="currentColor" />
                         </button>
 
                         <button
                             className="btn-asym"
                             style={{
                                 background: 'transparent',
-                                color: 'white',
-                                border: '1px solid #333',
+                                color: 'var(--magic-gold)',
+                                border: '1px solid var(--magic-gold)',
                                 padding: '1.2rem 3rem'
                             }}
                         >
-                            ARCHIVE DATA
+                            ANCIENT RECORDS
                         </button>
                     </div>
                 </motion.div>
@@ -168,8 +166,8 @@ const Home = () => {
                 backdropFilter: 'blur(10px)'
             }}>
                 <div className="logo" style={{ fontSize: '1.2rem', justifyContent: 'center', marginBottom: '2.5rem', color: 'white', fontWeight: '800' }}>
-                    <Terminal size={22} color="var(--accent-yellow)" style={{ marginRight: '1rem' }} />
-                    RUNTIME_TERRORS.EXE
+                    <Terminal size={22} color="var(--magic-gold)" style={{ marginRight: '1rem' }} />
+                    HOGWARTS_LEGACY.EXE
                 </div>
                 <div style={{
                     display: 'flex',
@@ -181,8 +179,8 @@ const Home = () => {
                         <span key={link} style={{ fontSize: '0.65rem', fontWeight: '800', letterSpacing: '4px', color: '#333', cursor: 'pointer' }}>{link}</span>
                     ))}
                 </div>
-                <div style={{ color: '#222', fontSize: '0.6rem', fontWeight: '800', letterSpacing: '2px' }}>
-                    © 2025 VOID_CORP // ENCRYPTION: AES-256 // SESSION: ACTIVE
+                <div style={{ color: '#444', fontSize: '0.6rem', fontWeight: '800', letterSpacing: '2px' }}>
+                    © 2026 MINISTRY OF MAGIC // ENCRYPTION: ANCIENT RUNES // SESSION: ACTIVE
                 </div>
             </footer>
         </div>
