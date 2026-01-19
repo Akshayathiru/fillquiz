@@ -8,312 +8,345 @@ import {
 import '../index.css';
 
 const ecommerceChallenge = {
-    title: "ARCANES_V1 // SPRINT-09",
-    description: "Construct a functional Magical Inventory system. Implement artifact rendering, state management for totals, and event handling for adding/clearing items.",
+    title: "THE_FORBIDDEN_REGISTRY // ARCHIVE-99",
+    description: "Reconstruct the ancient Artifact Registry. You must handle high-fidelity DOM orchestration, thematic styling, and state-locked inventory logic. Zero hints provided.",
     taskDetails: [
-        "1.  HTML: Set the page title.",
-        "2.  HTML: Link the external stylesheet.",
-        "3.  HTML: set the main heading.",
-        "4.  HTML: Define the container ID for products.",
-        "5.  HTML: Label the 'Clear Cart' button.",
-        "6.  HTML: Link the external script.",
-        "7.  CSS: set the font family.",
-        "8.  CSS: Set the background color.",
-        "9.  CSS: Define container width.",
-        "10. CSS: Center the container.",
-        "11. CSS: Add border to products.",
-        "12. CSS: Set product background.",
-        "13. CSS: Button background color.",
-        "14. CSS: Button text color.",
-        "15. CSS: Remove button border.",
-        "16. JS: Initialize total variable.",
-        "17. JS: Initialize count variable.",
-        "18. JS: Select the product container.",
-        "19. JS: Loop through products array.",
-        "20. JS: Create DOM element.",
-        "21. JS: Set class name.",
-        "22. JS: Access product name.",
-        "23. JS: Access product price.",
-        "24. JS: Pass price to handler.",
-        "25. JS: Label 'Add to Cart' button.",
-        "26. JS: Append element to DOM.",
-        "27. JS: Update total calculation.",
-        "28. JS: Update count calculation.",
-        "29. JS: Update total display ID.",
-        "30. JS: Update count display ID.",
-        "31. JS: Alert success message.",
-        "32. JS: Reset total variable.",
-        "33. JS: Reset count variable.",
-        "34. JS: Alert clear message."
+        "1.  HTML: Construct a semantic dashboard. The header must hold the title 'Forbidden Registry'.",
+        "2.  HTML: Create a main section with ID 'artifact-grid' for dynamic rendering.",
+        "3.  HTML: Include a sidebar for state tracking: total price (ID: 'grand-total') and count (ID: 'artifact-count').",
+        "4.  HTML: Add a control button with ID 'reset-ritual' to clear the registry.",
+        "5.  CSS: Implement a dark-magic theme. Use 'Cinzel' for headings and 'MedievalSharp' for the body.",
+        "6.  CSS: Create a layout using CSS Grid for the 'artifact-grid' (at least 2 columns).",
+        "7.  CSS: Style 'artifact-card' with a deep blue background, gold borders, and a glowing hover effect.",
+        "8.  CSS: Add a 'pulse' animation to any artifact marked as 'Legendary'.",
+        "9.  JS: Initialize 'inventory' as an empty array and 'totalMana' as 0.",
+        "10. JS: Loop through the provided 'artifacts' array and dynamically generate HTML for each.",
+        "11. JS: Each artifact card must display its Name, Rarity, and Price.",
+        "12. JS: Implement an 'acquireArtifact(id)' function that adds the item's price to the total and updates the DOM.",
+        "13. JS: Implement 'performReset()' to wipe the registry and reset counters to zero.",
+        "14. JS: Connect the reset button to the 'performReset' function using an event listener."
     ],
     files: {
         html: {
             name: "index.html",
             icon: <Layout size={14} />,
             color: "var(--accent-yellow)",
-            code: `<!DOCTYPE html>
-<html>
+            initialCode: `<!DOCTYPE html>
+<html lang="en">
 <head>
-    <title>____</title>
-    <link rel="stylesheet" href="____">
+    <meta charset="UTF-8">
+    <title>Forbidden Registry</title>
+    <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
+    <header>
+        <div class="seal-icon"></div>
+        <h1>Forbidden Registry</h1>
+    </header>
 
-<div class="container">
-    <h1>____</h1>
+    <!-- 2. Main Registry Grid (ID: artifact-grid) -->
 
-    <div id="____"></div>
+    <!-- 3. Ordered Footer with Stats (ID: grand-total, artifact-count) and Reset Ritual (ID: reset-ritual) -->
 
-    <h2>
-        Items in Cart: <span id="count">0</span><br>
-        Total Amount: <span id="total">0</span>
-    </h2>
-
-    <button onclick="clearCart()">____</button>
-</div>
-
-<script src="____"></script>
+    <script src="script.js"></script>
 </body>
 </html>`,
-            blanks: [
-                { index: 0, answer: "My Shop", points: 15 },
-                { index: 1, answer: "style.css", points: 15 },
-                { index: 2, answer: "My Shop", points: 15 },
-                { index: 3, answer: "products", points: 20 },
-                { index: 4, answer: "Clear Cart", points: 10 },
-                { index: 5, answer: "script.js", points: 15 }
+            solutions: [
+                { id: "semantic-header", check: (code) => /<header>.*Forbidden Registry.*<\/header>/is.test(code), points: 20 },
+                { id: "grid-container", check: (code) => code.includes('id="artifact-grid"'), points: 20 },
+                { id: "state-elements", check: (code) => code.includes('id="grand-total"') && code.includes('id="artifact-count"'), points: 20 },
+                { id: "reset-btn", check: (code) => code.includes('id="reset-ritual"'), points: 15 },
+                { id: "links", check: (code) => code.includes('href="style.css"') && code.includes('src="script.js"'), points: 15 }
             ]
         },
         css: {
             name: "style.css",
             icon: <FileCode size={14} />,
             color: "var(--accent-blue)",
-            code: `body {
-    font-family: ____;
-    background-color: ____;
+            initialCode: `body {
+    background: #020205;
+    color: #c5a059;
+    font-family: 'MedievalSharp', cursive;
+    padding: 2rem;
 }
 
-.container {
-    width: ____;
-    margin: ____;
+.seal-icon {
+    /* Moderate: Use fixed size + rotate(45deg) for diamond shape */
 }
 
-.product {
-    border: ____;
-    padding: 15px;
-    margin-bottom: 12px;
-    background-color: ____;
+header h1 {
+    /* Set thematic font and glow */
 }
 
-button {
-    background-color: ____;
-    color: ____;
-    border: ____;
-    padding: 8px 12px;
-    cursor: pointer;
+#artifact-grid {
+    /* Define 2-column grid layout */
+}
+
+.artifact-card {
+    /* Design professional glassmorphism card */
+}
+
+.legendary {
+    /* Attach pulse animation */
+}
+
+@keyframes pulse {
+    /* Implement ritual glow effect */
 }`,
-            blanks: [
-                { index: 0, answer: "sans-serif", points: 10 },
-                { index: 1, answer: "#f4f4f4", points: 10 },
-                { index: 2, answer: "80%", points: 10 },
-                { index: 3, answer: "auto", points: 15 },
-                { index: 4, answer: "1px solid #ddd", points: 20 },
-                { index: 5, answer: "#fff", points: 10 },
-                { index: 6, answer: "#28a745", points: 15 },
-                { index: 7, answer: "#fff", points: 10 },
-                { index: 8, answer: "none", points: 15 }
+            solutions: [
+                { id: "font-cinzel", check: (code) => code.includes("font-family") && code.includes("Cinzel"), points: 15 },
+                { id: "grid-logic", check: (code) => (code.includes("display: grid") || code.includes("display:grid")) && code.includes("gap"), points: 20 },
+                { id: "gold-theme", check: (code) => code.includes("#c5a059") || code.includes("gold"), points: 15 },
+                { id: "card-design", check: (code) => code.includes("background") && code.includes("border"), points: 20 },
+                { id: "animation", check: (code) => code.includes("@keyframes pulse") && code.includes("animation:"), points: 20 }
             ]
         },
         js: {
             name: "script.js",
             icon: <FileCode size={14} />,
             color: "var(--accent-yellow)",
-            code: `// Product data
-const products = [
-    { id: 1, name: "Mobile", price: 15000 },
-    { id: 2, name: "Headphones", price: 2000 },
-    { id: 3, name: "Laptop", price: 55000 }
+            initialCode: `const artifacts = [
+    { id: 101, name: "Elder Wand", price: 50000, rarity: "Legendary" },
+    { id: 102, name: "Cloak", price: 35000, rarity: "Legendary" },
+    { id: 103, name: "Resurrection Stone", price: 40000, rarity: "Legendary" }
 ];
 
-// Cart variables
-let total = ____;
-let count = ____;
+// Initialize tracking variables
 
-// Get product container
-const productDiv = document.getElementById("____");
+// Function to render artifacts to the grid
 
-// Display products
-products.____(product => {
+// Function to handle acquisition logic (updates price/count)
 
-    const div = document.____("div");
-    div.____ = "product";
-
-    div.innerHTML =
-        "<h3>" + product.____ + "</h3>" +
-        "<p>Price: " + product.____ + "</p>" +
-        "<button onclick='addToCart(" + product.____ + ")'>____</button>";
-
-    productDiv.____(div);
-});
-
-// Add item to cart
-function addToCart(price) {
-    total = total ____ price;
-    count = count ____ 1;
-
-    document.getElementById("____").innerText = total;
-    document.getElementById("____").innerText = count;
-
-    alert("____");
-}
-
-// Clear cart function
-function clearCart() {
-    total = ____;
-    count = ____;
-
-    document.getElementById("total").innerText = total;
-    document.getElementById("count").innerText = count;
-
-    alert("____");
-}`,
-            blanks: [
-                { index: 0, answer: "0", points: 10 },
-                { index: 1, answer: "0", points: 10 },
-                { index: 2, answer: "products", points: 25 },
-                { index: 3, answer: "forEach", points: 30 },
-                { index: 4, answer: "createElement", points: 25 },
-                { index: 5, answer: "className", points: 20 },
-                { index: 6, answer: "name", points: 15 },
-                { index: 7, answer: "price", points: 15 },
-                { index: 8, answer: "price", points: 20 },
-                { index: 9, answer: "Add to Cart", points: 10 },
-                { index: 10, answer: "appendChild", points: 25 },
-                { index: 11, answer: "+", points: 30 },
-                { index: 12, answer: "+", points: 20 },
-                { index: 13, answer: "total", points: 20 },
-                { index: 14, answer: "count", points: 20 },
-                { index: 15, answer: "Item Added", points: 10 },
-                { index: 16, answer: "0", points: 15 },
-                { index: 17, answer: "0", points: 15 },
-                { index: 18, answer: "Cart Cleared", points: 10 }
+// Function to reset the archive`,
+            solutions: [
+                { id: "array-render", check: (code) => code.includes(".forEach") || code.includes(".map"), points: 25 },
+                { id: "dom-creation", check: (code) => code.includes("createElement") || code.includes(".innerHTML +="), points: 25 },
+                { id: "acquire-logic", check: (code) => code.includes("function") && (code.includes("+=") || code.includes("++")), points: 40 },
+                { id: "reset-logic", check: (code) => code.includes("innerHTML = 0") || code.includes("textContent = 0"), points: 30 },
+                { id: "event-listener", check: (code) => code.includes("addEventListener"), points: 20 }
             ]
         }
     }
 };
 
-const AutoSizeInput = ({ value, onChange, placeholder, disabled }) => {
-    const spanRef = useRef(null);
-    const [width, setWidth] = useState(35);
-
-    useEffect(() => {
-        if (spanRef.current) {
-            setWidth(Math.max(35, spanRef.current.offsetWidth + 12));
-        }
-    }, [value, placeholder]);
-
-    return (
-        <span style={{ display: 'inline-flex', position: 'relative', verticalAlign: 'middle', margin: '0 4px' }}>
-            <span ref={spanRef} style={{ position: 'absolute', opacity: 0, whiteSpace: 'pre', fontFamily: 'inherit', fontSize: 'inherit' }}>
-                {value || placeholder}
-            </span>
-            <input
-                type="text"
-                value={value}
-                onChange={onChange}
-                placeholder={placeholder}
-                disabled={disabled}
-                className="code-input-field"
-                style={{
-                    width: `${width}px`,
-                    background: disabled ? 'rgba(255, 0, 0, 0.05)' : 'rgba(255, 234, 0, 0.03)',
-                    border: disabled ? '1px solid rgba(255, 0, 0, 0.15)' : '1px solid rgba(255, 234, 0, 0.15)',
-                    borderRadius: '4px',
-                    padding: '0 8px',
-                    fontSize: '0.9rem',
-                    color: disabled ? '#666' : 'var(--accent-yellow)',
-                    transition: 'all 0.3s ease',
-                    cursor: disabled ? 'not-allowed' : 'text'
-                }}
-            />
-        </span>
-    );
-};
-
 const Quiz = () => {
-    const [activeTab, setActiveTab] = useState(Object.keys(ecommerceChallenge.files)[0]);
-    const [userAnswers, setUserAnswers] = useState({});
+    const [activeTab, setActiveTab] = useState('html');
+    const [userCode, setUserCode] = useState({
+        html: ecommerceChallenge.files.html.initialCode,
+        css: ecommerceChallenge.files.css.initialCode,
+        js: ecommerceChallenge.files.js.initialCode
+    });
     const [hasRun, setHasRun] = useState(false);
     const [showSummary, setShowSummary] = useState(false);
     const [totalScore, setTotalScore] = useState(0);
     const [missionResults, setMissionResults] = useState([]);
+    const [previewType, setPreviewType] = useState('goal'); // 'user' or 'goal'
     const [previewSrc, setPreviewSrc] = useState('');
-    const [timeLeft, setTimeLeft] = useState(1200); // 20 minutes in seconds
+    const [timeLeft, setTimeLeft] = useState(1200); // 20 minutes
     const [isTimeUp, setIsTimeUp] = useState(false);
 
     const maxScore = Object.values(ecommerceChallenge.files).reduce((acc, file) => {
-        return acc + file.blanks.reduce((sum, b) => sum + b.points, 0);
+        return acc + file.solutions.reduce((sum, s) => sum + s.points, 0);
     }, 0);
 
-    const updatePreview = (useSolutions = false) => {
-        const getFilledCode = (fileKey) => {
-            if (!ecommerceChallenge.files[fileKey]) return "";
-            let code = ecommerceChallenge.files[fileKey].code;
+    const generateCode = (isGoal = false) => {
+        let html = userCode.html;
+        let css = userCode.css;
+        let js = userCode.js;
 
-            ecommerceChallenge.files[fileKey].blanks.forEach((blank, idx) => {
-                // If useSolutions is true, use the correct answer. 
-                // Otherwise use what the user typed (fallback to empty string)
-                const val = useSolutions
-                    ? blank.answer
-                    : (userAnswers[`${fileKey}-${idx}`] || "");
-                code = code.replace("____", val);
+        if (isGoal) {
+            html = `
+<div class="registry-container">
+    <div class="ambient-glow"></div>
+    <main class="registry-main">
+        <header class="registry-header">
+            <div class="seal-header">
+                <div class="seal-diamond"></div>
+                <div class="seal-line"></div>
+            </div>
+            <div class="header-content">
+                <div class="breadcrumb">FORBIDDEN_ARCHIVE // 099</div>
+                <h1 class="main-title">Registry</h1>
+            </div>
+        </header>
+        
+        <div id="artifact-grid" class="custom-scroll">
+            <div class="artifact-card legendary">
+                <div class="card-glow"></div>
+                <div class="card-meta">ARTIFACT_101 // LEGENDARY</div>
+                <div class="card-body">
+                    <h3>Elder Wand</h3>
+                    <div class="price-tag">50,000 <span class="unit">G</span></div>
+                </div>
+                <button class="acquire-btn" data-price="50000">ACQUIRE ARTIFACT</button>
+            </div>
+            
+            <div class="artifact-card legendary">
+                <div class="card-glow"></div>
+                <div class="card-meta">ARTIFACT_102 // LEGENDARY</div>
+                <div class="card-body">
+                    <h3>Invisibility Cloak</h3>
+                    <div class="price-tag">35,000 <span class="unit">G</span></div>
+                </div>
+                <button class="acquire-btn" data-price="35000">ACQUIRE ARTIFACT</button>
+            </div>
+        </div>
+
+        <div class="dashboard-panel">
+            <div class="stats-grid">
+                <div class="stat-box">
+                    <span class="label">MANIFESTED</span>
+                    <span id="artifact-count" class="value">0</span>
+                </div>
+                <div class="stat-box">
+                    <span class="label">MANA_ACCUMULATION</span>
+                    <span id="grand-total" class="value">0</span>
+                </div>
+            </div>
+            <div class="action-footer">
+                <button id="reset-ritual" class="purge-btn">PURGE_SESSION</button>
+                <div class="status-badge">SYSTEM_ONLINE</div>
+            </div>
+        </div>
+    </main>
+</div>`;
+            css = `
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=MedievalSharp&display=swap');
+
+:root {
+    --gold: #c5a059;
+    --gold-glow: rgba(197, 160, 89, 0.3);
+    --bg-dark: #020205;
+}
+
+body { 
+    background: var(--bg-dark); color: var(--gold); font-family: 'MedievalSharp', cursive;
+    margin: 0; padding: 0; min-height: 100vh; overflow-y: auto; font-size: 13px;
+}
+
+.registry-container { 
+    min-height: 100vh; display: flex; flex-direction: column; position: relative;
+}
+
+.ambient-glow {
+    position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+    width: 600px; height: 400px; background: radial-gradient(circle, rgba(10, 11, 30, 0.8) 0%, transparent 70%);
+    z-index: 0; pointer-events: none;
+}
+
+.registry-main { 
+    flex: 1; display: flex; flex-direction: column; position: relative; z-index: 1; padding: 1.5rem;
+    max-width: 450px; margin: 0 auto; width: 100%; box-sizing: border-box;
+}
+
+/* Header Styling */
+.registry-header { margin-bottom: 2rem; display: flex; align-items: flex-start; gap: 1rem; }
+.seal-header { display: flex; flex-direction: column; align-items: center; gap: 0.5rem; padding-top: 0.5rem; }
+.seal-diamond { width: 12px; height: 12px; border: 1px solid var(--gold); transform: rotate(45deg); box-shadow: 0 0 10px var(--gold-glow); }
+.seal-line { width: 1px; height: 25px; background: linear-gradient(to bottom, var(--gold), transparent); }
+.breadcrumb { font-size: 0.55rem; letter-spacing: 2px; opacity: 0.5; margin-bottom: 0.2rem; }
+.main-title { font-size: 1.6rem; color: white; font-family: 'Cinzel', serif; margin: 0; letter-spacing: 1px; }
+
+/* Artifact Grid */
+#artifact-grid { display: flex; flex-direction: column; gap: 1rem; margin-bottom: 2rem; }
+
+/* Visible Scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.3); }
+::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 10px; border: 2px solid var(--bg-dark); }
+::-webkit-scrollbar-thumb:hover { background: #fff; }
+
+.artifact-card { 
+    background: rgba(10, 11, 30, 0.4); border: 1px solid rgba(197, 160, 89, 0.1); 
+    padding: 1.2rem; border-radius: 4px; position: relative; overflow: hidden; transition: 0.4s;
+}
+.artifact-card:hover { background: rgba(10, 11, 30, 0.8); border-color: var(--gold); transform: translateY(-3px); }
+.card-glow { position: absolute; inset: 0; background: linear-gradient(45deg, transparent, rgba(197, 160, 89, 0.05), transparent); pointer-events: none; }
+.card-meta { font-size: 0.5rem; color: var(--gold); opacity: 0.6; margin-bottom: 0.6rem; letter-spacing: 1px; }
+.card-body h3 { font-size: 1rem; color: #fff; margin: 0 0 0.3rem 0; font-family: 'Cinzel', serif; }
+.price-tag { font-size: 1.1rem; font-weight: bold; color: white; }
+.unit { font-size: 0.6rem; color: var(--gold); }
+
+.acquire-btn { 
+    margin-top: 0.8rem; width: 100%; background: transparent; color: var(--gold); border: 1px solid var(--gold);
+    padding: 0.5rem; font-family: 'Cinzel', serif; font-size: 0.65rem; font-weight: bold; cursor: pointer; transition: 0.3s;
+}
+.acquire-btn:hover { background: var(--gold); color: black; box-shadow: 0 5px 15px rgba(197, 160, 89, 0.2); }
+
+.legendary { animation: ritualPulse 5s infinite; }
+@keyframes ritualPulse {
+    0%, 100% { border-color: rgba(197, 160, 89, 0.1); }
+    50% { border-color: rgba(197, 160, 89, 0.4); box-shadow: 0 0 20px rgba(197, 160, 89, 0.1); }
+}
+
+/* Dashboard Panel */
+.dashboard-panel { background: rgba(5, 5, 8, 0.9); border: 1px solid rgba(197, 160, 89, 0.15); padding: 1.2rem; border-radius: 8px; box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.5); margin-top: auto; }
+.stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem; }
+.stat-box { border-left: 2px solid var(--gold); padding-left: 1rem; }
+.label { font-size: 0.55rem; opacity: 0.5; letter-spacing: 1px; display: block; margin-bottom: 0.2rem; }
+.value { font-size: 1.2rem; color: white; font-weight: bold; font-family: 'Cinzel', serif; }
+
+.action-footer { display: flex; justify-content: space-between; align-items: center; padding-top: 1rem; border-top: 1px solid rgba(255, 255, 255, 0.05); }
+.purge-btn { background: transparent; color: #ff4444; border: none; font-family: 'Cinzel', serif; font-size: 0.65rem; letter-spacing: 2px; cursor: pointer; padding: 0.4rem; transition: 0.3s; }
+.purge-btn:hover { color: white; text-shadow: 0 0 10px #f00; }
+.status-badge { font-size: 0.5rem; color: #00ff00; letter-spacing: 1px; font-weight: bold; }
+`;
+            js = `
+            let count = 0; let total = 0;
+            const countEl = document.getElementById('artifact-count');
+            const totalEl = document.getElementById('grand-total');
+            const formatter = new Intl.NumberFormat();
+
+            document.querySelectorAll('.acquire-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    count++; total += parseInt(btn.dataset.price);
+                    countEl.innerText = count;
+                    totalEl.innerText = formatter.format(total);
+                });
             });
-            return code;
-        };
 
-        const html = getFilledCode('html');
-        const css = getFilledCode('css');
-        const js = getFilledCode('js');
+            document.getElementById('reset-ritual').addEventListener('click', () => {
+                count = 0; total = 0;
+                countEl.innerText = '0'; totalEl.innerText = '0';
+            });
+            `;
+        }
 
-        const combinedSrc = `
-            <html>
-                <style>
-                    ${css}
-                    /* Inject Custom Scrollbar for Preview */
-                    ::-webkit-scrollbar { width: 10px; height: 10px; }
-                    ::-webkit-scrollbar-track { background: #050505; border-left: 1px solid #1a1a1a; }
-                    ::-webkit-scrollbar-thumb { background: #c5a059; border-radius: 5px; border: 2px solid #050505; }
-                    ::-webkit-scrollbar-thumb:hover { background: #fff; }
-                    html, body { height: 100%; margin: 0; overflow-y: scroll; scrollbar-width: thin; scrollbar-color: #c5a059 #050505; }
-                </style>
+        return `
+                < html >
+                <head>
+                    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=MedievalSharp&display=swap" rel="stylesheet">
+                    <style>
+                        ${css}
+                        ::-webkit-scrollbar { width: 8px; height: 8px; }
+                        ::-webkit-scrollbar-track { background: #050505; }
+                        ::-webkit-scrollbar-thumb { background: #c5a059; border-radius: 4px; }
+                        ::-webkit-scrollbar-thumb:hover { background: #fff; }
+                        html, body { height: 100%; margin: 0; }
+                        * { box-sizing: border-box; }
+                    </style>
+                </head>
                 <body>
                     ${html.replace(/<\/?html>|<\/?head>|<\/?body>|<meta[^>]*>|<title>[^<]*<\/title>/g, '')}
-                    <script>
-                        try {
-                            ${js}
-                        } catch(e) { console.error(e); }
-                    </script>
+                    <script>${js}</script>
                 </body>
-            </html>
-        `;
-        setPreviewSrc(combinedSrc);
+            </html >
+    `;
     };
 
-    // Show the "Goal" output on initial load
     useEffect(() => {
-        updatePreview(true);
-    }, []);
+        setPreviewSrc(generateCode(previewType === 'goal'));
+    }, [userCode, previewType]);
 
-    const handleInputChange = (fileKey, blankIndex, value) => {
-        setUserAnswers(prev => ({
+    const handleCodeChange = (code) => {
+        setUserCode(prev => ({
             ...prev,
-            [`${fileKey}-${blankIndex}`]: value
+            [activeTab]: code
         }));
     };
 
     const runCode = () => {
-        updatePreview(false); // Render the user's actual filled code
+        setPreviewType('user');
         setHasRun(true);
     };
 
@@ -322,19 +355,17 @@ const Quiz = () => {
         const results = [];
 
         Object.entries(ecommerceChallenge.files).forEach(([fileKey, fileData]) => {
-            fileData.blanks.forEach((blank, idx) => {
-                const userAns = (userAnswers[`${fileKey}-${idx}`] || "").trim().toLowerCase();
-                const isCorrect = userAns === blank.answer.toLowerCase();
+            const currentCode = userCode[fileKey];
 
-                if (isCorrect) earned += blank.points;
+            fileData.solutions.forEach((sol, idx) => {
+                const isCorrect = sol.check(currentCode);
+                if (isCorrect) earned += sol.points;
 
                 results.push({
                     file: fileData.name,
-                    task: ecommerceChallenge.taskDetails[results.length] || `Blank ${idx + 1}`,
+                    task: ecommerceChallenge.taskDetails[results.length] || `Task ${idx + 1} `,
                     isCorrect,
-                    points: blank.points,
-                    userAns: userAnswers[`${fileKey}-${idx}`] || "EMPTY",
-                    expected: blank.answer
+                    points: sol.points
                 });
             });
         });
@@ -344,57 +375,38 @@ const Quiz = () => {
         setShowSummary(true);
     };
 
-    // Timer Logic
     useEffect(() => {
         if (showSummary) return;
-
         if (timeLeft <= 0) {
             setIsTimeUp(true);
             calculateFinalScore();
             return;
         }
-
         const timer = setInterval(() => {
             setTimeLeft(prev => prev - 1);
         }, 1000);
-
         return () => clearInterval(timer);
     }, [timeLeft, showSummary]);
 
     const formatTime = (seconds) => {
         const mins = Math.floor(seconds / 60);
         const secs = seconds % 60;
-        return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+        return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')} `;
     };
 
-    const renderCodeBlock = (fileKey, fileData) => {
-        const parts = fileData.code.split('____');
-        return (
-            <div className="code-editor" style={{ color: '#888', fontVariantLigatures: 'none' }}>
-                {parts.map((part, index) => {
-                    const isLast = index === parts.length - 1;
-                    return (
-                        <React.Fragment key={index}>
-                            <span style={{ whiteSpace: 'pre-wrap' }}>{part}</span>
-                            {!isLast && (
-                                <AutoSizeInput
-                                    value={userAnswers[`${fileKey}-${index}`] || ""}
-                                    onChange={(e) => handleInputChange(fileKey, index, e.target.value)}
-                                    placeholder="..."
-                                    disabled={isTimeUp}
-                                />
-                            )}
-                        </React.Fragment>
-                    );
-                })}
+    const renderLineNumbers = (code) => {
+        const lines = code.split('\n').length;
+        return Array.from({ length: Math.max(lines, 20) }, (_, i) => (
+            <div key={i} style={{ color: '#444', textAlign: 'right', paddingRight: '1rem', userSelect: 'none', fontSize: '0.8rem', fontFamily: 'var(--font-mono)', height: '1.5rem', lineHeight: '1.5rem' }}>
+                {i + 1}
             </div>
-        );
+        ));
     };
 
     const getGrade = (score) => {
         const percentage = (score / maxScore) * 100;
-        if (percentage >= 95) return 'S';
-        if (percentage >= 80) return 'A';
+        if (percentage >= 90) return 'S';
+        if (percentage >= 75) return 'A';
         if (percentage >= 60) return 'B';
         if (percentage >= 40) return 'C';
         return 'F';
@@ -402,117 +414,115 @@ const Quiz = () => {
 
     if (showSummary) {
         return (
-            <div className="summary-overlay" style={{ background: 'rgba(0,0,0,0.98)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '2rem' }}>
+            <div className="summary-page" style={{
+                minHeight: 'calc(100vh - 80px)',
+                display: 'flex',
+                alignItems: 'flex-start',
+                justifyContent: 'center',
+                padding: '4rem 2rem',
+                background: 'rgba(5, 5, 8, 0.4)',
+                backdropFilter: 'blur(10px)',
+                overflowY: 'auto'
+            }}>
                 <motion.div
-                    initial={{ y: 50, opacity: 0, scale: 0.9 }}
-                    animate={{ y: 0, opacity: 1, scale: 1 }}
+                    initial={{ y: 30, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
                     className="summary-card"
                     style={{
-                        background: '#0a0a0a',
-                        border: '1px solid var(--accent-yellow)',
-                        borderRadius: '12px',
+                        background: '#08080c',
+                        border: '1px solid var(--magic-gold)',
+                        borderRadius: '16px',
                         padding: '3rem',
                         textAlign: 'center',
-                        maxWidth: '800px',
+                        maxWidth: '900px',
                         width: '100%',
-                        maxHeight: '90vh',
                         display: 'flex',
                         flexDirection: 'column',
-                        boxShadow: '0 0 50px rgba(255, 234, 0, 0.15)',
+                        boxShadow: '0 0 100px rgba(0, 0, 0, 0.9), 0 0 50px rgba(197, 160, 89, 0.1)',
                         position: 'relative',
-                        overflow: 'hidden'
+                        fontFamily: 'var(--font-heading)',
+                        marginBottom: '4rem'
                     }}
                 >
-                    {/* Scanner Line */}
-                    <div style={{
-                        position: 'absolute', top: 0, left: 0, width: '100%', height: '2px',
-                        background: 'linear-gradient(90deg, transparent, var(--accent-yellow), transparent)',
-                        animation: 'scan 4s infinite linear', zIndex: 10
-                    }}></div>
+                    <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '2px', background: 'linear-gradient(90deg, transparent, var(--accent-yellow), transparent)', animation: 'scan 4s infinite linear', zIndex: 10 }}></div>
 
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '2rem' }}>
-                        <div style={{ textAlign: 'left', fontFamily: 'var(--font-mission)' }}>
-                            <div style={{ fontSize: '0.6rem', fontWeight: '900', color: 'var(--magic-gold)', letterSpacing: '4px', textTransform: 'uppercase', marginBottom: '0.5rem', fontFamily: 'var(--font-display)' }}>Mission Synopsis</div>
-                            <h2 style={{ fontSize: '1.2rem', fontWeight: '800', color: 'white', fontFamily: 'var(--font-display)' }}>ANCIENT_SCROLL_LOG</h2>
+                        <div style={{ textAlign: 'left' }}>
+                            <div style={{ fontSize: '0.6rem', fontWeight: '900', color: 'var(--magic-gold)', letterSpacing: '4px', textTransform: 'uppercase', marginBottom: '0.5rem' }}>Mission Synopsis</div>
+                            <h2 style={{ fontSize: '1.2rem', fontWeight: '800', color: 'white' }}>ANCIENT_SCROLL_LOG</h2>
                         </div>
-                        <div style={{ textAlign: 'right', fontFamily: 'var(--font-display)' }}>
+                        <div style={{ textAlign: 'right' }}>
                             <div style={{ fontSize: '3rem', fontWeight: '950', color: 'white', lineHeight: 1 }}>{getGrade(totalScore)}</div>
                             <div style={{ fontSize: '0.6rem', color: '#666', textTransform: 'uppercase', letterSpacing: '2px' }}>Final Grade</div>
                         </div>
                     </div>
 
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1.5rem', marginBottom: '2rem', background: '#050505', padding: '1.5rem', borderRadius: '4px', border: '1px solid #111', fontFamily: 'var(--font-mission)' }}>
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1.5rem', marginBottom: '2rem', background: '#050505', padding: '1.5rem', borderRadius: '4px', border: '1px solid #111' }}>
                         <div>
-                            <div style={{ fontSize: '0.55rem', color: '#666', textTransform: 'uppercase', marginBottom: '0.4rem', fontFamily: 'var(--font-display)' }}>Magical Output</div>
+                            <div style={{ fontSize: '0.55rem', color: '#666', textTransform: 'uppercase', marginBottom: '0.4rem' }}>Magical Output</div>
                             <div style={{ fontSize: '1.2rem', fontWeight: '800', color: 'var(--magic-gold)' }}>{totalScore} <span style={{ fontSize: '0.7rem', color: '#444' }}>/ {maxScore}</span></div>
                         </div>
                         <div>
-                            <div style={{ fontSize: '0.55rem', color: '#666', textTransform: 'uppercase', marginBottom: '0.4rem', fontFamily: 'var(--font-display)' }}>Accuracy</div>
+                            <div style={{ fontSize: '0.55rem', color: '#666', textTransform: 'uppercase', marginBottom: '0.4rem' }}>Accuracy</div>
                             <div style={{ fontSize: '1.2rem', fontWeight: '800', color: 'white' }}>{maxScore > 0 ? Math.round((totalScore / maxScore) * 100) : 0}%</div>
                         </div>
                         <div>
-                            <div style={{ fontSize: '0.55rem', color: '#666', textTransform: 'uppercase', marginBottom: '0.4rem', fontFamily: 'var(--font-display)' }}>Status</div>
+                            <div style={{ fontSize: '0.55rem', color: '#666', textTransform: 'uppercase', marginBottom: '0.4rem' }}>Status</div>
                             <div style={{ fontSize: '1.2rem', fontWeight: '800', color: totalScore >= (maxScore * 0.5) ? '#0f0' : '#f00' }}>
                                 {totalScore >= (maxScore * 0.5) ? 'SUCCESS' : 'FAILED'}
                             </div>
                         </div>
                     </div>
 
-                    <div style={{ flex: 1, overflowY: 'auto', marginBottom: '2rem', paddingRight: '1rem' }} className="custom-scroll">
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                    <div style={{ flex: 1, overflowY: 'auto', marginBottom: '2.5rem', paddingRight: '1rem', minHeight: '300px' }} className="custom-scroll">
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
                             {missionResults.map((res, i) => (
                                 <div key={i} style={{
                                     display: 'flex',
                                     alignItems: 'center',
-                                    gap: '1rem',
-                                    background: '#030303',
-                                    padding: '0.8rem 1.2rem',
-                                    border: '1px solid #111',
-                                    borderRadius: '4px',
-                                    textAlign: 'left'
+                                    gap: '1.2rem',
+                                    background: 'rgba(255, 255, 255, 0.02)',
+                                    padding: '1.2rem 1.5rem',
+                                    border: '1px solid rgba(197, 160, 89, 0.1)',
+                                    borderRadius: '8px',
+                                    textAlign: 'left',
+                                    fontFamily: 'var(--font-mission)',
+                                    transition: '0.3s'
                                 }}>
                                     <div style={{
-                                        width: '8px', height: '8px', borderRadius: '50%',
-                                        background: res.isCorrect ? '#0f0' : '#f00',
-                                        boxShadow: res.isCorrect ? '0 0 10px #0f0' : '0 0 10px #f00'
+                                        width: '10px',
+                                        height: '10px',
+                                        borderRadius: '50%',
+                                        background: res.isCorrect ? '#0f0' : '#f44',
+                                        boxShadow: res.isCorrect ? '0 0 15px #0f0' : '0 0 15px #f44'
                                     }}></div>
-                                    <div style={{ flex: 1, fontFamily: 'var(--font-mission)' }}>
-                                        <div style={{ fontSize: '0.65rem', color: '#555', textTransform: 'uppercase', fontWeight: '800', fontFamily: 'var(--font-display)' }}>[{res.file}]</div>
-                                        <div style={{ fontSize: '0.8rem', color: '#bbb' }}>{res.task}</div>
+                                    <div style={{ flex: 1 }}>
+                                        <div style={{ fontSize: '0.6rem', color: 'var(--magic-gold)', textTransform: 'uppercase', fontWeight: '800', fontFamily: 'var(--font-heading)', letterSpacing: '1px', marginBottom: '0.2rem' }}>{res.file}</div>
+                                        <div style={{ fontSize: '0.9rem', color: '#eee', fontWeight: '500' }}>{res.task}</div>
                                     </div>
-                                    <div style={{ textAlign: 'right', fontFamily: 'var(--font-display)' }}>
-                                        <div style={{ fontSize: '0.8rem', fontWeight: '800', color: res.isCorrect ? 'var(--accent-yellow)' : '#444' }}>+{res.isCorrect ? res.points : 0}</div>
-                                        {!res.isCorrect && <div style={{ fontSize: '0.6rem', color: '#f00' }}>ERR: {res.userAns}</div>}
+                                    <div style={{ textAlign: 'right' }}>
+                                        <div style={{ fontSize: '1rem', fontWeight: '900', color: res.isCorrect ? 'var(--magic-gold)' : '#333' }}>
+                                            {res.isCorrect ? `+ ${res.points} ` : '0'}
+                                        </div>
                                     </div>
                                 </div>
                             ))}
                         </div>
                     </div>
 
-                    <div style={{ display: 'flex', gap: '1rem' }}>
-                        <button className="btn-asym" style={{ flex: 1, background: 'var(--magic-gold)', color: '#0a0b1e' }} onClick={() => window.location.href = '/'}>
-                            FINALIZE_SESSION
-                        </button>
-                        <button className="btn-asym" style={{ flex: 1, background: 'transparent', color: 'white', border: '1px solid #222' }} onClick={() => window.location.reload()}>
-                            REBOOT_MISSION
-                        </button>
+                    <div style={{ display: 'flex', gap: '1.5rem', marginTop: 'auto' }}>
+                        <button className="btn-asym" style={{ flex: 1, padding: '1.2rem', fontSize: '0.8rem' }} onClick={() => window.location.href = '/'}>FINALIZE_SESSION</button>
+                        <button className="btn-asym" style={{ flex: 1, padding: '1.2rem', fontSize: '0.8rem', background: 'transparent', color: 'white', border: '1px solid rgba(197, 160, 89, 0.3)' }} onClick={() => window.location.reload()}>REBOOT_MISSION</button>
                     </div>
                 </motion.div>
-                <style>{`
-                    @keyframes scan { 0% { top: -10%; } 100% { top: 110%; } }
-                `}</style>
+                <style>{`@keyframes scan { 0 % { top: -10 %; } 100 % { top: 110 %; } } `}</style>
             </div>
         );
     }
 
     return (
-        <div className="ide-container">
-            <motion.div
-                className="ide-window"
-                initial={{ y: 20, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ duration: 0.5 }}
-            >
+        <div className="ide-container" style={{ fontFamily: 'var(--font-heading)' }}>
+            <motion.div className="ide-window" initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ duration: 0.5 }}>
                 <div className="ide-header">
                     <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
                         <div className="window-controls" style={{ display: 'flex', gap: '0.6rem' }}>
@@ -520,24 +530,18 @@ const Quiz = () => {
                             <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#222' }}></div>
                             <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#222' }}></div>
                         </div>
-                        <div style={{ fontSize: '0.7rem', fontWeight: '800', color: 'white', display: 'flex', alignItems: 'center', gap: '0.8rem', letterSpacing: '2px', textTransform: 'uppercase', fontFamily: 'var(--font-display)' }}>
+                        <div style={{ fontSize: '0.7rem', fontWeight: '800', color: 'white', display: 'flex', alignItems: 'center', gap: '0.8rem', letterSpacing: '2px', textTransform: 'uppercase' }}>
                             <Terminal size={14} color="var(--accent-yellow)" />
                             {ecommerceChallenge.title}
                         </div>
                     </div>
                     <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'center' }}>
                         <div style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: '0.5rem',
-                            padding: '0.4rem 1rem',
+                            display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.4rem 1rem',
                             background: timeLeft < 60 ? 'rgba(255, 0, 0, 0.1)' : 'rgba(255, 234, 0, 0.05)',
                             border: timeLeft < 60 ? '1px solid #f00' : '1px solid rgba(255, 234, 0, 0.2)',
-                            borderRadius: '4px',
-                            color: timeLeft < 60 ? '#f00' : 'var(--accent-yellow)',
-                            fontFamily: 'var(--font-mono)',
-                            fontSize: '0.8rem',
-                            fontWeight: '800'
+                            borderRadius: '4px', color: timeLeft < 60 ? '#f00' : 'var(--accent-yellow)',
+                            fontFamily: 'var(--font-mono)', fontSize: '0.8rem', fontWeight: '800'
                         }}>
                             <Rocket size={12} className={timeLeft < 60 ? 'animate-pulse' : ''} />
                             {formatTime(timeLeft)}
@@ -552,118 +556,68 @@ const Quiz = () => {
                 </div>
 
                 <div className="ide-body">
-                    {/* Column 1: Objectives */}
-                    <div className="task-pane" style={{ display: 'flex', flexDirection: 'column', height: '100%', overflow: 'hidden' }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.8rem', marginBottom: '2rem', flexShrink: 0 }}>
+                    <div className="task-pane custom-scroll">
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.8rem', marginBottom: '2rem' }}>
                             <div style={{ width: '6px', height: '6px', background: 'var(--accent-yellow)' }}></div>
-                            <h3 style={{ fontSize: '0.7rem', fontWeight: '800', color: 'white', letterSpacing: '2px', textTransform: 'uppercase', fontFamily: 'var(--font-display)' }}>Objectives</h3>
+                            <h3 style={{ fontSize: '0.7rem', fontWeight: '800', color: 'white', letterSpacing: '2px', textTransform: 'uppercase' }}>Objectives</h3>
                         </div>
-
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', flex: '1 1 0', overflowY: 'auto', paddingRight: '0.5rem', paddingBottom: '2rem' }} className="custom-scroll">
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', fontFamily: 'var(--font-mission)' }}>
                             {ecommerceChallenge.taskDetails.map((task, i) => (
-                                <motion.div
-                                    key={i}
-                                    whileHover={{ x: 4, background: '#0c0c0c' }}
-                                    style={{
-                                        padding: '1.2rem',
-                                        background: '#050505',
-                                        border: '1px solid #111',
-                                        borderRadius: '4px',
-                                        display: 'flex',
-                                        alignItems: 'flex-start',
-                                        gap: '1.2rem',
-                                        transition: 'all 0.2s ease'
-                                    }}
-                                >
-                                    <div style={{
-                                        color: '#ffea00',
-                                        fontSize: '0.8rem',
-                                        fontWeight: '800',
-                                        fontFamily: 'var(--font-mono)',
-                                        marginTop: '0.1rem'
-                                    }}>
-                                        {String(i + 1).padStart(2, '0')}
-                                    </div>
-                                    <div style={{
-                                        fontSize: '0.8rem',
-                                        lineHeight: '1.6',
-                                        color: '#bbb',
-                                        fontWeight: '500',
-                                        fontFamily: 'var(--font-mission)'
-                                    }}>
-                                        {/* Highlight keywords in backticks or quotes */}
-                                        {task.split(/(`[^`]+`|'[^']+')/).map((part, idx) => {
-                                            if (part.startsWith('`') || part.startsWith("'")) {
-                                                return (
-                                                    <span key={idx} style={{ color: '#00f3ff', fontWeight: '700', fontFamily: 'var(--font-mono)' }}>
-                                                        {part.replace(/[`']/g, '')}
-                                                    </span>
-                                                );
-                                            }
-                                            return part;
-                                        })}
-                                    </div>
+                                <motion.div key={i} whileHover={{ x: 4, background: '#0c0c0c' }} style={{ padding: '1rem', background: '#050505', border: '1px solid #111', borderRadius: '4px', display: 'flex', gap: '1rem' }}>
+                                    <div style={{ color: '#ffea00', fontSize: '0.7rem', fontWeight: '800', fontFamily: 'var(--font-mono)' }}>{String(i + 1).padStart(2, '0')}</div>
+                                    <div style={{ fontSize: '0.75rem', color: '#bbb', lineHeight: '1.4' }}>{task}</div>
                                 </motion.div>
                             ))}
                         </div>
                     </div>
 
-                    {/* Column 2: Editor */}
                     <div className="editor-pane">
-                        <div className="file-tabs custom-scroll" style={{ background: '#0c0c0c', borderBottom: '1px solid #1a1a1a', display: 'flex', gap: '2px', padding: '0 1rem', overflowX: 'auto' }}>
+                        <div className="file-tabs" style={{ display: 'flex', gap: '2px', padding: '0 1rem', background: '#0c0c0c' }}>
                             {Object.entries(ecommerceChallenge.files).map(([key, file]) => (
-                                <button
-                                    key={key}
-                                    className={`file-tab ${activeTab === key ? 'active' : ''}`}
-                                    onClick={() => setActiveTab(key)}
+                                <button key={key} className={`file - tab ${activeTab === key ? 'active' : ''} `} onClick={() => setActiveTab(key)}
                                     style={{
-                                        fontSize: '0.8rem',
-                                        fontWeight: '800',
-                                        letterSpacing: '1px',
-                                        color: activeTab === key ? 'var(--accent-yellow)' : '#666',
-                                        background: activeTab === key ? '#111' : 'transparent',
-                                        border: 'none',
-                                        borderTop: activeTab === key ? '2px solid var(--accent-yellow)' : '2px solid transparent',
-                                        padding: '1rem 1.5rem',
-                                        cursor: 'pointer',
-                                        transition: 'all 0.2s',
-                                        fontFamily: 'var(--font-display)'
-                                    }}
-                                >
+                                        padding: '1rem 1.5rem', background: activeTab === key ? '#050505' : 'transparent',
+                                        border: 'none', borderTop: activeTab === key ? '2px solid var(--accent-yellow)' : '2px solid transparent',
+                                        color: activeTab === key ? 'var(--accent-yellow)' : '#666', fontSize: '0.7rem', fontWeight: '800', cursor: 'pointer',
+                                        fontFamily: 'var(--font-heading)'
+                                    }}>
                                     {file.name}
                                 </button>
                             ))}
                         </div>
-                        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden', padding: '1.5rem', minHeight: 0 }}>
-                            <div className="editor-content custom-scroll" style={{ padding: '2rem', paddingBottom: '4rem', background: '#030303', border: '1px solid #111', borderRadius: '4px', overflowY: 'scroll', flex: '1 1 0', fontSize: '0.95rem', lineHeight: '1.6' }}>
-                                {renderCodeBlock(activeTab, ecommerceChallenge.files[activeTab])}
+                        <div style={{ flex: 1, position: 'relative', background: '#030303', overflow: 'hidden' }}>
+                            <div className="custom-scroll" style={{ position: 'absolute', inset: 0, display: 'flex', overflow: 'auto' }}>
+                                <div style={{ width: '45px', background: '#080808', borderRight: '1px solid #111', paddingTop: '1rem', flexShrink: 0, display: 'flex', flexDirection: 'column' }}>
+                                    {renderLineNumbers(userCode[activeTab])}
+                                </div>
+                                <textarea
+                                    value={userCode[activeTab]}
+                                    onChange={(e) => handleCodeChange(e.target.value)}
+                                    spellCheck="false"
+                                    wrap="off"
+                                    style={{
+                                        flex: 1, background: 'transparent', color: '#bbb', border: 'none', outline: 'none',
+                                        padding: '1rem 1rem 1rem 0.5rem', fontFamily: 'var(--font-mono)', fontSize: '0.9rem', lineHeight: '1.5rem',
+                                        resize: 'none', minHeight: '100%', width: '100%',
+                                        height: `${Math.max(userCode[activeTab].split('\n').length + 5, 30) * 1.5} rem`
+                                    }}
+                                />
                             </div>
                         </div>
                     </div>
 
-                    {/* Column 3: Preview */}
                     <div className="preview-pane">
-                        <div style={{
-                            height: '54px',
-                            background: '#0c0c0c',
-                            borderBottom: '1px solid #1a1a1a',
-                            display: 'flex',
-                            alignItems: 'center',
-                            padding: '0 1.5rem',
-                            fontSize: '0.65rem',
-                            fontWeight: '800',
-                            color: '#444',
-                            gap: '0.8rem',
-                            letterSpacing: '2px',
-                            textTransform: 'uppercase',
-                            fontFamily: 'var(--font-display)'
-                        }}>
-                            <Activity size={12} color="var(--accent-blue)" /> SYSTEM_PREVIEW
-                        </div>
-                        <div style={{ flex: 1, padding: '1.5rem', background: '#000' }}>
-                            <div style={{ width: '100%', height: '100%', borderRadius: '4px', overflow: 'hidden', border: '1px solid #1a1a1a', background: '#000' }}>
-                                <iframe title="Preview" srcDoc={previewSrc} style={{ width: '100%', height: '100%', border: 'none' }} />
+                        <div style={{ height: '54px', background: '#0c0c0c', borderBottom: '1px solid #1a1a1a', display: 'flex', alignItems: 'center', padding: '0 1rem', justifyContent: 'space-between' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '0.8rem', fontSize: '0.65rem', fontWeight: '800', color: '#666' }}>
+                                <Activity size={12} color="var(--accent-blue)" /> {previewType === 'goal' ? 'TARGET_GOAL' : 'SYSTEM_PREVIEW'}
                             </div>
+                            <div style={{ display: 'flex', gap: '0.5rem' }}>
+                                <button onClick={() => setPreviewType('user')} style={{ background: previewType === 'user' ? '#222' : 'transparent', border: '1px solid #222', color: previewType === 'user' ? 'var(--accent-yellow)' : '#444', fontSize: '0.5rem', padding: '0.2rem 0.5rem', borderRadius: '2px', cursor: 'pointer', fontFamily: 'var(--font-heading)' }}>USER</button>
+                                <button onClick={() => setPreviewType('goal')} style={{ background: previewType === 'goal' ? '#222' : 'transparent', border: '1px solid #222', color: previewType === 'goal' ? 'var(--accent-yellow)' : '#444', fontSize: '0.5rem', padding: '0.2rem 0.5rem', borderRadius: '2px', cursor: 'pointer', fontFamily: 'var(--font-heading)' }}>GOAL</button>
+                            </div>
+                        </div>
+                        <div style={{ flex: 1, padding: '1rem', background: '#000', position: 'relative' }}>
+                            <iframe title="Preview" srcDoc={previewSrc} style={{ width: '100%', height: '100%', border: 'none', borderRadius: '4px', background: '#050505' }} />
                         </div>
                     </div>
                 </div>
