@@ -11,20 +11,20 @@ const ecommerceChallenge = {
     title: "THE_FORBIDDEN_REGISTRY // ARCHIVE-99",
     description: "Reconstruct the ancient Artifact Registry. You must handle high-fidelity DOM orchestration, thematic styling, and state-locked inventory logic. Zero hints provided.",
     taskDetails: [
-        "1.  HTML: Construct a semantic dashboard. The header must hold the title 'Forbidden Registry'.",
-        "2.  HTML: Create a main section with ID 'artifact-grid' for dynamic rendering.",
-        "3.  HTML: Include a sidebar for state tracking: total price (ID: 'grand-total') and count (ID: 'artifact-count').",
-        "4.  HTML: Add a control button with ID 'reset-ritual' to clear the registry.",
-        "5.  CSS: Implement a dark-magic theme. Use 'Cinzel' for headings and 'MedievalSharp' for the body.",
-        "6.  CSS: Create a layout using CSS Grid for the 'artifact-grid' (at least 2 columns).",
-        "7.  CSS: Style 'artifact-card' with a deep blue background, gold borders, and a glowing hover effect.",
-        "8.  CSS: Add a 'pulse' animation to any artifact marked as 'Legendary'.",
-        "9.  JS: Initialize 'inventory' as an empty array and 'totalMana' as 0.",
-        "10. JS: Loop through the provided 'artifacts' array and dynamically generate HTML for each.",
-        "11. JS: Each artifact card must display its Name, Rarity, and Price.",
-        "12. JS: Implement an 'acquireArtifact(id)' function that adds the item's price to the total and updates the DOM.",
-        "13. JS: Implement 'performReset()' to wipe the registry and reset counters to zero.",
-        "14. JS: Connect the reset button to the 'performReset' function using an event listener."
+        "1.  HTML: Construct a semantic header and add the title 'Forbidden Registry' inside an <h1>.",
+        "2.  HTML: Create a <main> section with ID 'artifact-grid' for dynamic rendering.",
+        "3.  HTML: Add a footer or section containing stats with IDs 'grand-total' and 'artifact-count'.",
+        "4.  HTML: Add a reset ritual <button> with ID 'reset-ritual'.",
+        "5.  CSS: Apply the 'Cinzel' font to the header <h1>.",
+        "6.  CSS: Implement a CSS Grid for 'artifact-grid' with at least 2 columns and a gap.",
+        "7.  CSS: Apply the gold color (#c5a059) to the text or borders via the 'style.css'.",
+        "8.  CSS: Define a '.artifact-card' with a border and semi-transparent background.",
+        "9.  CSS: Implement a '@keyframes pulse' and attach it to the '.legendary' class.",
+        "10. JS: Use an array method (.forEach or .map) to iterate through the artifacts.",
+        "11. JS: Use DOM methods (createElement or innerHTML) to manifest artifacts into the grid.",
+        "12. JS: Implement logic to update 'totalMana' or 'grand-total' when an item is acquired.",
+        "13. JS: Implement logic to reset values to 0 when the ritual button is triggered.",
+        "14. JS: Use 'addEventListener' to bind the reset button to your logic."
     ],
     files: {
         html: {
@@ -41,22 +41,41 @@ const ecommerceChallenge = {
 <body>
     <header>
         <div class="seal-icon"></div>
-        <h1>Forbidden Registry</h1>
+        <!-- 1. Add Semantic Title here -->
     </header>
 
-    <!-- 2. Main Registry Grid (ID: artifact-grid) -->
+    <!-- 2. Create the main Registry Grid below (ID: artifact-grid) -->
 
-    <!-- 3. Ordered Footer with Stats (ID: grand-total, artifact-count) and Reset Ritual (ID: reset-ritual) -->
+    <!-- 3. Construct the Footer with Stats and Reset Logic below -->
 
     <script src="script.js"></script>
 </body>
 </html>`,
             solutions: [
-                { id: "semantic-header", check: (code) => /<header>.*Forbidden Registry.*<\/header>/is.test(code), points: 20 },
-                { id: "grid-container", check: (code) => code.includes('id="artifact-grid"'), points: 20 },
-                { id: "state-elements", check: (code) => code.includes('id="grand-total"') && code.includes('id="artifact-count"'), points: 20 },
-                { id: "reset-btn", check: (code) => code.includes('id="reset-ritual"'), points: 15 },
-                { id: "links", check: (code) => code.includes('href="style.css"') && code.includes('src="script.js"'), points: 15 }
+                {
+                    id: "semantic-header", check: (code) => {
+                        const clean = code.replace(/<!--[\s\S]*?-->/g, '');
+                        return /<header>[\s\S]*?<h1>Forbidden Registry<\/h1>[\s\S]*?<\/header>/i.test(clean);
+                    }, points: 20
+                },
+                {
+                    id: "grid-container", check: (code) => {
+                        const clean = code.replace(/<!--[\s\S]*?-->/g, '');
+                        return /id=["']artifact-grid["']/i.test(clean) && /<main|<div/i.test(clean);
+                    }, points: 20
+                },
+                {
+                    id: "state-stats", check: (code) => {
+                        const clean = code.replace(/<!--[\s\S]*?-->/g, '');
+                        return /id=["']grand-total["']/i.test(clean) && /id=["']artifact-count["']/i.test(clean);
+                    }, points: 20
+                },
+                {
+                    id: "reset-ritual", check: (code) => {
+                        const clean = code.replace(/<!--[\s\S]*?-->/g, '');
+                        return /<button[^>]+id=["']reset-ritual["']/i.test(clean);
+                    }, points: 20
+                }
             ]
         },
         css: {
@@ -64,41 +83,64 @@ const ecommerceChallenge = {
             icon: <FileCode size={14} />,
             color: "var(--accent-blue)",
             initialCode: `body {
-    background: #020205;
-    color: #c5a059;
-    font-family: 'MedievalSharp', cursive;
+    /* Step 1: Set deep dark background and magical gold text */
     padding: 2rem;
 }
 
 .seal-icon {
-    /* Moderate: Use fixed size + rotate(45deg) for diamond shape */
+    /* Step 2: Implement diamond shape (20px, rotate 45deg, gold border) */
 }
 
 header h1 {
-    /* Set thematic font and glow */
+    /* Step 3: Apply 'Cinzel' font and thematic glow */
 }
 
 #artifact-grid {
-    /* Define 2-column grid layout */
+    /* Step 4: Define 2-column grid layout with gap */
 }
 
 .artifact-card {
-    /* Design professional glassmorphism card */
+    /* Step 5: Design professional card logic */
 }
 
 .legendary {
-    /* Attach pulse animation */
+    /* Step 6: Attach pulse animation */
 }
 
 @keyframes pulse {
-    /* Implement ritual glow effect */
+    /* Step 7: Create the ritual glow animation */
 }`,
             solutions: [
-                { id: "font-cinzel", check: (code) => code.includes("font-family") && code.includes("Cinzel"), points: 15 },
-                { id: "grid-logic", check: (code) => (code.includes("display: grid") || code.includes("display:grid")) && code.includes("gap"), points: 20 },
-                { id: "gold-theme", check: (code) => code.includes("#c5a059") || code.includes("gold"), points: 15 },
-                { id: "card-design", check: (code) => code.includes("background") && code.includes("border"), points: 20 },
-                { id: "animation", check: (code) => code.includes("@keyframes pulse") && code.includes("animation:"), points: 20 }
+                {
+                    id: "font-cinzel", check: (code) => {
+                        const clean = code.replace(/\/\*[\s\S]*?\*\//g, '');
+                        return clean.includes("font-family") && clean.includes("Cinzel");
+                    }, points: 15
+                },
+                {
+                    id: "grid-logic", check: (code) => {
+                        const clean = code.replace(/\/\*[\s\S]*?\*\//g, '');
+                        return (clean.includes("display: grid") || clean.includes("display:grid")) && clean.includes("gap");
+                    }, points: 20
+                },
+                {
+                    id: "gold-theme", check: (code) => {
+                        const clean = code.replace(/\/\*[\s\S]*?\*\//g, '');
+                        return clean.includes("#c5a059") && (clean.includes("color") || clean.includes("border"));
+                    }, points: 20
+                },
+                {
+                    id: "card-design", check: (code) => {
+                        const clean = code.replace(/\/\*[\s\S]*?\*\//g, '');
+                        return clean.includes(".artifact-card") && clean.includes("background");
+                    }, points: 20
+                },
+                {
+                    id: "animation", check: (code) => {
+                        const clean = code.replace(/\/\*[\s\S]*?\*\//g, '');
+                        return clean.includes("@keyframes pulse") && clean.includes("animation");
+                    }, points: 25
+                }
             ]
         },
         js: {
@@ -111,19 +153,46 @@ header h1 {
     { id: 103, name: "Resurrection Stone", price: 40000, rarity: "Legendary" }
 ];
 
-// Initialize tracking variables
+// 1. Array state tracking (inventory, totalMana)
 
-// Function to render artifacts to the grid
+// 2. Artifact rendering logic
 
-// Function to handle acquisition logic (updates price/count)
+// 3. acquisition function (acquireArtifact)
 
-// Function to reset the archive`,
+// 4. reset function (performReset)
+
+// 5. Connect event listeners`,
             solutions: [
-                { id: "array-render", check: (code) => code.includes(".forEach") || code.includes(".map"), points: 25 },
-                { id: "dom-creation", check: (code) => code.includes("createElement") || code.includes(".innerHTML +="), points: 25 },
-                { id: "acquire-logic", check: (code) => code.includes("function") && (code.includes("+=") || code.includes("++")), points: 40 },
-                { id: "reset-logic", check: (code) => code.includes("innerHTML = 0") || code.includes("textContent = 0"), points: 30 },
-                { id: "event-listener", check: (code) => code.includes("addEventListener"), points: 20 }
+                {
+                    id: "array-render", check: (code) => {
+                        const cleanCode = code.replace(/\/\/.*|\/\*[\s\S]*?\*\//g, '');
+                        return cleanCode.includes(".forEach") || cleanCode.includes(".map");
+                    }, points: 25
+                },
+                {
+                    id: "dom-creation", check: (code) => {
+                        const cleanCode = code.replace(/\/\/.*|\/\*[\s\S]*?\*\//g, '');
+                        return cleanCode.includes("createElement") || cleanCode.includes(".innerHTML +=");
+                    }, points: 25
+                },
+                {
+                    id: "acquire-logic", check: (code) => {
+                        const cleanCode = code.replace(/\/\/.*|\/\*[\s\S]*?\*\//g, '');
+                        return cleanCode.includes("function") && (cleanCode.includes("+=") || cleanCode.includes("++"));
+                    }, points: 40
+                },
+                {
+                    id: "reset-logic", check: (code) => {
+                        const cleanCode = code.replace(/\/\/.*|\/\*[\s\S]*?\*\//g, '');
+                        return cleanCode.includes("= 0") || cleanCode.includes("= \"0\"");
+                    }, points: 30
+                },
+                {
+                    id: "event-listener", check: (code) => {
+                        const cleanCode = code.replace(/\/\/.*|\/\*[\s\S]*?\*\//g, '');
+                        return cleanCode.includes("addEventListener");
+                    }, points: 20
+                }
             ]
         }
     }
