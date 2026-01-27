@@ -142,7 +142,12 @@ const Quiz = () => {
     const [missionResults, setMissionResults] = useState([]);
     const [previewType, setPreviewType] = useState('goal'); // 'user' or 'goal'
     const [previewSrc, setPreviewSrc] = useState('');
-    const [timeLeft, setTimeLeft] = useState(1200); // 20 minutes
+    
+    // Initialize timer from localStorage or default to 20 minutes
+    const [timeLeft, setTimeLeft] = useState(() => {
+        const saved = localStorage.getItem('quiz_timeLeft');
+        return saved ? parseInt(saved) : 1200;
+    });
     const [isTimeUp, setIsTimeUp] = useState(false);
 
     const maxScore = Object.values(ecommerceChallenge.files).reduce((acc, file) => {
@@ -383,7 +388,11 @@ body {
             return;
         }
         const timer = setInterval(() => {
-            setTimeLeft(prev => prev - 1);
+            setTimeLeft(prev => {
+                const newTime = prev - 1;
+                localStorage.setItem('quiz_timeLeft', newTime.toString());
+                return newTime;
+            });
         }, 1000);
         return () => clearInterval(timer);
     }, [timeLeft, showSummary]);
