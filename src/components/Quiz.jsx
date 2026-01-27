@@ -129,7 +129,7 @@ header h1 {
     }
 };
 
-const Quiz = () => {
+const Quiz = ({ user }) => {
     const [activeTab, setActiveTab] = useState('html');
     const [userCode, setUserCode] = useState({
         html: ecommerceChallenge.files.html.initialCode,
@@ -138,6 +138,7 @@ const Quiz = () => {
     });
     const [hasRun, setHasRun] = useState(false);
     const [showSummary, setShowSummary] = useState(false);
+    const submittedRef = useRef(false);
     const [totalScore, setTotalScore] = useState(0);
     const [missionResults, setMissionResults] = useState([]);
     const [previewType, setPreviewType] = useState('goal'); // 'user' or 'goal'
@@ -149,6 +150,7 @@ const Quiz = () => {
         return saved ? parseInt(saved) : 1200;
     });
     const [isTimeUp, setIsTimeUp] = useState(false);
+    const [showCompletedPopup, setShowCompletedPopup] = useState(false);
 
     const maxScore = Object.values(ecommerceChallenge.files).reduce((acc, file) => {
         return acc + file.solutions.reduce((sum, s) => sum + s.points, 0);
@@ -340,7 +342,9 @@ body {
     };
 
     useEffect(() => {
-        setPreviewSrc(generateCode(previewType === 'goal'));
+        const code = generateCode(previewType === 'goal');
+        setPreviewSrc(code);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [userCode, previewType]);
 
     const handleCodeChange = (code) => {
@@ -355,7 +359,41 @@ body {
         setHasRun(true);
     };
 
+    // const finalizeSession = () => {
+    //     if (!submittedRef.current) {
+    //         calculateFinalScore();
+    //     }
+    // };
+
+    const rebootMission = () => {
+        localStorage.removeItem('quiz_timeLeft');
+        window.location.reload();
+    };
+
+    const sendScoreToBackend = async (score) => {
+        if (!user?.id) return;
+        try {
+            const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:5000";
+            const res = await fetch(`${BACKEND_URL}/api/scores/add`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ userId: user.id, score })
+            });
+            if (res.ok) {
+                setShowCompletedPopup(true);
+                setTimeout(() => {
+                    setShowCompletedPopup(false);
+                }, 3000);
+            }
+        } catch (err) {
+            console.error('Failed to send score:', err);
+        }
+    };
+
     const calculateFinalScore = () => {
+        if (submittedRef.current) return; // prevent double submission
         let earned = 0;
         const results = [];
 
@@ -375,13 +413,15 @@ body {
             });
         });
 
+        submittedRef.current = true;
         setTotalScore(earned);
         setMissionResults(results);
         setShowSummary(true);
+        sendScoreToBackend(earned);
     };
 
     useEffect(() => {
-        if (showSummary) return;
+        if (showSummary || submittedRef.current) return;
         if (timeLeft <= 0) {
             setIsTimeUp(true);
             calculateFinalScore();
@@ -395,6 +435,7 @@ body {
             });
         }, 1000);
         return () => clearInterval(timer);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [timeLeft, showSummary]);
 
     const formatTime = (seconds) => {
@@ -431,8 +472,48 @@ body {
                 padding: '4rem 2rem',
                 background: 'rgba(5, 5, 8, 0.4)',
                 backdropFilter: 'blur(10px)',
-                overflowY: 'auto'
+                overflowY: 'auto',
+                position: 'relative'
             }}>
+                {showCompletedPopup && (
+                    <motion.div
+                        initial={{ y: 100, opacity: 0 }}
+                        animate={{ y: 0, opacity: 1 }}
+                        exit={{ y: 100, opacity: 0 }}
+                        transition={{ duration: 0.3 }}
+                        style={{
+                            position: 'fixed',
+                            bottom: '2rem',
+                            right: '2rem',
+                            background: '#08080c',
+                            border: '1px solid var(--magic-gold)',
+                            borderRadius: '8px',
+                            padding: '1rem 1.5rem',
+                            zIndex: 2000,
+                            boxShadow: '0 0 30px rgba(197, 160, 89, 0.4)',
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '1rem',
+                            maxWidth: '350px'
+                        }}
+                    >
+                        <span style={{ fontSize: '1.2rem' }}>✨</span>
+                        <div>
+                            <p style={{
+                                margin: '0 0 0.3rem 0',
+                                fontSize: '0.9rem',
+                                fontWeight: '800',
+                                color: 'var(--magic-gold)',
+                                textTransform: 'uppercase'
+                            }}>Quiz Completed!</p>
+                            <p style={{
+                                margin: '0',
+                                fontSize: '0.8rem',
+                                color: '#ccc'
+                            }}>Score submitted successfully</p>
+                        </div>
+                    </motion.div>
+                )}
                 <motion.div
                     initial={{ y: 30, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
@@ -520,8 +601,12 @@ body {
                     </div>
 
                     <div style={{ display: 'flex', gap: '1.5rem', marginTop: 'auto' }}>
-                        <button className="btn-asym" style={{ flex: 1, padding: '1.2rem', fontSize: '0.8rem' }} onClick={() => window.location.href = '/'}>FINALIZE_SESSION</button>
-                        <button className="btn-asym" style={{ flex: 1, padding: '1.2rem', fontSize: '0.8rem', background: 'transparent', color: 'white', border: '1px solid rgba(197, 160, 89, 0.3)' }} onClick={() => window.location.reload()}>REBOOT_MISSION</button>
+                        <button className="btn-asym" style={{ flex: 1, padding: '1.2rem', fontSize: '0.8rem' }} onClick={() => {
+                            console.log('FINALIZE_SESSION button clicked');
+                            localStorage.removeItem('quiz_timeLeft');
+                            window.location.href = '/';
+                        }}>FINALIZE_SESSION</button>
+                        <button className="btn-asym" style={{ flex: 1, padding: '1.2rem', fontSize: '0.8rem', background: 'transparent', color: 'white', border: '1px solid rgba(197, 160, 89, 0.3)' }} onClick={rebootMission}>REBOOT_MISSION</button>
                     </div>
                 </motion.div>
                 <style>{`@keyframes scan { 0 % { top: -10 %; } 100 % { top: 110 %; } } `}</style>

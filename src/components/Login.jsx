@@ -36,7 +36,9 @@ const Login = ({ onLogin }) => {
             if (res.ok) {
                 const data = await res.json();
                 onLogin({ 
+                    id: data.user?.id || data.user?._id,
                     name: formData.username, 
+                    role: data.user?.role,
                     token: data.token 
                 });
                 navigate('/');

@@ -110,7 +110,7 @@ function App() {
 
   const handleLogin = (userData) => {
     setUser(userData);
-    localStorage.setItem('fillquiz_token', userData.token);
+    if (userData.token) localStorage.setItem('fillquiz_token', userData.token);
   };
 
   const handleLogout = () => {
@@ -126,7 +126,7 @@ function App() {
         <main className="animate-fade-in">
           <Routes>
             <Route path="/" element={user ? <Home /> : <Login onLogin={handleLogin} />} />
-            <Route path="/quiz" element={user ? <Quiz /> : <Login onLogin={handleLogin} />} />
+            <Route path="/quiz" element={user ? <Quiz user={user} /> : <Login onLogin={handleLogin} />} />
           </Routes>
         </main>
       </div>
