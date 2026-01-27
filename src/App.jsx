@@ -63,7 +63,7 @@ function Navbar({ user, onLogout }) {
           borderRadius: '4px'
         }}>
           <span style={{ fontSize: '0.8rem', color: 'var(--magic-gold)', fontWeight: '600', textTransform: 'uppercase' }}>
-            {user.name}
+            {user?.name || 'User'}
           </span>
           <button
             onClick={onLogout}
@@ -102,20 +102,20 @@ function App() {
 
   // Check for existing session on mount
   useEffect(() => {
-    const savedUser = localStorage.getItem('fillquiz_user');
-    if (savedUser) {
-      setUser(JSON.parse(savedUser));
+    const token = localStorage.getItem('fillquiz_token');
+    if (token) {
+      setUser({ name: 'User', loggedIn: true });
     }
   }, []);
 
   const handleLogin = (userData) => {
     setUser(userData);
-    localStorage.setItem('fillquiz_user', JSON.stringify(userData));
+    localStorage.setItem('fillquiz_token', userData.token);
   };
 
   const handleLogout = () => {
     setUser(null);
-    localStorage.removeItem('fillquiz_user');
+    localStorage.removeItem('fillquiz_token');
   }
 
   return (
