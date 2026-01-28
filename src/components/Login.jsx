@@ -35,13 +35,24 @@ const Login = ({ onLogin }) => {
             
             if (res.ok) {
                 const data = await res.json();
-                onLogin({ 
-                    id: data.user?.id || data.user?._id,
-                    name: formData.username, 
-                    role: data.user?.role,
-                    token: data.token 
-                });
-                navigate('/');
+
+                if (isLogin) {
+                    if (!data.token) {
+                        setError('Login succeeded but no token was returned by the server.');
+                        return;
+                    }
+
+                    onLogin({
+                        id: data.user?.id || data.user?._id,
+                        name: formData.username,
+                        role: data.user?.role,
+                        token: data.token
+                    });
+                    navigate('/');
+                } else {
+                    // Registration succeeded; redirect user to the login page.
+                    navigate('/login');
+                }
             } else {
                 const errorData = await res.json();
                 setError(errorData.msg || errorData.message || 'Failed. Please try again.');
