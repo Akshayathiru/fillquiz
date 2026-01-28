@@ -3,9 +3,9 @@ const Score = require("../models/Score");
 // Add score
 exports.addScore = async (req, res) => {
   try {
-    const { playerName, score } = req.body;
+    const { name, college, score } = req.body;
 
-    const newScore = new Score({ playerName, score });
+    const newScore = new Score({ name, college, score });
     await newScore.save();
 
     res.status(201).json({
@@ -13,6 +13,7 @@ exports.addScore = async (req, res) => {
       data: newScore,
     });
   } catch (error) {
+    console.error(error);
     res.status(500).json({ error: error.message });
   }
 };

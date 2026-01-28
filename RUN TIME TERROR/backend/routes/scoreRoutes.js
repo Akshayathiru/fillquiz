@@ -1,47 +1,29 @@
-coconst express = require("express");
-const Score = require("../models/Score");   // ✅ MISSING IMPORT
-const auth = require("../middleware/auth");
-
+const express = require("express");
 const router = express.Router();
+const Score = require("../models/Score");
 
-// PLAYER: submit score
-router.post("/", auth, async (req, res) => {
+// SAVE data from frontend
+router.post("/add", async (req, res) => {
   try {
-    const { score } = req.body;
+    console.log("REQ BODY:", req.body);
+    const { name, college, score } = req.body;
 
     const newScore = new Score({
-      userId: req.user.id,
+      name,
+      college,
       score,
     });
 
     await newScore.save();
-    res.json({ msg: "Score saved successfully" });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.json({ message: "Score saved successfully" });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
   }
 });
 
-// PLAYER: view own scores
-router.get("/me", auth, async (req, res) => {
-  try {
-    const scores = await Score.find({ userId: req.user.id });
-    res.json(scores);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-});
-
-module.exports = router;
-
-});
-
-// ADMIN: view all scores
-router.get("/all", auth, async (req, res) => {
-  if (req.user.role !== "admin") {
-    return res.status(403).json({ msg: "Access denied" });
-  }
-
-  const scores = await Score.find().populate("userId", "username");
+// GET all scores
+router.get("/", async (req, res) => {
+  const scores = await Score.find();
   res.json(scores);
 });
 
