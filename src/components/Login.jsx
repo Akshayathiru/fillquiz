@@ -1,25 +1,67 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Terminal, User, Book, Hash, School, LogIn } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { Terminal, User, Lock, LogIn } from 'lucide-react';
 
 const Login = ({ onLogin }) => {
+    const navigate = useNavigate();
+    const [isLogin, setIsLogin] = useState(true);
     const [formData, setFormData] = useState({
-        name: '',
-        college: '',
-        year: '',
-        course: '',
-        phone: ''
+        username: '',
+        password: ''
     });
+    const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false);
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
+        setError('');
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        // Basic validation
-        if (Object.values(formData).every(val => val.trim() !== '')) {
-            onLogin(formData);
+        setLoading(true);
+        setError('');
+        
+        try {
+            const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:5000";
+            const endpoint = isLogin ? '/api/auth/login' : '/api/auth/register';
+            
+            const res = await fetch(`${BACKEND_URL}${endpoint}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(formData)
+            });
+            
+            if (res.ok) {
+                const data = await res.json();
+
+                if (isLogin) {
+                    if (!data.token) {
+                        setError('Login succeeded but no token was returned by the server.');
+                        return;
+                    }
+
+                    onLogin({
+                        id: data.user?.id || data.user?._id,
+                        name: formData.username,
+                        role: data.user?.role,
+                        token: data.token
+                    });
+                    navigate('/');
+                } else {
+                    // Registration succeeded; redirect user to the login page.
+                    navigate('/login');
+                }
+            } else {
+                const errorData = await res.json();
+                setError(errorData.msg || errorData.message || 'Failed. Please try again.');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            setError('Network error. Please check your connection.');
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -102,10 +144,10 @@ const Login = ({ onLogin }) => {
                         letterSpacing: '2px',
                         fontFamily: 'var(--font-display)'
                     }}>
-                        WIZARD VERIFICATION
+                        {isLogin ? 'WIZARD VERIFICATION' : 'WIZARD VERIFICATION'}
                     </h1>
                     <p style={{ color: 'var(--text-dim)', fontSize: '0.9rem', fontFamily: 'var(--font-mission)' }}>
-                        Enter your scrolls to access the magic terminal.
+                        {isLogin ? 'Access the magic terminal.' : 'Create your account.'}
                     </p>
                 </div>
 
@@ -114,9 +156,9 @@ const Login = ({ onLogin }) => {
                         <User size={18} style={iconStyle} />
                         <input
                             type="text"
-                            name="name"
-                            placeholder="Full Name"
-                            value={formData.name}
+                            name="username"
+                            placeholder="Username"
+                            value={formData.username}
                             onChange={handleChange}
                             style={inputStyle}
                             required
@@ -124,62 +166,36 @@ const Login = ({ onLogin }) => {
                     </div>
 
                     <div style={{ position: 'relative' }}>
-                        <School size={18} style={iconStyle} />
+                        <Lock size={18} style={iconStyle} />
                         <input
-                            type="text"
-                            name="college"
-                            placeholder="College Name"
-                            value={formData.college}
+                            type="password"
+                            name="password"
+                            placeholder="Password"
+                            value={formData.password}
                             onChange={handleChange}
                             style={inputStyle}
                             required
                         />
                     </div>
 
-                    <div style={{ display: 'flex', gap: '1.2rem' }}>
-                        <div style={{ position: 'relative', flex: 1 }}>
-                            <Hash size={18} style={iconStyle} />
-                            <input
-                                type="text"
-                                name="year"
-                                placeholder="Year"
-                                value={formData.year}
-                                onChange={handleChange}
-                                style={inputStyle}
-                                required
-                            />
+                    {error && (
+                        <div style={{
+                            background: 'rgba(255, 0, 0, 0.1)',
+                            border: '1px solid rgba(255, 0, 0, 0.3)',
+                            color: '#ff6b6b',
+                            padding: '1rem',
+                            borderRadius: '8px',
+                            fontSize: '0.9rem'
+                        }}>
+                            {error}
                         </div>
-                        <div style={{ position: 'relative', flex: 1 }}>
-                            <Book size={18} style={iconStyle} />
-                            <input
-                                type="text"
-                                name="course"
-                                placeholder="Course"
-                                value={formData.course}
-                                onChange={handleChange}
-                                style={inputStyle}
-                                required
-                            />
-                        </div>
-                    </div>
-
-                    <div style={{ position: 'relative' }}>
-                        <Hash size={18} style={iconStyle} />
-                        <input
-                            type="tel"
-                            name="phone"
-                            placeholder="Phone Number"
-                            value={formData.phone}
-                            onChange={handleChange}
-                            style={inputStyle}
-                            required
-                        />
-                    </div>
+                    )}
 
                     <motion.button
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
                         type="submit"
+                        disabled={loading}
                         className="btn-asym"
                         style={{
                             marginTop: '1rem',
@@ -188,11 +204,34 @@ const Login = ({ onLogin }) => {
                             fontSize: '0.9rem',
                             padding: '1rem',
                             background: 'var(--magic-gold)',
-                            color: '#0a0b1e'
+                            color: '#0a0b1e',
+                            opacity: loading ? 0.7 : 1,
+                            cursor: loading ? 'not-allowed' : 'pointer'
                         }}
                     >
-                        ENTER CHAMBER <LogIn size={18} />
+                        {loading ? 'LOADING...' : (isLogin ? <>LOGIN <LogIn size={18} /></> : <>REGISTER <LogIn size={18} /></>)}
                     </motion.button>
+
+                    <div style={{ textAlign: 'center', marginTop: '1.5rem' }}>
+                        <p style={{ color: 'var(--text-dim)', fontSize: '0.85rem' }}>
+                            {isLogin ? "Don't have an account? " : 'Already have an account? '}
+                            <button
+                                type="button"
+                                onClick={() => setIsLogin(!isLogin)}
+                                style={{
+                                    background: 'none',
+                                    border: 'none',
+                                    color: 'var(--magic-gold)',
+                                    cursor: 'pointer',
+                                    textDecoration: 'underline',
+                                    fontSize: '0.85rem',
+                                    fontWeight: '600'
+                                }}
+                            >
+                                {isLogin ? 'Register here' : 'Login here'}
+                            </button>
+                        </p>
+                    </div>
                 </form>
             </motion.div>
         </div>
