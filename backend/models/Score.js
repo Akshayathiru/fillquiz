@@ -10,6 +10,10 @@ const scoreSchema = new mongoose.Schema({
         type: Number,
         required: true,
     },
+    results: {
+        type: Array,
+        default: [],
+    },
     createdAt: {
         type: Date,
         default: Date.now,

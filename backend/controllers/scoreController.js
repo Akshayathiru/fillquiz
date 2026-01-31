@@ -3,9 +3,9 @@ const Score = require("../models/Score");
 // Add score
 exports.addScore = async (req, res) => {
   try {
-    const { playerName, score } = req.body;
+    const { userId, score } = req.body;
 
-    const newScore = new Score({ playerName, score });
+    const newScore = new Score({ userId, score });
     await newScore.save();
 
     res.status(201).json({
@@ -20,7 +20,7 @@ exports.addScore = async (req, res) => {
 // Get all scores (ADMIN ONLY)
 exports.getAllScores = async (req, res) => {
   try {
-    const scores = await Score.find().sort({ score: -1 });
+    const scores = await Score.find().populate("userId", "username").sort({ score: -1 });
     res.status(200).json(scores);
   } catch (error) {
     res.status(500).json({ error: error.message });

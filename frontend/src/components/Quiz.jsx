@@ -148,20 +148,35 @@ header h1 {
             icon: <FileCode size={14} />,
             color: "var(--accent-yellow)",
             initialCode: `const artifacts = [
-    { id: 101, name: "Elder Wand", price: 50000, rarity: "Legendary" },
-    { id: 102, name: "Cloak", price: 35000, rarity: "Legendary" },
-    { id: 103, name: "Resurrection Stone", price: 40000, rarity: "Legendary" }
+    { id: 101, name: "Elder Wand", price: 50000 },
+    { id: 102, name: "Cloak", price: 35000 },
+    { id: 103, name: "Stone", price: 40000 }
 ];
 
-// 1. Array state tracking (inventory, totalMana)
+let total;
+const grid = document.getElementById('artifact-grid');
+const totalEl = document.getElementById('grand-total');
 
-// 2. Artifact rendering logic
+// 1. Render function
+function render() {
+    // Write a loop here (forEach) to display artifacts
+    // Create elements and append to 'grid'
+}
 
-// 3. acquisition function (acquireArtifact)
+// 2. Buy function
+window.buy = function(price) {
+    // Add price to total
+    // Update totalEl text
+};
 
-// 4. reset function (performReset)
+// 3. Reset
+function reset() {
+    // Set total to 0
+    // Update text
+}
 
-// 5. Connect event listeners`,
+// Run
+render();`,
             solutions: [
                 {
                     id: "array-render", check: (code) => {
@@ -212,12 +227,9 @@ const Quiz = ({ user }) => {
     const [missionResults, setMissionResults] = useState([]);
     const [previewType, setPreviewType] = useState('goal'); // 'user' or 'goal'
     const [previewSrc, setPreviewSrc] = useState('');
-    
-    // Initialize timer from localStorage or default to 20 minutes
-    const [timeLeft, setTimeLeft] = useState(() => {
-        const saved = localStorage.getItem('quiz_timeLeft');
-        return saved ? parseInt(saved) : 1200;
-    });
+
+    // Force timer to always start at 25 minutes (1500 seconds)
+    const [timeLeft, setTimeLeft] = useState(1500);
     const [isTimeUp, setIsTimeUp] = useState(false);
     const [showCompletedPopup, setShowCompletedPopup] = useState(false);
 
@@ -439,7 +451,7 @@ body {
         window.location.reload();
     };
 
-    const sendScoreToBackend = async (score) => {
+    const sendScoreToBackend = async (score, results) => {
         if (!user?.id) return;
         try {
             const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:5000";
@@ -448,7 +460,7 @@ body {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ userId: user.id, score })
+                body: JSON.stringify({ userId: user.id, score, results })
             });
             if (res.ok) {
                 setShowCompletedPopup(true);
@@ -486,7 +498,7 @@ body {
         setTotalScore(earned);
         setMissionResults(results);
         setShowSummary(true);
-        sendScoreToBackend(earned);
+        sendScoreToBackend(earned, results);
     };
 
     useEffect(() => {
@@ -536,149 +548,39 @@ body {
             <div className="summary-page" style={{
                 minHeight: 'calc(100vh - 80px)',
                 display: 'flex',
-                alignItems: 'flex-start',
+                alignItems: 'center',
                 justifyContent: 'center',
                 padding: '4rem 2rem',
                 background: 'rgba(5, 5, 8, 0.4)',
                 backdropFilter: 'blur(10px)',
-                overflowY: 'auto',
                 position: 'relative'
             }}>
-                {showCompletedPopup && (
-                    <motion.div
-                        initial={{ y: 100, opacity: 0 }}
-                        animate={{ y: 0, opacity: 1 }}
-                        exit={{ y: 100, opacity: 0 }}
-                        transition={{ duration: 0.3 }}
-                        style={{
-                            position: 'fixed',
-                            bottom: '2rem',
-                            right: '2rem',
-                            background: '#08080c',
-                            border: '1px solid var(--magic-gold)',
-                            borderRadius: '8px',
-                            padding: '1rem 1.5rem',
-                            zIndex: 2000,
-                            boxShadow: '0 0 30px rgba(197, 160, 89, 0.4)',
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: '1rem',
-                            maxWidth: '350px'
-                        }}
-                    >
-                        <span style={{ fontSize: '1.2rem' }}>✨</span>
-                        <div>
-                            <p style={{
-                                margin: '0 0 0.3rem 0',
-                                fontSize: '0.9rem',
-                                fontWeight: '800',
-                                color: 'var(--magic-gold)',
-                                textTransform: 'uppercase'
-                            }}>Quiz Completed!</p>
-                            <p style={{
-                                margin: '0',
-                                fontSize: '0.8rem',
-                                color: '#ccc'
-                            }}>Score submitted successfully</p>
-                        </div>
-                    </motion.div>
-                )}
                 <motion.div
-                    initial={{ y: 30, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    className="summary-card"
+                    initial={{ scale: 0.9, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
                     style={{
                         background: '#08080c',
                         border: '1px solid var(--magic-gold)',
                         borderRadius: '16px',
-                        padding: '3rem',
+                        padding: '4rem',
                         textAlign: 'center',
-                        maxWidth: '900px',
+                        maxWidth: '500px',
                         width: '100%',
-                        display: 'flex',
-                        flexDirection: 'column',
                         boxShadow: '0 0 100px rgba(0, 0, 0, 0.9), 0 0 50px rgba(197, 160, 89, 0.1)',
-                        position: 'relative',
-                        fontFamily: 'var(--font-heading)',
-                        marginBottom: '4rem'
+                        fontFamily: 'var(--font-heading)'
                     }}
                 >
-                    <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '2px', background: 'linear-gradient(90deg, transparent, var(--accent-yellow), transparent)', animation: 'scan 4s infinite linear', zIndex: 10 }}></div>
-
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '2rem' }}>
-                        <div style={{ textAlign: 'left' }}>
-                            <div style={{ fontSize: '0.6rem', fontWeight: '900', color: 'var(--magic-gold)', letterSpacing: '4px', textTransform: 'uppercase', marginBottom: '0.5rem' }}>Mission Synopsis</div>
-                            <h2 style={{ fontSize: '1.2rem', fontWeight: '800', color: 'white' }}>ANCIENT_SCROLL_LOG</h2>
-                        </div>
-                        <div style={{ textAlign: 'right' }}>
-                            <div style={{ fontSize: '3rem', fontWeight: '950', color: 'white', lineHeight: 1 }}>{getGrade(totalScore)}</div>
-                            <div style={{ fontSize: '0.6rem', color: '#666', textTransform: 'uppercase', letterSpacing: '2px' }}>Final Grade</div>
-                        </div>
-                    </div>
-
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1.5rem', marginBottom: '2rem', background: '#050505', padding: '1.5rem', borderRadius: '4px', border: '1px solid #111' }}>
-                        <div>
-                            <div style={{ fontSize: '0.55rem', color: '#666', textTransform: 'uppercase', marginBottom: '0.4rem' }}>Magical Output</div>
-                            <div style={{ fontSize: '1.2rem', fontWeight: '800', color: 'var(--magic-gold)' }}>{totalScore} <span style={{ fontSize: '0.7rem', color: '#444' }}>/ {maxScore}</span></div>
-                        </div>
-                        <div>
-                            <div style={{ fontSize: '0.55rem', color: '#666', textTransform: 'uppercase', marginBottom: '0.4rem' }}>Accuracy</div>
-                            <div style={{ fontSize: '1.2rem', fontWeight: '800', color: 'white' }}>{maxScore > 0 ? Math.round((totalScore / maxScore) * 100) : 0}%</div>
-                        </div>
-                        <div>
-                            <div style={{ fontSize: '0.55rem', color: '#666', textTransform: 'uppercase', marginBottom: '0.4rem' }}>Status</div>
-                            <div style={{ fontSize: '1.2rem', fontWeight: '800', color: totalScore >= (maxScore * 0.5) ? '#0f0' : '#f00' }}>
-                                {totalScore >= (maxScore * 0.5) ? 'SUCCESS' : 'FAILED'}
-                            </div>
-                        </div>
-                    </div>
-
-                    <div style={{ flex: 1, overflowY: 'auto', marginBottom: '2.5rem', paddingRight: '1rem', minHeight: '300px' }} className="custom-scroll">
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
-                            {missionResults.map((res, i) => (
-                                <div key={i} style={{
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    gap: '1.2rem',
-                                    background: 'rgba(255, 255, 255, 0.02)',
-                                    padding: '1.2rem 1.5rem',
-                                    border: '1px solid rgba(197, 160, 89, 0.1)',
-                                    borderRadius: '8px',
-                                    textAlign: 'left',
-                                    fontFamily: 'var(--font-mission)',
-                                    transition: '0.3s'
-                                }}>
-                                    <div style={{
-                                        width: '10px',
-                                        height: '10px',
-                                        borderRadius: '50%',
-                                        background: res.isCorrect ? '#0f0' : '#f44',
-                                        boxShadow: res.isCorrect ? '0 0 15px #0f0' : '0 0 15px #f44'
-                                    }}></div>
-                                    <div style={{ flex: 1 }}>
-                                        <div style={{ fontSize: '0.6rem', color: 'var(--magic-gold)', textTransform: 'uppercase', fontWeight: '800', fontFamily: 'var(--font-heading)', letterSpacing: '1px', marginBottom: '0.2rem' }}>{res.file}</div>
-                                        <div style={{ fontSize: '0.9rem', color: '#eee', fontWeight: '500' }}>{res.task}</div>
-                                    </div>
-                                    <div style={{ textAlign: 'right' }}>
-                                        <div style={{ fontSize: '1rem', fontWeight: '900', color: res.isCorrect ? 'var(--magic-gold)' : '#333' }}>
-                                            {res.isCorrect ? `+ ${res.points} ` : '0'}
-                                        </div>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-
-                    <div style={{ display: 'flex', gap: '1.5rem', marginTop: 'auto' }}>
-                        <button className="btn-asym" style={{ flex: 1, padding: '1.2rem', fontSize: '0.8rem' }} onClick={() => {
-                            console.log('FINALIZE_SESSION button clicked');
-                            localStorage.removeItem('quiz_timeLeft');
-                            window.location.href = '/';
-                        }}>FINALIZE_SESSION</button>
-                        <button className="btn-asym" style={{ flex: 1, padding: '1.2rem', fontSize: '0.8rem', background: 'transparent', color: 'white', border: '1px solid rgba(197, 160, 89, 0.3)' }} onClick={rebootMission}>REBOOT_MISSION</button>
-                    </div>
+                    <div style={{ fontSize: '4rem', marginBottom: '2rem' }}>💎</div>
+                    <h2 style={{ fontSize: '1.5rem', color: 'white', marginBottom: '1rem', letterSpacing: '2px' }}>MISSION COMPLETED</h2>
+                    <p style={{ color: 'rgba(255,255,255,0.6)', marginBottom: '2.5rem', lineHeight: '1.6' }}>
+                        Your performance data has been transmitted to the High Ministry Archive.
+                        Your results will be evaluated by the Council.
+                    </p>
+                    <button className="btn-asym" style={{ width: '100%', padding: '1.2rem' }} onClick={() => {
+                        localStorage.removeItem('quiz_timeLeft');
+                        window.location.href = '/';
+                    }}>RETURN TO HEADQUARTERS</button>
                 </motion.div>
-                <style>{`@keyframes scan { 0 % { top: -10 %; } 100 % { top: 110 %; } } `}</style>
             </div>
         );
     }

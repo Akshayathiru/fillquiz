@@ -15,6 +15,9 @@ const userSchema = new mongoose.Schema({
     enum: ["admin", "player"],
     default: "player",
   },
+  collegeName: {
+    type: String,
+  },
 });
 
 module.exports = mongoose.model("User", userSchema);

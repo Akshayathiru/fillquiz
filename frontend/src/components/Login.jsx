@@ -8,7 +8,8 @@ const Login = ({ onLogin }) => {
     const [isLogin, setIsLogin] = useState(true);
     const [formData, setFormData] = useState({
         username: '',
-        password: ''
+        password: '',
+        collegeName: ''
     });
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
@@ -22,17 +23,17 @@ const Login = ({ onLogin }) => {
         e.preventDefault();
         setLoading(true);
         setError('');
-        
+
         try {
             const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:5000";
             const endpoint = isLogin ? '/api/auth/login' : '/api/auth/register';
-            
+
             const res = await fetch(`${BACKEND_URL}${endpoint}`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(formData)
             });
-            
+
             if (res.ok) {
                 const data = await res.json();
 
@@ -44,14 +45,22 @@ const Login = ({ onLogin }) => {
 
                     onLogin({
                         id: data.user?.id || data.user?._id,
-                        name: formData.username,
+                        name: data.user?.username || formData.username,
                         role: data.user?.role,
+                        collegeName: data.user?.collegeName,
                         token: data.token
                     });
                     navigate('/');
                 } else {
-                    // Registration succeeded; redirect user to the login page.
-                    navigate('/login');
+                    // Registration succeeded; log the user in automatically
+                    onLogin({
+                        id: data.user?.id || data.user?._id,
+                        name: data.user?.username || formData.username,
+                        role: data.user?.role,
+                        collegeName: data.user?.collegeName,
+                        token: data.token
+                    });
+                    navigate('/');
                 }
             } else {
                 const errorData = await res.json();
@@ -144,7 +153,7 @@ const Login = ({ onLogin }) => {
                         letterSpacing: '2px',
                         fontFamily: 'var(--font-display)'
                     }}>
-                        {isLogin ? 'WIZARD VERIFICATION' : 'WIZARD VERIFICATION'}
+                        {isLogin ? 'WIZARD LOGIN' : 'WIZARD REGISTRATION'}
                     </h1>
                     <p style={{ color: 'var(--text-dim)', fontSize: '0.9rem', fontFamily: 'var(--font-mission)' }}>
                         {isLogin ? 'Access the magic terminal.' : 'Create your account.'}
@@ -178,6 +187,21 @@ const Login = ({ onLogin }) => {
                         />
                     </div>
 
+                    {!isLogin && (
+                        <div style={{ position: 'relative' }}>
+                            <div style={iconStyle}><Terminal size={18} /></div>
+                            <input
+                                type="text"
+                                name="collegeName"
+                                placeholder="College / Institution Name"
+                                value={formData.collegeName}
+                                onChange={handleChange}
+                                style={inputStyle}
+                                required
+                            />
+                        </div>
+                    )}
+
                     {error && (
                         <div style={{
                             background: 'rgba(255, 0, 0, 0.1)',
@@ -210,6 +234,30 @@ const Login = ({ onLogin }) => {
                         }}
                     >
                         {loading ? 'LOADING...' : (isLogin ? <>LOGIN <LogIn size={18} /></> : <>REGISTER <LogIn size={18} /></>)}
+                    </motion.button>
+
+                    <motion.button
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                        type="button"
+                        onClick={() => onLogin({ name: 'Guest Wizard', loggedIn: true, role: 'player' })}
+                        style={{
+                            width: '100%',
+                            justifyContent: 'center',
+                            fontSize: '0.8rem',
+                            padding: '0.8rem',
+                            background: 'rgba(255, 255, 255, 0.05)',
+                            border: '1px solid rgba(197, 160, 89, 0.3)',
+                            color: 'var(--magic-gold)',
+                            cursor: 'pointer',
+                            marginTop: '0.5rem',
+                            borderRadius: '4px',
+                            textTransform: 'uppercase',
+                            letterSpacing: '2px',
+                            fontWeight: '700'
+                        }}
+                    >
+                        PREVIEW AS GUEST
                     </motion.button>
 
                     <div style={{ textAlign: 'center', marginTop: '1.5rem' }}>

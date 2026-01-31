@@ -8,7 +8,7 @@ const router = express.Router();
 // REGISTER
 router.post("/register", async (req, res) => {
   try {
-    const { username, password, role } = req.body;
+    const { username, password, role, collegeName } = req.body;
     if (!username || !password) {
       return res.status(400).json({ msg: "Username and password are required" });
     }
@@ -24,11 +24,18 @@ router.post("/register", async (req, res) => {
       username,
       password: hashedPassword,
       role: role || "player",
+      collegeName,
     });
+
+    const token = jwt.sign(
+      { id: user._id, role: user.role },
+      process.env.JWT_SECRET
+    );
 
     return res.status(201).json({
       msg: "User registered successfully",
-      user: { id: user._id, username: user.username, role: user.role },
+      token,
+      user: { id: user._id, username: user.username, role: user.role, collegeName: user.collegeName },
     });
   } catch (err) {
     console.error("Register error:", err);
@@ -62,7 +69,7 @@ router.post("/login", async (req, res) => {
     return res.json({
       token,
       role: user.role,
-      user: { id: user._id, username: user.username, role: user.role },
+      user: { id: user._id, username: user.username, role: user.role, collegeName: user.collegeName },
     });
   } catch (err) {
     console.error("Login error:", err);

@@ -11,6 +11,7 @@ const MeshBackground = () => {
     <div className="mesh-container">
       <div className="mesh-blob blob-indigo"></div>
       <div className="mesh-blob blob-pink"></div>
+      <div className="fog-overlay"></div>
     </div>
   );
 };
@@ -102,19 +103,21 @@ function App() {
 
   // Check for existing session on mount
   useEffect(() => {
-    const token = localStorage.getItem('fillquiz_token');
-    if (token) {
-      setUser({ name: 'User', loggedIn: true });
+    const storedUser = localStorage.getItem('fillquiz_user');
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
     }
   }, []);
 
   const handleLogin = (userData) => {
     setUser(userData);
+    localStorage.setItem('fillquiz_user', JSON.stringify(userData));
     if (userData.token) localStorage.setItem('fillquiz_token', userData.token);
   };
 
   const handleLogout = () => {
     setUser(null);
+    localStorage.removeItem('fillquiz_user');
     localStorage.removeItem('fillquiz_token');
   }
 
@@ -126,7 +129,9 @@ function App() {
         <main className="animate-fade-in">
           <Routes>
             <Route path="/" element={user ? <Home /> : <Login onLogin={handleLogin} />} />
+            <Route path="/login" element={user ? <Home /> : <Login onLogin={handleLogin} />} />
             <Route path="/quiz" element={user ? <Quiz user={user} /> : <Login onLogin={handleLogin} />} />
+            <Route path="*" element={user ? <Home /> : <Login onLogin={handleLogin} />} />
           </Routes>
         </main>
       </div>
