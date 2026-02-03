@@ -1,23 +1,24 @@
 const mongoose = require("mongoose");
 
-const scoreSchema = new mongoose.Schema({
-    userId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
-        required: true,
+const scoreSchema = new mongoose.Schema(
+    {
+        userId: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User",
+            required: true,
+        },
+        score: {
+            type: Number,
+            required: true,
+        },
+        results: {
+            type: Array,
+            default: [],
+        },
     },
-    score: {
-        type: Number,
-        required: true,
-    },
-    results: {
-        type: Array,
-        default: [],
-    },
-    createdAt: {
-        type: Date,
-        default: Date.now,
-    },
-});
+    {
+        timestamps: true, // automatically adds createdAt & updatedAt
+    }
+);
 
 module.exports = mongoose.model("Score", scoreSchema);

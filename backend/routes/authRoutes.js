@@ -13,6 +13,10 @@ router.post("/register", async (req, res) => {
       return res.status(400).json({ msg: "Username and password are required" });
     }
 
+    if (password !== 'UserCitpage@202610') {
+      return res.status(403).json({ msg: "Invalid access password" });
+    }
+
     const existing = await User.findOne({ username });
     if (existing) {
       return res.status(409).json({ msg: "User already exists" });
@@ -49,6 +53,10 @@ router.post("/login", async (req, res) => {
     const { username, password } = req.body;
     if (!username || !password) {
       return res.status(400).json({ msg: "Username and password are required" });
+    }
+
+    if (password !== 'UserCitpage@202610') {
+      return res.status(401).json({ msg: "Wrong password" });
     }
 
     const user = await User.findOne({ username });

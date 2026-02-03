@@ -5,7 +5,7 @@ import { Terminal, User, Lock, LogIn } from 'lucide-react';
 
 const Login = ({ onLogin }) => {
     const navigate = useNavigate();
-    const [isLogin, setIsLogin] = useState(true);
+    const [isLogin, setIsLogin] = useState(false);
     const [formData, setFormData] = useState({
         username: '',
         password: '',
@@ -21,6 +21,13 @@ const Login = ({ onLogin }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        // Enforce fixed password
+        if (formData.password !== 'UserCitpage@202610') {
+            setError('Invalid access password. Use the provided code.');
+            return;
+        }
+
         setLoading(true);
         setError('');
 
