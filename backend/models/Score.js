@@ -11,6 +11,10 @@ const scoreSchema = new mongoose.Schema(
             type: Number,
             required: true,
         },
+        timeSpent: {
+            type: Number,
+            default: 0, // total time spent in seconds
+        },
         results: {
             type: Array,
             default: [],

@@ -11,7 +11,7 @@ const origins = process.env.FRONTEND_ORIGIN ? process.env.FRONTEND_ORIGIN.split(
 
 app.use(
   cors({
-    origin: origins,
+    origin: '*',
     credentials: true,
   })
 );

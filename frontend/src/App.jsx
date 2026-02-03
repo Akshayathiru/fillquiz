@@ -4,6 +4,7 @@ import { Sparkles, User, Bell, Search, Zap, Layout, Command, Globe, Shield, Acti
 import Home from './components/Home';
 import Quiz from './components/Quiz';
 import Login from './components/Login';
+import AdminDashboard from './components/AdminDashboard';
 import './index.css';
 
 const MeshBackground = () => {
@@ -131,6 +132,7 @@ function App() {
             <Route path="/" element={user ? <Home /> : <Login onLogin={handleLogin} />} />
             <Route path="/login" element={user ? <Home /> : <Login onLogin={handleLogin} />} />
             <Route path="/quiz" element={user ? <Quiz user={user} /> : <Login onLogin={handleLogin} />} />
+            <Route path="/admin" element={user ? <AdminDashboard /> : <Login onLogin={handleLogin} />} />
             <Route path="*" element={user ? <Home /> : <Login onLogin={handleLogin} />} />
           </Routes>
         </main>

@@ -454,22 +454,42 @@ body {
     const sendScoreToBackend = async (score, results) => {
         if (!user?.id) return;
         try {
+            console.log("sending to backend");
+            const timeSpent = 1500 - timeLeft; // Calculate total time spent (in seconds)
             const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:5000";
+            const token = localStorage.getItem('fillquiz_token');
+            
             const res = await fetch(`${BACKEND_URL}/api/scores/add`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Authorization': token
                 },
-                body: JSON.stringify({ userId: user.id, score, results })
+                body: JSON.stringify({ userId: user.id, score, timeSpent, results })
             });
+            
             if (res.ok) {
+                console.log(res);
                 setShowCompletedPopup(true);
                 setTimeout(() => {
                     setShowCompletedPopup(false);
                 }, 3000);
+            } else if (res.status === 409) {
+                // Already submitted
+                const data = await res.json();
+                alert(data.error || "You have already submitted your score!");
+                setShowCompletedPopup(true);
+                setTimeout(() => {
+                    setShowCompletedPopup(false);
+                }, 3000);
+            } else {
+                const data = await res.json();
+                console.error('Failed to save score:', data);
+                alert('Failed to save your score. Please contact admin.');
             }
         } catch (err) {
             console.error('Failed to send score:', err);
+            alert('Network error. Your score could not be saved.');
         }
     };
 
