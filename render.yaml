@@ -1,6 +1,7 @@
 services:
   - type: web
     name: fillquiz-backend
+    plan: free
     runtime: node
     rootDir: backend
     buildCommand: npm install
@@ -17,6 +18,7 @@ services:
 
   - type: web
     name: fillquiz-frontend
+    plan: free
     runtime: node
     rootDir: frontend
     buildCommand: npm install && npm run build
