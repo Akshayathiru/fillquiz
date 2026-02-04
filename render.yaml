@@ -15,11 +15,11 @@ services:
       - key: PORT
         value: 5000
 
-  - type: static
+  - type: web
     name: fillquiz-frontend
     rootDir: frontend
     buildCommand: npm install && npm run build
-    publishPath: dist
+    startCommand: npx serve -s dist -l $PORT
     envVars:
       - key: VITE_BACKEND_URL
         fromService:
