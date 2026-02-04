@@ -8,8 +8,8 @@ exports.addScore = async (req, res) => {
     // Check if user has already submitted a score
     const existingScore = await Score.findOne({ userId });
     if (existingScore) {
-      return res.status(409).json({ 
-        error: "Score already submitted. You can only submit once." 
+      return res.status(409).json({
+        error: "Score already submitted. You can only submit once."
       });
     }
 
@@ -37,7 +37,7 @@ exports.getAllScores = async (req, res) => {
     const scores = await Score.find()
       .populate("userId", "username collegeName")
       .sort({ score: -1, timeSpent: 1 }); // Sort by score descending, then by time spent ascending
-    
+
     // Format response with clean user details only
     const formattedScores = scores.map((scoreDoc, index) => ({
       rank: index + 1,
@@ -50,6 +50,27 @@ exports.getAllScores = async (req, res) => {
     res.status(200).json(formattedScores);
   } catch (error) {
     console.error("Get All Scores Error:", error);
+    res.status(500).json({ error: error.message });
+  }
+};
+
+// Get top scores for public leaderboard
+exports.getLeaderboard = async (req, res) => {
+  try {
+    const scores = await Score.find()
+      .populate("userId", "username")
+      .sort({ score: -1, timeSpent: 1 })
+      .limit(10);
+
+    const formattedLeaderboard = scores.map(s => ({
+      _id: s._id,
+      username: s.userId?.username || "Unknown",
+      highestScore: s.score
+    }));
+
+    res.status(200).json(formattedLeaderboard);
+  } catch (error) {
+    console.error("Leaderboard Error:", error);
     res.status(500).json({ error: error.message });
   }
 };
