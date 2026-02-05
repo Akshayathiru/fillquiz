@@ -74,3 +74,13 @@ exports.getLeaderboard = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+// Reset all scores (ADMIN ONLY)
+exports.resetScores = async (req, res) => {
+  try {
+    await Score.deleteMany({});
+    res.status(200).json({ message: "Leaderboard cleared successfully" });
+  } catch (error) {
+    console.error("Reset Scores Error:", error);
+    res.status(500).json({ error: error.message });
+  }
+};

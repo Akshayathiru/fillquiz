@@ -50,6 +50,36 @@ const AdminDashboard = () => {
         }
     };
 
+    const handleResetScores = async () => {
+        if (!window.confirm('WARNING: This will permanently delete ALL scores from the leaderboard. This action cannot be undone. Proceed?')) return;
+
+        setLoading(true);
+        try {
+            let BACKEND_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:5000";
+            if (!BACKEND_URL.startsWith('http')) BACKEND_URL = `https://${BACKEND_URL}`;
+            const token = localStorage.getItem('fillquiz_token');
+
+            const res = await fetch(`${BACKEND_URL}/api/scores/reset`, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': token
+                }
+            });
+
+            if (res.ok) {
+                alert('Leaderboard reset successfully!');
+                setScores([]);
+            } else {
+                alert('Failed to reset leaderboard. Admin privileges required.');
+            }
+        } catch (err) {
+            console.error('Error resetting scores:', err);
+            alert('Network error during reset.');
+        } finally {
+            setLoading(false);
+        }
+    };
+
     const formatTime = (seconds) => {
         const mins = Math.floor(seconds / 60);
         const secs = seconds % 60;
@@ -213,30 +243,56 @@ const AdminDashboard = () => {
                             Total Players: {scores.length}
                         </p>
                     </div>
-                    <motion.button
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                        onClick={fetchScores}
-                        disabled={loading}
-                        style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: '0.5rem',
-                            background: 'rgba(197, 160, 89, 0.1)',
-                            border: '1px solid rgba(197, 160, 89, 0.3)',
-                            color: 'var(--magic-gold)',
-                            padding: '0.8rem 1.5rem',
-                            borderRadius: '8px',
-                            cursor: loading ? 'not-allowed' : 'pointer',
-                            fontSize: '0.85rem',
-                            fontWeight: '700',
-                            letterSpacing: '1px',
-                            opacity: loading ? 0.6 : 1
-                        }}
-                    >
-                        <RefreshCw size={16} className={loading ? 'animate-spin' : ''} />
-                        REFRESH
-                    </motion.button>
+                    <div style={{ display: 'flex', gap: '1rem' }}>
+                        <motion.button
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                            onClick={handleResetScores}
+                            disabled={loading}
+                            style={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '0.5rem',
+                                background: 'rgba(255, 0, 0, 0.1)',
+                                border: '1px solid rgba(255, 0, 0, 0.3)',
+                                color: '#ff4444',
+                                padding: '0.8rem 1.5rem',
+                                borderRadius: '8px',
+                                cursor: loading ? 'not-allowed' : 'pointer',
+                                fontSize: '0.85rem',
+                                fontWeight: '700',
+                                letterSpacing: '1px',
+                                opacity: loading ? 0.6 : 1
+                            }}
+                        >
+                            <RefreshCw size={16} />
+                            RESET LEADERBOARD
+                        </motion.button>
+                        <motion.button
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                            onClick={fetchScores}
+                            disabled={loading}
+                            style={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '0.5rem',
+                                background: 'rgba(197, 160, 89, 0.1)',
+                                border: '1px solid rgba(197, 160, 89, 0.3)',
+                                color: 'var(--magic-gold)',
+                                padding: '0.8rem 1.5rem',
+                                borderRadius: '8px',
+                                cursor: loading ? 'not-allowed' : 'pointer',
+                                fontSize: '0.85rem',
+                                fontWeight: '700',
+                                letterSpacing: '1px',
+                                opacity: loading ? 0.6 : 1
+                            }}
+                        >
+                            <RefreshCw size={16} className={loading ? 'animate-spin' : ''} />
+                            REFRESH
+                        </motion.button>
+                    </div>
                 </div>
 
                 {/* Stats Cards */}

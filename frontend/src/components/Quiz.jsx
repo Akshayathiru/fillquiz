@@ -400,6 +400,10 @@ body {
 
         Object.entries(ecommerceChallenge.files).forEach(([fileKey, fileData]) => {
             const rawCode = userCode[fileKey];
+
+            // Safety: If code is identical to initial boilerplate, skip evaluation for this file
+            if (rawCode.trim() === fileData.initialCode.trim()) return;
+
             // Improved comment stripping: handles HTML, JS (// and /* */)
             let cleanCode = rawCode;
             if (fileKey === 'html') {
@@ -487,6 +491,10 @@ body {
 
         Object.entries(ecommerceChallenge.files).forEach(([fileKey, fileData]) => {
             const rawCode = userCode[fileKey];
+
+            // Safety: If code is identical to initial boilerplate, skip evaluation for this file
+            if (rawCode.trim() === fileData.initialCode.trim()) return;
+
             // Improved comment stripping: handles HTML, JS (// and /* */)
             let cleanCode = rawCode;
             if (fileKey === 'html') {
