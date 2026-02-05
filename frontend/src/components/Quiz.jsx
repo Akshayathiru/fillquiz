@@ -43,12 +43,12 @@ const ecommerceChallenge = {
         <!-- 1. Header + Search (id: search-input) -->
     </header>
 
-    <!-- 2. Registry Status (id: registry-status) -->
-    <main id="artifact-grid"></main>
+    <!-- 2. Registry (id: artifact-grid) & Status (id: registry-status) -->
+    <main></main>
 
     <aside class="dashboard">
-        <!-- 3. Stats: grand-total, highest-price-ever, active-filter-label -->
-        <button id="reset-ritual">DEEP_PURGE</button>
+        <!-- 3. Dashboard IDs: grand-total, highest-price-ever, active-filter-label -->
+        <!-- 4. Reset Button (id: reset-ritual) -->
     </aside>
 
     <script src="script.js"></script>
@@ -62,7 +62,7 @@ const ecommerceChallenge = {
                 },
                 {
                     id: "grid-status", check: (code) => {
-                        return /id=["']artifact-grid["']/i.test(code) && /id=["']registry-status["']/i.test(code);
+                        return /<main[^>]+id=["']artifact-grid["']/i.test(code) && /id=["']registry-status["']/i.test(code);
                     }, points: 15
                 },
                 {
@@ -72,7 +72,7 @@ const ecommerceChallenge = {
                 },
                 {
                     id: "btn-ritual", check: (code) => {
-                        return /id=["']reset-ritual["']/i.test(code);
+                        return /<button[^>]+id=["']reset-ritual["']/i.test(code);
                     }, points: 10
                 }
             ]
