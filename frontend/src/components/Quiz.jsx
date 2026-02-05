@@ -8,23 +8,24 @@ import {
 import '../index.css';
 
 const ecommerceChallenge = {
-    title: "THE_FORBIDDEN_REGISTRY // ARCHIVE-99",
-    description: "Reconstruct the ancient Artifact Registry. You must handle high-fidelity DOM orchestration, thematic styling, and state-locked inventory logic. Zero hints provided.",
+    title: "THE_FORBIDDEN_REGISTRY // ARCHIVE-X9 // ELITE_FINAL",
+    description: "Reconstruct the ancient Artifact Registry. Requirement: Reactive performance, persistent vaults, and 3D orchestration. Note: System detects simplified solutions and voids points.",
     taskDetails: [
-        "1.  HTML: Construct a semantic header and add the title 'Forbidden Registry' inside an <h1>.",
-        "2.  HTML: Create a <main> section with ID 'artifact-grid' for dynamic rendering.",
-        "3.  HTML: Add a footer or section containing stats with IDs 'grand-total' and 'artifact-count'.",
-        "4.  HTML: Add a reset ritual <button> with ID 'reset-ritual'.",
-        "5.  CSS: Apply the 'Cinzel' font to the header <h1>.",
-        "6.  CSS: Implement a CSS Grid for 'artifact-grid' with at least 2 columns and a gap.",
-        "7.  CSS: Apply the gold color (#c5a059) to the text or borders via the 'style.css'.",
-        "8.  CSS: Define a '.artifact-card' with a border and semi-transparent background.",
-        "9.  CSS: Implement a '@keyframes pulse' and attach it to the '.legendary' class.",
-        "10. JS: Use an array method (.forEach or .map) to iterate through the artifacts.",
-        "11. JS: Use DOM methods (createElement or innerHTML) to manifest artifacts into the grid.",
-        "12. JS: Implement logic to update 'totalMana' or 'grand-total' when an item is acquired.",
-        "13. JS: Implement logic to reset values to 0 when the ritual button is triggered.",
-        "14. JS: Use 'addEventListener' to bind the reset button to your logic."
+        "1.  HTML: Semantic <header> containing a <h1>'Forbidden Registry'</h1> and a <input type='text' id='search-input' placeholder='Scan signatures...'>.",
+        "2.  HTML: A <main> with ID 'artifact-grid' and a notification glyph <div id='registry-status'></div>.",
+        "3.  HTML: Dashboard panel with IDs 'grand-total', 'highest-price-ever', and 'active-filter-label'.",
+        "4.  CSS: Implement a 3D Card Hover using 'transform: perspective(1000px) rotateY(15deg)'.",
+        "5.  CSS: Design a '::after' pseudo-element on '.artifact-card' for the gold border glow.",
+        "6.  CSS: Use 'grid-template-columns: repeat(auto-fill, minmax(280px, 1fr))' for high-fidelity spacing.",
+        "7.  CSS: Implement '@keyframes shimmer' using 'background-position' on a linear-gradient.",
+        "8.  CSS: Use 'clamp()' for responsive header font-sizes.",
+        "9.  JS: Implement 'renderRegistry()' with a requirement to '.sort()' the artifacts by price (Descending) before mapping.",
+        "10. JS: Implement a 'search debounce' of 300ms using 'setTimeout' inside the input listener.",
+        "11. JS: Use '.reduce()' to calculate the sum of prices, including a check to filter out 'null' or '0' value artifacts.",
+        "12. JS: Persist the 'highest-price-ever' in 'localStorage' and ensure it updates ONLY if a more expensive item is bought.",
+        "13. JS: Implement event delegation by attaching the click listener to '#artifact-grid' instead of individual buttons.",
+        "14. JS: Use 'Intl.NumberFormat' to format the 'grand-total' display into a magical currency string.",
+        "15. JS: Implement a 'Deep Purge' ritual that clears 'localStorage', resets DOM states, and triggers a 'console.warn' of the deletion."
     ],
     files: {
         html: {
@@ -35,46 +36,44 @@ const ecommerceChallenge = {
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Forbidden Registry</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Elite Registry</title>
 </head>
 <body>
     <header>
-        <div class="seal-icon"></div>
-        <!-- 1. Add Semantic Title here -->
+        <!-- 1. Header + Search (id: search-input) -->
     </header>
 
-    <!-- 2. Create the main Registry Grid below (ID: artifact-grid) -->
+    <!-- 2. Registry Status (id: registry-status) -->
+    <main id="artifact-grid"></main>
 
-    <!-- 3. Construct the Footer with Stats and Reset Logic below -->
+    <aside class="dashboard">
+        <!-- 3. Stats: grand-total, highest-price-ever, active-filter-label -->
+        <button id="reset-ritual">DEEP_PURGE</button>
+    </aside>
 
     <script src="script.js"></script>
 </body>
 </html>`,
             solutions: [
                 {
-                    id: "semantic-header", check: (code) => {
-                        const clean = code.replace(/<!--[\s\S]*?-->/g, '');
-                        return /<header>[\s\S]*?<h1>Forbidden Registry<\/h1>[\s\S]*?<\/header>/i.test(clean);
+                    id: "structure-elite", check: (code) => {
+                        return /<h1>Forbidden Registry<\/h1>/i.test(code) && /id=["']search-input["']/i.test(code);
+                    }, points: 15
+                },
+                {
+                    id: "grid-status", check: (code) => {
+                        return /id=["']artifact-grid["']/i.test(code) && /id=["']registry-status["']/i.test(code);
+                    }, points: 15
+                },
+                {
+                    id: "dashboard-precision", check: (code) => {
+                        return /id=["']grand-total["']/i.test(code) && /id=["']highest-price-ever["']/i.test(code) && /id=["']active-filter-label["']/i.test(code);
                     }, points: 20
                 },
                 {
-                    id: "grid-container", check: (code) => {
-                        const clean = code.replace(/<!--[\s\S]*?-->/g, '');
-                        return /id=["']artifact-grid["']/i.test(clean) && /<main|<div/i.test(clean);
-                    }, points: 20
-                },
-                {
-                    id: "state-stats", check: (code) => {
-                        const clean = code.replace(/<!--[\s\S]*?-->/g, '');
-                        return /id=["']grand-total["']/i.test(clean) && /id=["']artifact-count["']/i.test(clean);
-                    }, points: 20
-                },
-                {
-                    id: "reset-ritual", check: (code) => {
-                        const clean = code.replace(/<!--[\s\S]*?-->/g, '');
-                        return /<button[^>]+id=["']reset-ritual["']/i.test(clean);
-                    }, points: 20
+                    id: "btn-ritual", check: (code) => {
+                        return /id=["']reset-ritual["']/i.test(code);
+                    }, points: 10
                 }
             ]
         },
@@ -82,64 +81,56 @@ const ecommerceChallenge = {
             name: "style.css",
             icon: <FileCode size={14} />,
             color: "var(--accent-blue)",
-            initialCode: `body {
-    /* Step 1: Set deep dark background and magical gold text */
-    padding: 2rem;
+            initialCode: `:root {
+    --magic-gold: #c5a059;
 }
 
-.seal-icon {
-    /* Step 2: Implement diamond shape (20px, rotate 45deg, gold border) */
-}
-
-header h1 {
-    /* Step 3: Apply 'Cinzel' font and thematic glow */
-}
+body { background: #050508; color: white; }
 
 #artifact-grid {
-    /* Step 4: Define 2-column grid layout with gap */
+    /* Step 1: Auto-Fill Grid (minmax 280px) */
 }
 
 .artifact-card {
-    /* Step 5: Design professional card logic */
+    /* Step 2: 3D perspective transition */
 }
 
-.legendary {
-    /* Step 6: Attach pulse animation */
+.artifact-card::after {
+    /* Step 3: Pseudo-element glow */
 }
 
-@keyframes pulse {
-    /* Step 7: Create the ritual glow animation */
+h1 {
+    /* Step 4: Use clamp() for font-size */
+}
+
+@keyframes shimmer {
+    /* Step 5: Background position animation */
 }`,
             solutions: [
                 {
-                    id: "font-cinzel", check: (code) => {
-                        const clean = code.replace(/\/\*[\s\S]*?\*\//g, '');
-                        return clean.includes("font-family") && clean.includes("Cinzel");
+                    id: "auto-fill-logic", check: (code) => {
+                        return code.includes("grid-template-columns") && code.includes("repeat") && code.includes("auto-fill") && code.includes("280px");
+                    }, points: 20
+                },
+                {
+                    id: "3d-perspective", check: (code) => {
+                        return code.includes("perspective") && code.includes("rotateY") && code.includes("1000px");
+                    }, points: 25
+                },
+                {
+                    id: "pseudo-glow", check: (code) => {
+                        return code.includes("::after") && (code.includes("content") || code.includes("absolute"));
+                    }, points: 20
+                },
+                {
+                    id: "clamp-design", check: (code) => {
+                        return code.includes("font-size") && code.includes("clamp(");
                     }, points: 15
                 },
                 {
-                    id: "grid-logic", check: (code) => {
-                        const clean = code.replace(/\/\*[\s\S]*?\*\//g, '');
-                        return (clean.includes("display: grid") || clean.includes("display:grid")) && clean.includes("gap");
+                    id: "shimmer-anim", check: (code) => {
+                        return code.includes("@keyframes shimmer") && code.includes("background-position");
                     }, points: 20
-                },
-                {
-                    id: "gold-theme", check: (code) => {
-                        const clean = code.replace(/\/\*[\s\S]*?\*\//g, '');
-                        return clean.includes("#c5a059") && (clean.includes("color") || clean.includes("border"));
-                    }, points: 20
-                },
-                {
-                    id: "card-design", check: (code) => {
-                        const clean = code.replace(/\/\*[\s\S]*?\*\//g, '');
-                        return clean.includes(".artifact-card") && clean.includes("background");
-                    }, points: 20
-                },
-                {
-                    id: "animation", check: (code) => {
-                        const clean = code.replace(/\/\*[\s\S]*?\*\//g, '');
-                        return clean.includes("@keyframes pulse") && clean.includes("animation");
-                    }, points: 25
                 }
             ]
         },
@@ -147,66 +138,67 @@ header h1 {
             name: "script.js",
             icon: <FileCode size={14} />,
             color: "var(--accent-yellow)",
-            initialCode: `const artifacts = [
-    { id: 101, name: "Elder Wand", price: 50000 },
-    { id: 102, name: "Cloak", price: 35000 },
-    { id: 103, name: "Stone", price: 40000 }
+            initialCode: `const registry = [
+    { name: "Ancient Relic", price: 99000 },
+    { name: "Void Totem", price: 125000 },
+    { name: "Mana Crystal", price: 15000 },
+    { name: "Dragon Heart", price: 0 } // Corrupted
 ];
 
-let total;
-const grid = document.getElementById('artifact-grid');
-const totalEl = document.getElementById('grand-total');
-
-// 1. Render function
-function render() {
-    // Write a loop here (forEach) to display artifacts
-    // Create elements and append to 'grid'
+// 1. Render with Sorting (Desc)
+function render(filter = "") {
+    // Requirements: .filter, then .sort((a,b) => b.price - a.price), then template map
 }
 
-// 2. Buy function
-window.buy = function(price) {
-    // Add price to total
-    // Update totalEl text
-};
+// 2. Search with DEBOUNCE
+let searchTimeout;
+document.getElementById('search-input').addEventListener('input', (e) => {
+    // Use clearTimeout/setTimeout (300ms)
+});
 
-// 3. Reset
-function reset() {
-    // Set total to 0
-    // Update text
+// 3. Delegation & Persistence
+document.getElementById('artifact-grid').addEventListener('click', (e) => {
+    // If target is button...
+    // Update localStorage 'highest-price-ever'
+});
+
+// 4. Formatting & Purge
+function purge() {
+    // Clear localStorage + reset UI
+    console.warn("SYSTEMS_PURGED");
 }
 
-// Run
 render();`,
             solutions: [
                 {
-                    id: "array-render", check: (code) => {
-                        const cleanCode = code.replace(/\/\/.*|\/\*[\s\S]*?\*\//g, '');
-                        return cleanCode.includes(".forEach") || cleanCode.includes(".map");
-                    }, points: 25
-                },
-                {
-                    id: "dom-creation", check: (code) => {
-                        const cleanCode = code.replace(/\/\/.*|\/\*[\s\S]*?\*\//g, '');
-                        return cleanCode.includes("createElement") || cleanCode.includes(".innerHTML +=");
-                    }, points: 25
-                },
-                {
-                    id: "acquire-logic", check: (code) => {
-                        const cleanCode = code.replace(/\/\/.*|\/\*[\s\S]*?\*\//g, '');
-                        return cleanCode.includes("function") && (cleanCode.includes("+=") || cleanCode.includes("++"));
-                    }, points: 40
-                },
-                {
-                    id: "reset-logic", check: (code) => {
-                        const cleanCode = code.replace(/\/\/.*|\/\*[\s\S]*?\*\//g, '');
-                        return cleanCode.includes("= 0") || cleanCode.includes("= \"0\"");
+                    id: "sort-logic", check: (code) => {
+                        return code.includes(".sort") && code.includes("b.price") && code.includes("a.price");
                     }, points: 30
                 },
                 {
-                    id: "event-listener", check: (code) => {
-                        const cleanCode = code.replace(/\/\/.*|\/\*[\s\S]*?\*\//g, '');
-                        return cleanCode.includes("addEventListener");
+                    id: "debounce-check", check: (code) => {
+                        return code.includes("setTimeout") && code.includes("clearTimeout") && code.includes("300");
+                    }, points: 30
+                },
+                {
+                    id: "reduce-sanitized", check: (code) => {
+                        return code.includes(".reduce") && (code.includes(".filter") || code.includes("if"));
+                    }, points: 30
+                },
+                {
+                    id: "intl-format", check: (code) => {
+                        return code.includes("Intl.NumberFormat");
                     }, points: 20
+                },
+                {
+                    id: "delegation-check", check: (code) => {
+                        return code.includes("addEventListener") && code.includes("target");
+                    }, points: 20
+                },
+                {
+                    id: "storage-elite", check: (code) => {
+                        return code.includes("localStorage.setItem") && code.includes("getItem");
+                    }, points: 25
                 }
             ]
         }
@@ -229,6 +221,8 @@ const Quiz = ({ user }) => {
     const [previewSrc, setPreviewSrc] = useState('');
 
     // Force timer to always start at 25 minutes (1500 seconds)
+    const [liveScore, setLiveScore] = useState(0);
+    const [completedTasks, setCompletedTasks] = useState([]);
     const [timeLeft, setTimeLeft] = useState(1500);
     const [isTimeUp, setIsTimeUp] = useState(false);
     const [showCompletedPopup, setShowCompletedPopup] = useState(false);
@@ -253,47 +247,37 @@ const Quiz = ({ user }) => {
                 <div class="seal-line"></div>
             </div>
             <div class="header-content">
-                <div class="breadcrumb">FORBIDDEN_ARCHIVE // 099</div>
-                <h1 class="main-title">Registry</h1>
+                <div class="breadcrumb">FORBIDDEN_ARCHIVE // X9_ELITE</div>
+                <h1 class="main-title">Elite Registry</h1>
+                <div class="search-wrap">
+                    <input type="text" id="target-search" placeholder="Scan signatures..." class="magical-input">
+                    <div id="registry-status" class="status-dot"></div>
+                </div>
             </div>
         </header>
         
-        <div id="artifact-grid" class="custom-scroll">
-            <div class="artifact-card legendary">
-                <div class="card-glow"></div>
-                <div class="card-meta">ARTIFACT_101 // LEGENDARY</div>
-                <div class="card-body">
-                    <h3>Elder Wand</h3>
-                    <div class="price-tag">50,000 <span class="unit">G</span></div>
-                </div>
-                <button class="acquire-btn" data-price="50000">ACQUIRE ARTIFACT</button>
-            </div>
-            
-            <div class="artifact-card legendary">
-                <div class="card-glow"></div>
-                <div class="card-meta">ARTIFACT_102 // LEGENDARY</div>
-                <div class="card-body">
-                    <h3>Invisibility Cloak</h3>
-                    <div class="price-tag">35,000 <span class="unit">G</span></div>
-                </div>
-                <button class="acquire-btn" data-price="35000">ACQUIRE ARTIFACT</button>
-            </div>
+        <div id="artifact-grid" class="custom-scroll elite-grid">
+            <!-- Dynamically Rendered via JS in Goal -->
         </div>
 
         <div class="dashboard-panel">
             <div class="stats-grid">
                 <div class="stat-box">
-                    <span class="label">MANIFESTED</span>
-                    <span id="artifact-count" class="value">0</span>
+                    <span class="label">ACTIVE_FILTER</span>
+                    <span id="active-filter-label" class="value small">ALL_SIGNATURES</span>
                 </div>
                 <div class="stat-box">
                     <span class="label">MANA_ACCUMULATION</span>
                     <span id="grand-total" class="value">0</span>
                 </div>
+                <div class="stat-box full">
+                    <span class="label">PEAK_MANA_CAPTURED</span>
+                    <span id="highest-price-ever" class="value">0</span>
+                </div>
             </div>
             <div class="action-footer">
-                <button id="reset-ritual" class="purge-btn">PURGE_SESSION</button>
-                <div class="status-badge">SYSTEM_ONLINE</div>
+                <button id="reset-ritual" class="purge-btn">DEEP_PURGE_SESSION</button>
+                <div class="status-badge">NEURAL_LINK_ACTIVE</div>
             </div>
         </div>
     </main>
@@ -303,100 +287,108 @@ const Quiz = ({ user }) => {
 
 :root {
     --gold: #c5a059;
-    --gold-glow: rgba(197, 160, 89, 0.3);
-    --bg-dark: #020205;
+    --gold-alpha: rgba(197, 160, 89, 0.2);
+    --bg-dark: #050508;
 }
 
 body { 
     background: var(--bg-dark); color: var(--gold); font-family: 'MedievalSharp', cursive;
-    margin: 0; padding: 0; min-height: 100vh; overflow-y: auto; font-size: 13px;
+    margin: 0; padding: 0; min-height: 100vh; overflow: hidden;
 }
 
-.registry-container { 
-    min-height: 100vh; display: flex; flex-direction: column; position: relative;
-}
-
-.ambient-glow {
-    position: absolute; top: 0; left: 50%; transform: translateX(-50%);
-    width: 600px; height: 400px; background: radial-gradient(circle, rgba(10, 11, 30, 0.8) 0%, transparent 70%);
-    z-index: 0; pointer-events: none;
-}
+.registry-container { height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
+.ambient-glow { position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 100%; height: 500px; background: radial-gradient(circle, rgba(197, 160, 89, 0.05) 0%, transparent 70%); pointer-events: none; }
 
 .registry-main { 
-    flex: 1; display: flex; flex-direction: column; position: relative; z-index: 1; padding: 1.5rem;
-    max-width: 450px; margin: 0 auto; width: 100%; box-sizing: border-box;
+    flex: 1; display: flex; flex-direction: column; padding: 1.5rem; max-width: 500px; margin: 0 auto; width: 100%; height: 100%;
 }
 
-/* Header Styling */
-.registry-header { margin-bottom: 2rem; display: flex; align-items: flex-start; gap: 1rem; }
-.seal-header { display: flex; flex-direction: column; align-items: center; gap: 0.5rem; padding-top: 0.5rem; }
-.seal-diamond { width: 12px; height: 12px; border: 1px solid var(--gold); transform: rotate(45deg); box-shadow: 0 0 10px var(--gold-glow); }
-.seal-line { width: 1px; height: 25px; background: linear-gradient(to bottom, var(--gold), transparent); }
-.breadcrumb { font-size: 0.55rem; letter-spacing: 2px; opacity: 0.5; margin-bottom: 0.2rem; }
-.main-title { font-size: 1.6rem; color: white; font-family: 'Cinzel', serif; margin: 0; letter-spacing: 1px; }
+.main-title { font-size: clamp(1.2rem, 5vw, 1.8rem); font-family: 'Cinzel', serif; color: white; margin: 0; }
+.search-wrap { margin-top: 1rem; position: relative; display: flex; align-items: center; gap: 0.5rem; }
+.magical-input { background: rgba(0,0,0,0.5); border: 1px solid var(--gold-alpha); padding: 0.6rem; color: white; width: 100%; border-radius: 4px; outline: none; font-size: 0.8rem; }
+.status-dot { width: 8px; height: 8px; background: #00ff00; borderRadius: 50%; box-shadow: 0 0 10px #00ff00; }
 
-/* Artifact Grid */
-#artifact-grid { display: flex; flex-direction: column; gap: 1rem; margin-bottom: 2rem; }
-
-/* Visible Scrollbar */
-::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.3); }
-::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 10px; border: 2px solid var(--bg-dark); }
-::-webkit-scrollbar-thumb:hover { background: #fff; }
-
-.artifact-card { 
-    background: rgba(10, 11, 30, 0.4); border: 1px solid rgba(197, 160, 89, 0.1); 
-    padding: 1.2rem; border-radius: 4px; position: relative; overflow: hidden; transition: 0.4s;
-}
-.artifact-card:hover { background: rgba(10, 11, 30, 0.8); border-color: var(--gold); transform: translateY(-3px); }
-.card-glow { position: absolute; inset: 0; background: linear-gradient(45deg, transparent, rgba(197, 160, 89, 0.05), transparent); pointer-events: none; }
-.card-meta { font-size: 0.5rem; color: var(--gold); opacity: 0.6; margin-bottom: 0.6rem; letter-spacing: 1px; }
-.card-body h3 { font-size: 1rem; color: #fff; margin: 0 0 0.3rem 0; font-family: 'Cinzel', serif; }
-.price-tag { font-size: 1.1rem; font-weight: bold; color: white; }
-.unit { font-size: 0.6rem; color: var(--gold); }
-
-.acquire-btn { 
-    margin-top: 0.8rem; width: 100%; background: transparent; color: var(--gold); border: 1px solid var(--gold);
-    padding: 0.5rem; font-family: 'Cinzel', serif; font-size: 0.65rem; font-weight: bold; cursor: pointer; transition: 0.3s;
-}
-.acquire-btn:hover { background: var(--gold); color: black; box-shadow: 0 5px 15px rgba(197, 160, 89, 0.2); }
-
-.legendary { animation: ritualPulse 5s infinite; }
-@keyframes ritualPulse {
-    0%, 100% { border-color: rgba(197, 160, 89, 0.1); }
-    50% { border-color: rgba(197, 160, 89, 0.4); box-shadow: 0 0 20px rgba(197, 160, 89, 0.1); }
+#artifact-grid { 
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 1rem; 
+    margin: 1.5rem 0; overflow-y: auto; padding-right: 5px; flex: 1;
 }
 
-/* Dashboard Panel */
-.dashboard-panel { background: rgba(5, 5, 8, 0.9); border: 1px solid rgba(197, 160, 89, 0.15); padding: 1.2rem; border-radius: 8px; box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.5); margin-top: auto; }
-.stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem; }
-.stat-box { border-left: 2px solid var(--gold); padding-left: 1rem; }
-.label { font-size: 0.55rem; opacity: 0.5; letter-spacing: 1px; display: block; margin-bottom: 0.2rem; }
-.value { font-size: 1.2rem; color: white; font-weight: bold; font-family: 'Cinzel', serif; }
+.artifact-card {
+    background: rgba(10, 11, 30, 0.3); border: 1px solid var(--gold-alpha); padding: 1rem; border-radius: 4px;
+    position: relative; transition: 0.5s; perspective: 1000px;
+}
+.artifact-card:hover { transform: perspective(1000px) rotateY(10deg) translateZ(5px); border-color: var(--gold); }
+.artifact-card::after { content: ''; position: absolute; inset: 0; border-radius: 4px; box-shadow: 0 0 20px rgba(197, 160, 89, 0); transition: 0.4s; pointer-events: none; }
+.artifact-card:hover::after { box-shadow: 0 0 20px rgba(197, 160, 89, 0.2); }
 
-.action-footer { display: flex; justify-content: space-between; align-items: center; padding-top: 1rem; border-top: 1px solid rgba(255, 255, 255, 0.05); }
-.purge-btn { background: transparent; color: #ff4444; border: none; font-family: 'Cinzel', serif; font-size: 0.65rem; letter-spacing: 2px; cursor: pointer; padding: 0.4rem; transition: 0.3s; }
-.purge-btn:hover { color: white; text-shadow: 0 0 10px #f00; }
-.status-badge { font-size: 0.5rem; color: #00ff00; letter-spacing: 1px; font-weight: bold; }
+.price-tag { color: white; font-weight: bold; font-size: 1.2rem; margin: 0.5rem 0; }
+.acquire-btn { width: 100%; background: transparent; color: var(--gold); border: 1px solid var(--gold); padding: 0.4rem; cursor: pointer; font-family: 'Cinzel', serif; font-size: 0.7rem; }
+.acquire-btn:hover { background: var(--gold); color: black; }
+
+.dashboard-panel { background: rgba(0,0,0,0.8); border: 1px solid var(--gold-alpha); padding: 1rem; border-radius: 8px; }
+.stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; }
+.stat-box { border-left: 2px solid var(--gold); padding-left: 0.8rem; }
+.stat-box.full { grid-column: span 2; }
+.label { font-size: 0.5rem; opacity: 0.5; display: block; }
+.value { font-size: 1rem; color: white; font-family: 'Cinzel', serif; }
+.value.small { font-size: 0.7rem; }
+
+.purge-btn { background: transparent; color: #ff4444; border: none; font-size: 0.6rem; cursor: pointer; padding: 0; font-family: 'Cinzel'; }
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-thumb { background: var(--gold); }
 `;
             js = `
-            let count = 0; let total = 0;
-            const countEl = document.getElementById('artifact-count');
-            const totalEl = document.getElementById('grand-total');
-            const formatter = new Intl.NumberFormat();
+            const arts = [
+                { name: "Ancient Relic", price: 99000 },
+                { name: "Void Totem", price: 125000 },
+                { name: "Mana Crystal", price: 15000 },
+                { name: "Dragon Heart", price: 50000 }
+            ];
+            let vault = [];
+            let peak = localStorage.getItem('peak_mana') || 0;
+            
+            function render(q = "") {
+                const filtered = arts.filter(a => a.name.toLowerCase().includes(q.toLowerCase()))
+                                    .sort((a,b) => b.price - a.price);
+                
+                document.getElementById('artifact-grid').innerHTML = filtered.map(a => \`
+                    <div class="artifact-card">
+                        <div style="font-size: 0.5rem; opacity: 0.5">SIGNATURE_SR_99</div>
+                        <h3 style="font-size: 0.9rem; margin: 0.2rem 0; font-family: 'Cinzel'">\${a.name}</h3>
+                        <div class="price-tag">\${a.price.toLocaleString()} <span style="font-size: 0.6rem; color: var(--gold)">G</span></div>
+                        <button class="acquire-btn" data-price="\${a.price}">ACQUIRE</button>
+                    </div>
+                \`).join('');
+                document.getElementById('active-filter-label').innerText = q ? q.toUpperCase() : "ALL_SIGNATURES";
+            }
 
-            document.querySelectorAll('.acquire-btn').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    count++; total += parseInt(btn.dataset.price);
-                    countEl.innerText = count;
-                    totalEl.innerText = formatter.format(total);
-                });
+            document.getElementById('artifact-grid').addEventListener('click', (e) => {
+                if(e.target.classList.contains('acquire-btn')) {
+                    const p = parseInt(e.target.dataset.price);
+                    vault.push(p);
+                    const total = vault.reduce((a,b) => a+b, 0);
+                    document.getElementById('grand-total').innerText = total.toLocaleString();
+                    if(p > peak) {
+                        peak = p;
+                        localStorage.setItem('peak_mana', peak);
+                        document.getElementById('highest-price-ever').innerText = peak.toLocaleString();
+                    }
+                }
+            });
+
+            document.getElementById('target-search').addEventListener('input', (e) => {
+                render(e.target.value);
             });
 
             document.getElementById('reset-ritual').addEventListener('click', () => {
-                count = 0; total = 0;
-                countEl.innerText = '0'; totalEl.innerText = '0';
+                vault = []; peak = 0; localStorage.removeItem('peak_mana');
+                document.getElementById('grand-total').innerText = '0';
+                document.getElementById('highest-price-ever').innerText = '0';
+                console.warn("SYSTEMS_PURGED");
             });
+
+            document.getElementById('highest-price-ever').innerText = parseInt(peak).toLocaleString();
+            render();
             `;
         }
 
@@ -435,9 +427,30 @@ body {
         }));
     };
 
+    const evaluateScore = () => {
+        let earned = 0;
+        const correctTaskIds = [];
+
+        Object.entries(ecommerceChallenge.files).forEach(([fileKey, fileData]) => {
+            const rawCode = userCode[fileKey];
+            const cleanCode = rawCode.replace(/\/\*[\s\S]*?\*\/|([^:]|^)\/\/.*$/gm, '$1');
+
+            fileData.solutions.forEach((sol, idx) => {
+                if (sol.check(cleanCode)) {
+                    earned += sol.points;
+                    correctTaskIds.push(`${fileKey}-${idx}`);
+                }
+            });
+        });
+
+        setLiveScore(earned);
+        setCompletedTasks(correctTaskIds);
+    };
+
     const runCode = () => {
         setPreviewType('user');
         setHasRun(true);
+        evaluateScore(); // Update live score on execute
     };
 
     // const finalizeSession = () => {
@@ -500,15 +513,17 @@ body {
         const results = [];
 
         Object.entries(ecommerceChallenge.files).forEach(([fileKey, fileData]) => {
-            const currentCode = userCode[fileKey];
+            const rawCode = userCode[fileKey];
+            // Improved comment stripping: handles //, /* */ and multi-line accurately
+            const cleanCode = rawCode.replace(/\/\*[\s\S]*?\*\/|([^:]|^)\/\/.*$/gm, '$1');
 
             fileData.solutions.forEach((sol, idx) => {
-                const isCorrect = sol.check(currentCode);
+                const isCorrect = sol.check(cleanCode);
                 if (isCorrect) earned += sol.points;
 
                 results.push({
                     file: fileData.name,
-                    task: ecommerceChallenge.taskDetails[results.length] || `Task ${idx + 1} `,
+                    task: ecommerceChallenge.taskDetails[results.length] || `Task ${idx + 1}`,
                     isCorrect,
                     points: sol.points
                 });
@@ -621,7 +636,18 @@ body {
                             {ecommerceChallenge.title}
                         </div>
                     </div>
-                    <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'center' }}>
+                    <div style={{ display: 'flex', gap: '1.2rem', alignItems: 'center' }}>
+                        <div style={{
+                            display: 'flex', alignItems: 'center', gap: '0.6rem', padding: '0.4rem 1rem',
+                            background: 'rgba(197, 160, 89, 0.1)',
+                            border: '1px solid rgba(197, 160, 89, 0.3)',
+                            borderRadius: '4px', color: 'var(--magic-gold)',
+                            fontFamily: 'var(--font-mono)', fontSize: '0.8rem', fontWeight: '800'
+                        }}>
+                            <Zap size={14} fill="currentColor" />
+                            {liveScore} MANA
+                        </div>
+
                         <div style={{
                             display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.4rem 1rem',
                             background: timeLeft < 60 ? 'rgba(255, 0, 0, 0.1)' : 'rgba(255, 234, 0, 0.05)',
@@ -648,12 +674,32 @@ body {
                             <h3 style={{ fontSize: '0.7rem', fontWeight: '800', color: 'white', letterSpacing: '2px', textTransform: 'uppercase' }}>Objectives</h3>
                         </div>
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', fontFamily: 'var(--font-mission)' }}>
-                            {ecommerceChallenge.taskDetails.map((task, i) => (
-                                <motion.div key={i} whileHover={{ x: 4, background: '#0c0c0c' }} style={{ padding: '1rem', background: '#050505', border: '1px solid #111', borderRadius: '4px', display: 'flex', gap: '1rem' }}>
-                                    <div style={{ color: '#ffea00', fontSize: '0.7rem', fontWeight: '800', fontFamily: 'var(--font-mono)' }}>{String(i + 1).padStart(2, '0')}</div>
-                                    <div style={{ fontSize: '0.75rem', color: '#bbb', lineHeight: '1.4' }}>{task}</div>
-                                </motion.div>
-                            ))}
+                            {ecommerceChallenge.taskDetails.map((task, i) => {
+                                const fileKey = i < 4 ? 'html' : i < 9 ? 'css' : 'js';
+                                const solIdx = i < 4 ? i : i < 9 ? i - 4 : i - 9;
+                                const isCompleted = completedTasks.includes(`${fileKey}-${solIdx}`);
+
+                                return (
+                                    <motion.div
+                                        key={i}
+                                        whileHover={{ x: 4, background: '#0c0c0c' }}
+                                        style={{
+                                            padding: '1rem',
+                                            background: isCompleted ? 'rgba(0, 255, 0, 0.02)' : '#050505',
+                                            border: isCompleted ? '1px solid rgba(0, 255, 0, 0.2)' : '1px solid #111',
+                                            borderRadius: '4px',
+                                            display: 'flex',
+                                            gap: '1rem',
+                                            transition: 'all 0.4s ease'
+                                        }}
+                                    >
+                                        <div style={{ color: isCompleted ? '#00ff00' : '#ffea00', fontSize: '0.7rem', fontWeight: '800', fontFamily: 'var(--font-mono)' }}>
+                                            {isCompleted ? <CheckCircle size={14} /> : String(i + 1).padStart(2, '0')}
+                                        </div>
+                                        <div style={{ fontSize: '0.75rem', color: isCompleted ? 'white' : '#bbb', lineHeight: '1.4' }}>{task}</div>
+                                    </motion.div>
+                                );
+                            })}
                         </div>
                     </div>
 
