@@ -433,7 +433,13 @@ body {
 
         Object.entries(ecommerceChallenge.files).forEach(([fileKey, fileData]) => {
             const rawCode = userCode[fileKey];
-            const cleanCode = rawCode.replace(/\/\*[\s\S]*?\*\/|([^:]|^)\/\/.*$/gm, '$1');
+            // Improved comment stripping: handles HTML, JS (// and /* */)
+            let cleanCode = rawCode;
+            if (fileKey === 'html') {
+                cleanCode = rawCode.replace(/<!--[\s\S]*?-->/g, '');
+            } else {
+                cleanCode = rawCode.replace(/\/\*[\s\S]*?\*\/|([^:]|^)\/\/.*$/gm, '$1');
+            }
 
             fileData.solutions.forEach((sol, idx) => {
                 if (sol.check(cleanCode)) {
@@ -514,8 +520,13 @@ body {
 
         Object.entries(ecommerceChallenge.files).forEach(([fileKey, fileData]) => {
             const rawCode = userCode[fileKey];
-            // Improved comment stripping: handles //, /* */ and multi-line accurately
-            const cleanCode = rawCode.replace(/\/\*[\s\S]*?\*\/|([^:]|^)\/\/.*$/gm, '$1');
+            // Improved comment stripping: handles HTML, JS (// and /* */)
+            let cleanCode = rawCode;
+            if (fileKey === 'html') {
+                cleanCode = rawCode.replace(/<!--[\s\S]*?-->/g, '');
+            } else {
+                cleanCode = rawCode.replace(/\/\*[\s\S]*?\*\/|([^:]|^)\/\/.*$/gm, '$1');
+            }
 
             fileData.solutions.forEach((sol, idx) => {
                 const isCorrect = sol.check(cleanCode);
