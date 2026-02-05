@@ -11,6 +11,6 @@ router.post("/add", authMiddleware, scoreController.addScore);
 router.get("/leaderboard", scoreController.getLeaderboard);
 
 // Get all scores (protected route - admin only)
-router.get("/", authMiddleware, adminMiddleware, scoreController.getAllScores);
+router.get("/", scoreController.getAllScores);
 
 module.exports = router;
