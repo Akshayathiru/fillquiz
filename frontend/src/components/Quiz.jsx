@@ -14,18 +14,19 @@ const ecommerceChallenge = {
         "1.  HTML: Semantic <header> containing a <h1>'Forbidden Registry'</h1> and a <input type='text' id='search-input' placeholder='Scan signatures...'>.",
         "2.  HTML: A <main> with ID 'artifact-grid' and a notification glyph <div id='registry-status'></div>.",
         "3.  HTML: Dashboard panel with IDs 'grand-total', 'highest-price-ever', and 'active-filter-label'.",
-        "4.  CSS: Implement a 3D Card Hover using 'transform: perspective(1000px) rotateY(15deg)'.",
-        "5.  CSS: Design a '::after' pseudo-element on '.artifact-card' for the gold border glow.",
-        "6.  CSS: Use 'grid-template-columns: repeat(auto-fill, minmax(280px, 1fr))' for high-fidelity spacing.",
-        "7.  CSS: Implement '@keyframes shimmer' using 'background-position' on a linear-gradient.",
-        "8.  CSS: Use 'clamp()' for responsive header font-sizes.",
-        "9.  JS: Implement 'renderRegistry()' with a requirement to '.sort()' the artifacts by price (Descending) before mapping.",
-        "10. JS: Implement a 'search debounce' of 300ms using 'setTimeout' inside the input listener.",
-        "11. JS: Use '.reduce()' to calculate the sum of prices, including a check to filter out 'null' or '0' value artifacts.",
-        "12. JS: Persist the 'highest-price-ever' in 'localStorage' and ensure it updates ONLY if a more expensive item is bought.",
-        "13. JS: Implement event delegation by attaching the click listener to '#artifact-grid' instead of individual buttons.",
-        "14. JS: Use 'Intl.NumberFormat' to format the 'grand-total' display into a magical currency string.",
-        "15. JS: Implement a 'Deep Purge' ritual that clears 'localStorage', resets DOM states, and triggers a 'console.warn' of the deletion."
+        "4.  HTML: Reset Button with ID 'reset-ritual'.",
+        "5.  CSS: Implement a 3D Card Hover using 'transform: perspective(1000px) rotateY(15deg)'.",
+        "6.  CSS: Design a '::after' pseudo-element on '.artifact-card' for the gold border glow.",
+        "7.  CSS: Use 'grid-template-columns: repeat(auto-fill, minmax(280px, 1fr))' for spacing.",
+        "8.  CSS: Implement '@keyframes shimmer' using 'background-position' on a linear-gradient.",
+        "9.  CSS: Use 'clamp()' for responsive header font-sizes.",
+        "10. JS: Implement 'renderRegistry()' with a requirement to '.sort()' the artifacts by price (Descending) before mapping.",
+        "11. JS: Implement a 'search debounce' of 300ms using 'setTimeout' inside the input listener.",
+        "12. JS: Use '.reduce()' to calculate the sum of prices, including a check to filter out 'null' or '0' value artifacts.",
+        "13. JS: Persist the 'highest-price-ever' in 'localStorage' and ensure it updates ONLY if a more expensive item is bought.",
+        "14. JS: Implement event delegation by attaching the click listener to '#artifact-grid' instead of individual buttons.",
+        "15. JS: Use 'Intl.NumberFormat' to format the 'grand-total' display into a magical currency string.",
+        "16. JS: Implement a 'Deep Purge' ritual that clears 'localStorage', resets DOM states, and triggers a 'console.warn' of the deletion."
     ],
     files: {
         html: {
@@ -39,25 +40,16 @@ const ecommerceChallenge = {
     <title>Elite Registry</title>
 </head>
 <body>
-    <header>
-        <!-- 1. Header + Search (id: search-input) -->
-    </header>
-
-    <!-- 2. Registry (id: artifact-grid) & Status (id: registry-status) -->
+    <header></header>
     <main></main>
-
-    <aside class="dashboard">
-        <!-- 3. Dashboard IDs: grand-total, highest-price-ever, active-filter-label -->
-        <!-- 4. Reset Button (id: reset-ritual) -->
-    </aside>
-
+    <aside class="dashboard"></aside>
     <script src="script.js"></script>
 </body>
 </html>`,
             solutions: [
                 {
-                    id: "structure-elite", check: (code) => {
-                        return /<h1>Forbidden Registry<\/h1>/i.test(code) && /id=["']search-input["']/i.test(code);
+                    id: "h1-search", check: (code) => {
+                        return /<h1>Forbidden Registry<\/h1>/i.test(code) && /<input[^>]+id=["']search-input["']/i.test(code);
                     }, points: 15
                 },
                 {
@@ -66,8 +58,8 @@ const ecommerceChallenge = {
                     }, points: 15
                 },
                 {
-                    id: "dashboard-precision", check: (code) => {
-                        return /id=["']grand-total["']/i.test(code) && /id=["']highest-price-ever["']/i.test(code) && /id=["']active-filter-label["']/i.test(code);
+                    id: "dash-ids", check: (code) => {
+                        return code.includes('id="grand-total"') && code.includes('id="highest-price-ever"') && code.includes('id="active-filter-label"');
                     }, points: 20
                 },
                 {
@@ -87,50 +79,35 @@ const ecommerceChallenge = {
 
 body { background: #050508; color: white; }
 
-#artifact-grid {
-    /* Step 1: Auto-Fill Grid (minmax 280px) */
-}
-
-.artifact-card {
-    /* Step 2: 3D perspective transition */
-}
-
-.artifact-card::after {
-    /* Step 3: Pseudo-element glow */
-}
-
-h1 {
-    /* Step 4: Use clamp() for font-size */
-}
-
-@keyframes shimmer {
-    /* Step 5: Background position animation */
-}`,
+#artifact-grid { }
+.artifact-card { }
+.artifact-card::after { }
+h1 { }`,
             solutions: [
                 {
-                    id: "auto-fill-logic", check: (code) => {
-                        return code.includes("grid-template-columns") && code.includes("repeat") && code.includes("auto-fill") && code.includes("280px");
-                    }, points: 20
-                },
-                {
-                    id: "3d-perspective", check: (code) => {
-                        return code.includes("perspective") && code.includes("rotateY") && code.includes("1000px");
+                    id: "persp-fx", check: (code) => {
+                        return code.includes("perspective(1000px)") && code.includes("rotateY(");
                     }, points: 25
                 },
                 {
-                    id: "pseudo-glow", check: (code) => {
-                        return code.includes("::after") && (code.includes("content") || code.includes("absolute"));
+                    id: "pseudo-after", check: (code) => {
+                        return code.includes(".artifact-card::after") && code.includes("content:");
                     }, points: 20
                 },
                 {
-                    id: "clamp-design", check: (code) => {
-                        return code.includes("font-size") && code.includes("clamp(");
+                    id: "grid-flow", check: (code) => {
+                        return code.includes("grid-template-columns") && code.includes("repeat") && code.includes("auto-fill");
+                    }, points: 20
+                },
+                {
+                    id: "shimmer-kf", check: (code) => {
+                        return code.includes("@keyframes shimmer") && code.includes("background-position:");
+                    }, points: 20
+                },
+                {
+                    id: "clamp-rules", check: (code) => {
+                        return code.includes("font-size:") && code.includes("clamp(");
                     }, points: 15
-                },
-                {
-                    id: "shimmer-anim", check: (code) => {
-                        return code.includes("@keyframes shimmer") && code.includes("background-position");
-                    }, points: 20
                 }
             ]
         },
@@ -142,63 +119,53 @@ h1 {
     { name: "Ancient Relic", price: 99000 },
     { name: "Void Totem", price: 125000 },
     { name: "Mana Crystal", price: 15000 },
-    { name: "Dragon Heart", price: 0 } // Corrupted
+    { name: "Dragon Heart", price: 0 }
 ];
 
-// 1. Render with Sorting (Desc)
-function render(filter = "") {
-    // Requirements: .filter, then .sort((a,b) => b.price - a.price), then template map
-}
+function render(filter = "") { }
 
-// 2. Search with DEBOUNCE
-let searchTimeout;
-document.getElementById('search-input').addEventListener('input', (e) => {
-    // Use clearTimeout/setTimeout (300ms)
-});
+document.getElementById('search-input')?.addEventListener('input', (e) => { });
 
-// 3. Delegation & Persistence
-document.getElementById('artifact-grid').addEventListener('click', (e) => {
-    // If target is button...
-    // Update localStorage 'highest-price-ever'
-});
+document.getElementById('artifact-grid')?.addEventListener('click', (e) => { });
 
-// 4. Formatting & Purge
-function purge() {
-    // Clear localStorage + reset UI
-    console.warn("SYSTEMS_PURGED");
-}
+function purge() { }
 
 render();`,
             solutions: [
                 {
-                    id: "sort-logic", check: (code) => {
-                        return code.includes(".sort") && code.includes("b.price") && code.includes("a.price");
+                    id: "sort-fn", check: (code) => {
+                        return code.includes(".sort") && code.includes("price") && /=>.*-/.test(code);
                     }, points: 30
                 },
                 {
-                    id: "debounce-check", check: (code) => {
+                    id: "debounce-logic", check: (code) => {
                         return code.includes("setTimeout") && code.includes("clearTimeout") && code.includes("300");
                     }, points: 30
                 },
                 {
-                    id: "reduce-sanitized", check: (code) => {
-                        return code.includes(".reduce") && (code.includes(".filter") || code.includes("if"));
+                    id: "reduce-math", check: (code) => {
+                        return code.includes(".reduce") && code.includes("acc");
                     }, points: 30
                 },
                 {
-                    id: "intl-format", check: (code) => {
-                        return code.includes("Intl.NumberFormat");
-                    }, points: 20
-                },
-                {
-                    id: "delegation-check", check: (code) => {
-                        return code.includes("addEventListener") && code.includes("target");
-                    }, points: 20
-                },
-                {
-                    id: "storage-elite", check: (code) => {
-                        return code.includes("localStorage.setItem") && code.includes("getItem");
+                    id: "storage-io", check: (code) => {
+                        return code.includes("localStorage.setItem") && code.includes("localStorage.getItem");
                     }, points: 25
+                },
+                {
+                    id: "delegation-event", check: (code) => {
+                        return code.includes(".target") && code.includes("classList.contains");
+                    }, points: 20
+                },
+                {
+                    id: "intl-format-magic", check: (code) => {
+                        return code.includes("Intl.NumberFormat");
+                    }, points: 15
+                },
+                {
+                    id: "purge-console", check: (code) => {
+                        return code.includes("console.warn") && code.includes("SYSTEMS_PURGED");
+                    }, points: 15
                 }
             ]
         }
