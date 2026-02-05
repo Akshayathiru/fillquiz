@@ -32,7 +32,8 @@ const Login = ({ onLogin }) => {
         setError('');
 
         try {
-            const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:5000";
+            let BACKEND_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:5000";
+            if (!BACKEND_URL.startsWith('http')) BACKEND_URL = `https://${BACKEND_URL}`;
             const endpoint = isLogin ? '/api/auth/login' : '/api/auth/register';
 
             const res = await fetch(`${BACKEND_URL}${endpoint}`, {

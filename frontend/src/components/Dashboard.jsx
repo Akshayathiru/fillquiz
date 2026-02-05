@@ -62,7 +62,8 @@ const DashboardSection = () => {
     useEffect(() => {
         const fetchLeaderboard = async () => {
             try {
-                const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:5000";
+                let BACKEND_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:5000";
+                if (!BACKEND_URL.startsWith('http')) BACKEND_URL = `https://${BACKEND_URL}`;
                 const res = await fetch(`${BACKEND_URL}/api/scores/leaderboard`);
                 if (res.ok) {
                     const data = await res.json();

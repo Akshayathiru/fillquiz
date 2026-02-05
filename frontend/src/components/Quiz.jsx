@@ -456,9 +456,10 @@ body {
         try {
             console.log("sending to backend");
             const timeSpent = 1500 - timeLeft; // Calculate total time spent (in seconds)
-            const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:5000";
+            let BACKEND_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:5000";
+            if (!BACKEND_URL.startsWith('http')) BACKEND_URL = `https://${BACKEND_URL}`;
             const token = localStorage.getItem('fillquiz_token');
-            
+
             const res = await fetch(`${BACKEND_URL}/api/scores/add`, {
                 method: 'POST',
                 headers: {
@@ -467,7 +468,7 @@ body {
                 },
                 body: JSON.stringify({ userId: user.id, score, timeSpent, results })
             });
-            
+
             if (res.ok) {
                 console.log(res);
                 setShowCompletedPopup(true);
