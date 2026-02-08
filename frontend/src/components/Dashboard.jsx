@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
-import { Trophy, Clock, Zap } from 'lucide-react';
+import { Clock, Zap } from 'lucide-react';
 
 const DashboardCard = ({ title, value, icon: Icon }) => (
     <motion.div
@@ -56,28 +56,6 @@ const DashboardCard = ({ title, value, icon: Icon }) => (
 );
 
 const DashboardSection = () => {
-    const [leaderboard, setLeaderboard] = useState([]);
-    const [loading, setLoading] = useState(true);
-
-    useEffect(() => {
-        const fetchLeaderboard = async () => {
-            try {
-                let BACKEND_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:5000";
-                if (!BACKEND_URL.startsWith('http')) BACKEND_URL = `https://${BACKEND_URL}`;
-                const res = await fetch(`${BACKEND_URL}/api/scores/leaderboard`);
-                if (res.ok) {
-                    const data = await res.json();
-                    setLeaderboard(data);
-                }
-            } catch (err) {
-                console.error("Failed to fetch leaderboard:", err);
-            } finally {
-                setLoading(false);
-            }
-        };
-        fetchLeaderboard();
-    }, []);
-
     return (
         <section style={{ padding: '6rem 2rem', maxWidth: '1200px', margin: '0 auto' }}>
             <div style={{
@@ -92,18 +70,13 @@ const DashboardSection = () => {
                     icon={Zap}
                 />
                 <DashboardCard
-                    title="Best Magical Score"
-                    value={leaderboard.length > 0 ? Math.max(...leaderboard.map(item => item.highestScore)) : '0'}
-                    icon={Trophy}
-                />
-                <DashboardCard
                     title="Evaluation Window"
                     value="25 MIN"
                     icon={Clock}
                 />
             </div>
 
-            {/* Leaderboard removed from public view as per request */}
+            {/* Leaderboard concept completely removed from public view */}
         </section>
     );
 };
