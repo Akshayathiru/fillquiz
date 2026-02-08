@@ -64,7 +64,7 @@ const ecommerceChallenge = {
                 },
                 {
                     id: "btn-ritual", check: (code) => {
-                        return /<button[^>]+id=["']reset-ritual["']/i.test(code);
+                        return /<button[^>]+id=["']reset-ritual["'][^>]*>/.test(code) && code.includes("DEEP_PURGE");
                     }, points: 10
                 }
             ]
@@ -399,10 +399,11 @@ body {
         const correctTaskIds = [];
 
         Object.entries(ecommerceChallenge.files).forEach(([fileKey, fileData]) => {
-            const rawCode = userCode[fileKey];
+            const rawCode = userCode[fileKey] || "";
+            const initialCode = fileData.initialCode || "";
 
-            // Safety: If code is identical to initial boilerplate, skip evaluation for this file
-            if (rawCode.trim() === fileData.initialCode.trim()) return;
+            // Strictly ignore if code is unchanged (ignoring whitespace/line-endings)
+            if (rawCode.replace(/\s/g, '') === initialCode.replace(/\s/g, '')) return;
 
             // Improved comment stripping: handles HTML, JS (// and /* */)
             let cleanCode = rawCode;
@@ -490,10 +491,11 @@ body {
         const results = [];
 
         Object.entries(ecommerceChallenge.files).forEach(([fileKey, fileData]) => {
-            const rawCode = userCode[fileKey];
+            const rawCode = userCode[fileKey] || "";
+            const initialCode = fileData.initialCode || "";
 
-            // Safety: If code is identical to initial boilerplate, skip evaluation for this file
-            if (rawCode.trim() === fileData.initialCode.trim()) return;
+            // Strictly ignore if code is unchanged (ignoring whitespace/line-endings)
+            if (rawCode.replace(/\s/g, '') === initialCode.replace(/\s/g, '')) return;
 
             // Improved comment stripping: handles HTML, JS (// and /* */)
             let cleanCode = rawCode;

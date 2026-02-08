@@ -134,17 +134,6 @@ const Home = () => {
                             ENTER THE CHAMBER <Zap size={18} fill="currentColor" />
                         </button>
 
-                        <button
-                            className="btn-asym"
-                            style={{
-                                background: 'transparent',
-                                color: 'var(--magic-gold)',
-                                border: '1px solid var(--magic-gold)',
-                                padding: '1.2rem 3rem'
-                            }}
-                        >
-                            ANCIENT RECORDS
-                        </button>
                     </div>
                 </motion.div>
             </section>

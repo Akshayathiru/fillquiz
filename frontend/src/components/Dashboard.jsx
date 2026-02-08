@@ -103,69 +103,7 @@ const DashboardSection = () => {
                 />
             </div>
 
-            <div style={{
-                background: 'rgba(10, 10, 10, 0.4)',
-                backdropFilter: 'blur(20px)',
-                borderRadius: '24px',
-                border: '1px solid rgba(197, 160, 89, 0.1)',
-                padding: '3rem',
-                marginTop: '4rem'
-            }}>
-                <h3 style={{
-                    fontFamily: 'var(--font-heading)',
-                    fontSize: '1.5rem',
-                    color: 'white',
-                    marginBottom: '2rem',
-                    textAlign: 'center',
-                    letterSpacing: '4px'
-                }}>WIZARD_LEADERBOARD</h3>
-
-                {loading ? (
-                    <div style={{ textAlign: 'center', color: 'var(--text-dim)' }}>COMMUNING WITH THE ARCHIVES...</div>
-                ) : (
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-                        {leaderboard.length === 0 ? (
-                            <div style={{ textAlign: 'center', color: 'var(--text-dim)' }}>NO RECORDS FOUND. BE THE FIRST TO REGISTER.</div>
-                        ) : (
-                            leaderboard.map((user, index) => (
-                                <motion.div
-                                    key={user._id}
-                                    initial={{ opacity: 0, x: -20 }}
-                                    animate={{ opacity: 1, x: 0 }}
-                                    transition={{ delay: index * 0.1 }}
-                                    style={{
-                                        display: 'flex',
-                                        justifyContent: 'space-between',
-                                        alignItems: 'center',
-                                        padding: '1.5rem',
-                                        background: 'rgba(255, 255, 255, 0.03)',
-                                        border: '1px solid rgba(255, 255, 255, 0.05)',
-                                        borderRadius: '12px'
-                                    }}
-                                >
-                                    <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
-                                        <span style={{
-                                            fontSize: '1.2rem',
-                                            fontWeight: '900',
-                                            color: index < 3 ? 'var(--magic-gold)' : 'rgba(255,255,255,0.2)',
-                                            minWidth: '2rem',
-                                            fontFamily: 'var(--font-heading)'
-                                        }}>#{index + 1}</span>
-                                        <div style={{ display: 'flex', flexDirection: 'column' }}>
-                                            <span style={{ color: 'white', fontSize: '1rem', fontWeight: '700', letterSpacing: '1px' }}>{user.username}</span>
-                                            <span style={{ color: '#555', fontSize: '0.7rem', textTransform: 'uppercase' }}>Wizard Registry ID: {user._id.slice(-6)}</span>
-                                        </div>
-                                    </div>
-                                    <div style={{ textAlign: 'right' }}>
-                                        <div style={{ fontSize: '1.2rem', fontWeight: '900', color: 'var(--magic-gold)', fontFamily: 'var(--font-heading)' }}>{user.highestScore}</div>
-                                        <div style={{ fontSize: '0.6rem', color: '#444' }}>MANA COLLECTED</div>
-                                    </div>
-                                </motion.div>
-                            ))
-                        )}
-                    </div>
-                )}
-            </div>
+            {/* Leaderboard removed from public view as per request */}
         </section>
     );
 };
